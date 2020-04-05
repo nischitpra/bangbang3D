@@ -19,10 +19,6 @@ public class GameObject {
         this.name = name;
         this.model = model;
         this.instance = new ModelInstance(model);
-        if (this.name.equals("table/table.obj")) {
-            this.instance.transform.setTranslation(new Vector3(200f, 200f, 200f));
-            this.instance.transform.setToScaling(0.1f, 0.1f, 0.1f); // todo: bullet does not support scaling well. So never use scaling, instead edit the object to right size
-        }
     }
 
     public void createRigidBody(btRigidBodyConstructionInfo constructionInfo) {

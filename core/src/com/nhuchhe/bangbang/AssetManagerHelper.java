@@ -13,11 +13,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class AssetManagerHelper {
-    // todo: need to check mtl files for texture and material. this is defined in the .obj file
+    /**
+     * Remember:
+     * need to check mtl files for texture and material. this is defined in the .obj file
+     * bullet does not support scaling well. So never use scaling, instead edit the object to right size
+     */
     public AssetManager assetManager = new AssetManager();
 
     private BangBang appContext;
-    private String[] assets = {"ball/ball.obj", "table/table.obj"};
+    private String[] assets = {
+            "ball/ball.obj",
+            "table/table.obj"
+    };
 
     AssetManagerHelper(BangBang appContext) {
         this.appContext = appContext;
@@ -39,16 +46,18 @@ public class AssetManagerHelper {
             GameObject object = new GameObject(assets[i], assetManager.get(assets[i], Model.class));
             switch (assets[i]) {
                 case "ball/ball.obj":
-                    object.createRigidBody(new btRigidBodyConstructionInfo(1, null, new btSphereShape(1), new Vector3()));
+                    object.instance.transform.setTranslation(0, 10f, 0f);
+                    object.createRigidBody(new btRigidBodyConstructionInfo(10, null, new btSphereShape(1), new Vector3()));
                     break;
                 case "table/table.obj":
-                    object.createRigidBody(new btRigidBodyConstructionInfo(1, null, new btBoxShape(new Vector3(5, 5, 5)), new Vector3()));
+//                    object.instance.transform.setToScaling(0.1f, 0.1f, 0.1f); // todo:
+                    object.createRigidBody(new btRigidBodyConstructionInfo(0, null, new btBoxShape(new Vector3(20, 5, 20)), new Vector3()));
                     object.rigidBody.setCollisionFlags(object.rigidBody.getCollisionFlags() | btCollisionObject.CollisionFlags.CF_KINEMATIC_OBJECT);
                     break;
             }
             gameObjects.add(object);
-            gameObjectMap.put(assets[i], object);
-            instanceMap.put(assets[i], object.instance);
+            gameObjectMap.put(assets[i] + i, object);
+            instanceMap.put(assets[i] + i, object.instance);
             appContext.world.addRigidBody(object.rigidBody);
         }
         appContext.gameObjectManger.gameObjects = gameObjects;

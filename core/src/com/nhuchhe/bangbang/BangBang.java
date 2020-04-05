@@ -47,7 +47,7 @@ public class BangBang extends ApplicationAdapter {
         broadphase = new btDbvtBroadphase();
         constraintSolver = new btSequentialImpulseConstraintSolver();
         world = new btDiscreteDynamicsWorld(dispatcher, broadphase, constraintSolver, collisionConfig);
-        world.setGravity(new Vector3(0, -10f, 0));
+        world.setGravity(new Vector3(0, -5f, 0));
 
         //for displaying wireframe
         debugDrawer = new DebugDrawer();
@@ -90,8 +90,8 @@ public class BangBang extends ApplicationAdapter {
 
 
     private void update() {
-        final float delta = Math.min(1f / 30f, Gdx.graphics.getDeltaTime());// 30 fps
-        world.stepSimulation(delta, 5, 1f / 60f);
+        final float delta = Math.min(1f / 30f, Gdx.graphics.getDeltaTime());// 30 fps for render
+        world.stepSimulation(delta, 5, 1f / 60f); // 60 fps for update
     }
 
     private Vector3 tempRenderPosition = new Vector3();//temp position store to prevent object creation
@@ -113,6 +113,7 @@ public class BangBang extends ApplicationAdapter {
     public void render() {
         debugDrawer.begin(cam);
         update();
+        world.debugDrawWorld();
         camController.update();
         draw();
         debugDrawer.end();
