@@ -11,17 +11,49 @@ import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
 import com.badlogic.gdx.graphics.g3d.utils.CameraInputController;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.bullet.Bullet;
+import com.badlogic.gdx.physics.bullet.DebugDrawer;
+import com.badlogic.gdx.physics.bullet.collision.btCollisionDispatcher;
+import com.badlogic.gdx.physics.bullet.collision.btDbvtBroadphase;
+import com.badlogic.gdx.physics.bullet.collision.btDefaultCollisionConfiguration;
+import com.badlogic.gdx.physics.bullet.dynamics.btDiscreteDynamicsWorld;
+import com.badlogic.gdx.physics.bullet.dynamics.btSequentialImpulseConstraintSolver;
+import com.badlogic.gdx.physics.bullet.linearmath.btIDebugDraw;
 
 import java.util.ArrayList;
 
 public class BangBang extends ApplicationAdapter {
+    //libgdx
     public Environment environment;
     public PerspectiveCamera cam;
     public CameraInputController camController;
     public ModelBatch modelBatch;
 
+    //bullet
+    public DebugDrawer debugDrawer;
+    public btDiscreteDynamicsWorld world;
+    public btDefaultCollisionConfiguration collisionConfig;
+    public btCollisionDispatcher dispatcher;
+    public btDbvtBroadphase broadphase;
+    public btSequentialImpulseConstraintSolver constraintSolver;
+
+    //bangbang
     public GameObjectManger gameObjectManger = new GameObjectManger();
     public AssetManagerHelper assetManagerHelper = new AssetManagerHelper(this);
+
+    private void initBullet() {
+        Bullet.init();
+        collisionConfig = new btDefaultCollisionConfiguration();
+        dispatcher = new btCollisionDispatcher(collisionConfig);
+        broadphase = new btDbvtBroadphase();
+        constraintSolver = new btSequentialImpulseConstraintSolver();
+        world = new btDiscreteDynamicsWorld(dispatcher, broadphase, constraintSolver, collisionConfig);
+        world.setGravity(new Vector3(0, -10f, 0));
+
+        //for displaying wireframe
+        debugDrawer = new DebugDrawer();
+        debugDrawer.setDebugMode(btIDebugDraw.DebugDrawModes.DBG_MAX_DEBUG_DRAW_MODE);
+        world.setDebugDrawer(debugDrawer);
+    }
 
     private void initEnvironment() {
         environment = new Environment();
@@ -31,20 +63,21 @@ public class BangBang extends ApplicationAdapter {
 
     private void initCamera() {
         cam = new PerspectiveCamera(67, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        cam.position.set(1f, 1f, 1f);
+        cam.position.set(10f, 10f, 10f);
         cam.lookAt(0, 0, 0);
         cam.near = 1f;
         cam.far = 300f;
         cam.update();
-// make camera interactable by touch
+
+        // camera input controller
         camController = new CameraInputController(cam);
         Gdx.input.setInputProcessor(camController);
-        Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+
     }
 
     @Override
     public void create() {
-        Bullet.init();
+        initBullet();
         initEnvironment();
         initCamera();
         modelBatch = new ModelBatch();
@@ -56,13 +89,21 @@ public class BangBang extends ApplicationAdapter {
     }
 
 
+    private void update() {
+        final float delta = Math.min(1f / 30f, Gdx.graphics.getDeltaTime());// 30 fps
+        world.stepSimulation(delta, 5, 1f / 60f);
+
+        ArrayList<GameObject> gameObjects = gameObjectManger.gameObjects;
+        for (int i = gameObjects.size() - 1; i >= 0; i--) {
+            GameObject gameObject = gameObjects.get(i);
+            gameObject.rigidBody.getWorldTransform(gameObject.instance.transform); //update instance with rigidBody physics
+        }
+    }
+
     private Vector3 tempRenderPosition = new Vector3();//temp position store to prevent object creation
 
-    @Override
-    public void render() {
+    private void draw() {
         clearViewPort();
-        camController.update(); // update changes done to camera such as pan, zoom etc
-
         modelBatch.begin(cam);
         ArrayList<GameObject> gameObjects = gameObjectManger.gameObjects;
         for (int i = gameObjects.size() - 1; i >= 0; i--) {
@@ -72,6 +113,15 @@ public class BangBang extends ApplicationAdapter {
             }
         }
         modelBatch.end();
+    }
+
+    @Override
+    public void render() {
+        debugDrawer.begin(cam);
+        update();
+        camController.update();
+        draw();
+        debugDrawer.end();
     }
 
     @Override
