@@ -66,6 +66,6 @@ public class AssetManagerHelper {
     }
 
     public void dispose() {
-        //todo: dispose everything here
+        assetManager.dispose();
     }
 }

@@ -35,7 +35,11 @@ public class GameObject {
     }
 
     public void dispose() {
-        //todo: dispose everything here
-//        this.rigidBody.getCollisionShape().dispose(); //should call dispose on everything disposable
+        this.name = null;
+        this.rigidBody.getCollisionShape().dispose(); //should call dispose on everything disposable
+        this.constructionInfo.dispose();
+        this.rigidBody.dispose();
+        this.model.dispose();
+        this.motionState.dispose();
     }
 }

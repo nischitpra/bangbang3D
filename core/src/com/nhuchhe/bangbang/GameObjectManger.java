@@ -11,7 +11,11 @@ public class GameObjectManger {
     public HashMap<String, ModelInstance> instanceMap = new HashMap<>(); // todo: check if you need this
 
     public void dispose() {
-        //todo: dispose instances and gameObjects
+        for (int i = gameObjects.size() - 1; i >= 0; i--) {
+            gameObjects.get(i).dispose();
+            gameObjectMap = null;
+            instanceMap = null;
+        }
     }
 
 }

@@ -124,6 +124,13 @@ public class BangBang extends ApplicationAdapter {
         modelBatch.dispose();
         gameObjectManger.dispose();
         assetManagerHelper.dispose();
+
+        collisionConfig.dispose();
+        dispatcher.dispose();
+        broadphase.dispose();
+        constraintSolver.dispose();
+        debugDrawer.dispose();
+        world.dispose();
     }
 
     @Override
