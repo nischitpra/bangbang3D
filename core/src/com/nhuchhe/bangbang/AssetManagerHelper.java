@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.bullet.collision.btBoxShape;
+import com.badlogic.gdx.physics.bullet.collision.btCollisionObject;
 import com.badlogic.gdx.physics.bullet.collision.btSphereShape;
 import com.badlogic.gdx.physics.bullet.dynamics.btRigidBody.btRigidBodyConstructionInfo;
 
@@ -42,6 +43,7 @@ public class AssetManagerHelper {
                     break;
                 case "table/table.obj":
                     object.createRigidBody(new btRigidBodyConstructionInfo(1, null, new btBoxShape(new Vector3(5, 5, 5)), new Vector3()));
+                    object.rigidBody.setCollisionFlags(object.rigidBody.getCollisionFlags() | btCollisionObject.CollisionFlags.CF_KINEMATIC_OBJECT);
                     break;
             }
             gameObjects.add(object);
