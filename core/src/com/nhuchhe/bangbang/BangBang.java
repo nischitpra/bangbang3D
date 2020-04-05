@@ -92,12 +92,6 @@ public class BangBang extends ApplicationAdapter {
     private void update() {
         final float delta = Math.min(1f / 30f, Gdx.graphics.getDeltaTime());// 30 fps
         world.stepSimulation(delta, 5, 1f / 60f);
-
-        ArrayList<GameObject> gameObjects = gameObjectManger.gameObjects;
-        for (int i = gameObjects.size() - 1; i >= 0; i--) {
-            GameObject gameObject = gameObjects.get(i);
-            gameObject.rigidBody.getWorldTransform(gameObject.instance.transform); //update instance with rigidBody physics
-        }
     }
 
     private Vector3 tempRenderPosition = new Vector3();//temp position store to prevent object creation

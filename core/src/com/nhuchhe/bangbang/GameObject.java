@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.bullet.dynamics.btRigidBody;
+import com.badlogic.gdx.physics.bullet.dynamics.btRigidBody.btRigidBodyConstructionInfo;
 
 public class GameObject {
     public String name;
@@ -12,6 +13,7 @@ public class GameObject {
     public ModelInstance instance; // instance is created from model. to be rendered
     public btRigidBody rigidBody;
     public btRigidBody.btRigidBodyConstructionInfo constructionInfo;
+    public GameObjectMotionState motionState;
 
     GameObject(final String name, final Model model) {
         this.name = name;
@@ -23,10 +25,12 @@ public class GameObject {
         }
     }
 
-    public void createRigidBody(btRigidBody.btRigidBodyConstructionInfo constructionInfo) {
+    public void createRigidBody(btRigidBodyConstructionInfo constructionInfo) {
+        this.motionState = new GameObjectMotionState();
+        this.motionState.transform = instance.transform;
         this.constructionInfo = constructionInfo;
         this.rigidBody = new btRigidBody(constructionInfo);
-        this.rigidBody.setWorldTransform(instance.transform); //update instance with rigidBody physics
+        this.rigidBody.setMotionState(motionState); // set callback for transformation
     }
 
     public boolean isVisible(final Camera cam, Vector3 position) {
