@@ -19,13 +19,13 @@ public class AssetManagerHelper {
      */
     public AssetManager assetManager = new AssetManager();
 
-    private BangBang appContext;
-    private String[] assets = {
+    private final BangBang appContext;
+    private final String[] assets = {
             "ball/ball.obj",
             "terrain/terrain test3.obj"
     };
 
-    AssetManagerHelper(BangBang appContext) {
+    AssetManagerHelper(final BangBang appContext) {
         this.appContext = appContext;
     }
 

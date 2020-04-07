@@ -39,6 +39,7 @@ public class BangBang extends ApplicationAdapter {
     //bangbang
     public GameObjectManger gameObjectManger = new GameObjectManger();
     public AssetManagerHelper assetManagerHelper = new AssetManagerHelper(this);
+    public GamePadControllerManager gamePadControllerManager = new GamePadControllerManager(this);
 
     private void initBullet() {
         Bullet.init();
@@ -82,6 +83,7 @@ public class BangBang extends ApplicationAdapter {
         initCamera();
         modelBatch = new ModelBatch();
         assetManagerHelper.loadResources(); //block until all resources are loaded
+        gamePadControllerManager.init();
     }
 
     private void clearViewPort() {
