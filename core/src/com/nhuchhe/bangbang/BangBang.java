@@ -39,7 +39,7 @@ public class BangBang extends ApplicationAdapter {
     //bangbang
     public GameObjectManger gameObjectManger = new GameObjectManger();
     public AssetManagerHelper assetManagerHelper = new AssetManagerHelper(this);
-    public GamePadControllerManager gamePadControllerManager = new GamePadControllerManager(this);
+    public GamePadControllerManager gamePadControllerManager = new GamePadControllerManager();
 
     private void initBullet() {
         Bullet.init();
@@ -48,7 +48,7 @@ public class BangBang extends ApplicationAdapter {
         broadphase = new btDbvtBroadphase();
         constraintSolver = new btSequentialImpulseConstraintSolver();
         world = new btDiscreteDynamicsWorld(dispatcher, broadphase, constraintSolver, collisionConfig);
-        world.setGravity(new Vector3(0, -5f, 0));
+        world.setGravity(new Vector3(0, -10f, 0));
 
         //for displaying wireframe
         debugDrawer = new DebugDrawer();
@@ -94,6 +94,10 @@ public class BangBang extends ApplicationAdapter {
     private void update() {
         final float delta = Math.min(1f / 30f, Gdx.graphics.getDeltaTime());// 30 fps for render
         world.stepSimulation(delta, 5, 1f / 60f); // 60 fps for update
+
+        gamePadControllerManager.update();
+
+//        System.out.println(gameObjectManger.player.rigidBody.getTotalForce());
     }
 
     private Vector3 tempRenderPosition = new Vector3();//temp position store to prevent object creation
@@ -116,6 +120,10 @@ public class BangBang extends ApplicationAdapter {
         debugDrawer.begin(cam);
         update();
         world.debugDrawWorld();
+
+        Vector3 playerPosition = gameObjectManger.player.rigidBody.getCenterOfMassPosition();
+        cam.position.set(playerPosition.x + 10, playerPosition.y + 10, playerPosition.z + 10);
+        cam.update();
         camController.update();
         draw();
         debugDrawer.end();

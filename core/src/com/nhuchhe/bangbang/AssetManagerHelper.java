@@ -47,7 +47,8 @@ public class AssetManagerHelper {
                 case "ball/ball.obj":
                     object.instance.transform.setTranslation(0f, 10f, 0f);
                     object.createRigidBody(new btRigidBodyConstructionInfo(10, null, new btSphereShape(1), new Vector3()));
-                    object.rigidBody.applyCentralForce(new Vector3(0, 0, 10f));
+                    appContext.gameObjectManger.player = object;
+                    appContext.gamePadControllerManager.setPlayer(object);
                     break;
                 case "terrain/terrain test3.obj":
                     object.createRigidBody(new btRigidBodyConstructionInfo(0, null, CollisionObjectHelper.getCompoundShape(object.model, true), new Vector3()));

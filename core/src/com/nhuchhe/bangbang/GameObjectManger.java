@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class GameObjectManger {
+    public GameObject player;
     public ArrayList<GameObject> gameObjects = new ArrayList<>();
     public HashMap<String, GameObject> gameObjectMap = new HashMap<>();
     public HashMap<String, ModelInstance> instanceMap = new HashMap<>(); // todo: check if you need this
