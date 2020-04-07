@@ -4,7 +4,6 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.physics.bullet.collision.btBoxShape;
 import com.badlogic.gdx.physics.bullet.collision.btCollisionObject;
 import com.badlogic.gdx.physics.bullet.collision.btSphereShape;
 import com.badlogic.gdx.physics.bullet.dynamics.btRigidBody.btRigidBodyConstructionInfo;
@@ -23,7 +22,7 @@ public class AssetManagerHelper {
     private BangBang appContext;
     private String[] assets = {
             "ball/ball.obj",
-            "table/table.obj"
+            "terrain/terrain test3.obj"
     };
 
     AssetManagerHelper(BangBang appContext) {
@@ -46,12 +45,12 @@ public class AssetManagerHelper {
             GameObject object = new GameObject(assets[i], assetManager.get(assets[i], Model.class));
             switch (assets[i]) {
                 case "ball/ball.obj":
-                    object.instance.transform.setTranslation(0, 10f, 0f);
+                    object.instance.transform.setTranslation(0f, 10f, 0f);
                     object.createRigidBody(new btRigidBodyConstructionInfo(10, null, new btSphereShape(1), new Vector3()));
+                    object.rigidBody.applyCentralForce(new Vector3(0, 0, 10f));
                     break;
-                case "table/table.obj":
-//                    object.instance.transform.setToScaling(0.1f, 0.1f, 0.1f); // todo:
-                    object.createRigidBody(new btRigidBodyConstructionInfo(0, null, new btBoxShape(new Vector3(20, 5, 20)), new Vector3()));
+                case "terrain/terrain test3.obj":
+                    object.createRigidBody(new btRigidBodyConstructionInfo(0, null, CollisionObjectHelper.getCompoundShape(object.model, true), new Vector3()));
                     object.rigidBody.setCollisionFlags(object.rigidBody.getCollisionFlags() | btCollisionObject.CollisionFlags.CF_KINEMATIC_OBJECT);
                     break;
             }
