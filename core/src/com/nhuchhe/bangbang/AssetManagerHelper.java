@@ -49,7 +49,7 @@ public class AssetManagerHelper {
                     object.createRigidBody(new btRigidBodyConstructionInfo(10, null, new btSphereShape(1), new Vector3()));
                     object.rigidBody.setActivationState(4); //  4 is DISABLE_DEACTIVATION i.e rigidbodies sleep after sometime
                     appContext.gameObjectManger.player = object;
-                    appContext.gamePadControllerManager.setPlayer(object);
+                    appContext.inputControllerManager.setPlayer(object);
                     break;
                 case "terrain/terrain test3.obj":
                     object.createRigidBody(new btRigidBodyConstructionInfo(0, null, CollisionObjectHelper.getCompoundShape(object.model, true), new Vector3()));

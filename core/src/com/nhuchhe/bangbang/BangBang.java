@@ -39,7 +39,7 @@ public class BangBang extends ApplicationAdapter {
     //bangbang
     public GameObjectManger gameObjectManger = new GameObjectManger();
     public AssetManagerHelper assetManagerHelper = new AssetManagerHelper(this);
-    public GamePadControllerManager gamePadControllerManager = new GamePadControllerManager();
+    public InputControllerManager inputControllerManager = new InputControllerManager();
 
     private void initBullet() {
         Bullet.init();
@@ -83,7 +83,7 @@ public class BangBang extends ApplicationAdapter {
         initCamera();
         modelBatch = new ModelBatch();
         assetManagerHelper.loadResources(); //block until all resources are loaded
-        gamePadControllerManager.init();
+        inputControllerManager.init();
     }
 
     private void clearViewPort() {
@@ -95,9 +95,8 @@ public class BangBang extends ApplicationAdapter {
         final float delta = Math.min(1f / 30f, Gdx.graphics.getDeltaTime());// 30 fps for render
         world.stepSimulation(delta, 5, 1f / 60f); // 60 fps for update
 
-        gamePadControllerManager.update();
+        inputControllerManager.update();
 
-//        System.out.println(gameObjectManger.player.rigidBody.getTotalForce());
     }
 
     private Vector3 tempRenderPosition = new Vector3();//temp position store to prevent object creation

@@ -67,7 +67,6 @@ public class GamepadControllerAdapter implements ControllerListener {
                 else isDownY = 0;
                 break;
         }
-        System.out.println(isDownX + "," + isDownY);
         return false;
     }
 
