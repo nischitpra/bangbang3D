@@ -65,6 +65,7 @@ public class AssetManagerHelper {
                     object.createRigidBody(new btRigidBodyConstructionInfo(0, null, CollisionObjectHelper.getCompoundShape(object.model, true), new Vector3()));
                     object.rigidBody.setCollisionFlags(object.rigidBody.getCollisionFlags() | btCollisionObject.CollisionFlags.CF_KINEMATIC_OBJECT);
                     object.rigidBody.setFriction(2);
+                    object.FORCE_VISIBLE = true;
                     break;
             }
             gameObjects.add(object);

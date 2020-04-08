@@ -17,6 +17,8 @@ public class GameObject {
     public btRigidBody.btRigidBodyConstructionInfo constructionInfo;
     public GameObjectMotionState motionState;
 
+    public boolean FORCE_VISIBLE = false;
+
     GameObject(final String name, final Model model) {
         this.name = name;
         this.model = model;
@@ -35,7 +37,7 @@ public class GameObject {
     }
 
     public boolean isVisible(final Camera cam) {
-        return cam.frustum.pointInFrustum(getPosition());// todo: check this => cam.frustum.sphereInFrustum(position.add(center), radius);
+        return cam.frustum.pointInFrustum(getPosition()) || FORCE_VISIBLE;// todo: check this => cam.frustum.sphereInFrustum(position.add(center), radius);
     }
 
     public void dispose() {
