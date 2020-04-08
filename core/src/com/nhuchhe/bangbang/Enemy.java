@@ -19,9 +19,13 @@ public class Enemy extends GameObject {
 
     private Vector3 rayFrom = new Vector3();
     private Vector3 rayTo = new Vector3();
-    private Vector3 tempPosition = new Vector3();
     ClosestRayResultCallback callback = new ClosestRayResultCallback(rayFrom, rayTo);
 
+    /**
+     * update this and refine it.. get list of objects hit by raytrace, and check if terrain comes before player.. if it does, return false, else return true
+     *
+     * @return
+     */
     public boolean isVisibleToPlayer() {
         rayFrom = getPosition();
         rayTo = BangBang.gameObjectManger.player.getPosition();
