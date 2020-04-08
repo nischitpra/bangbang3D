@@ -22,7 +22,6 @@ public class GamepadControllerAdapter implements ControllerListener {
 
     @Override
     public boolean buttonDown(Controller controller, int buttonCode) {
-        System.out.println(buttonCode);
         switch (buttonCode) {
             case 97:
                 isDownX = 1;

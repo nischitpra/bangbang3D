@@ -7,6 +7,8 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.bullet.dynamics.btRigidBody;
 import com.badlogic.gdx.physics.bullet.dynamics.btRigidBody.btRigidBodyConstructionInfo;
 
+import java.util.HashMap;
+
 public class GameObject {
     public String name;
     public Model model; //  details of the model, how it looks, what its position is etc
@@ -27,11 +29,13 @@ public class GameObject {
         this.constructionInfo = constructionInfo;
         this.rigidBody = new btRigidBody(constructionInfo);
         this.rigidBody.setMotionState(motionState); // set callback for transformation
+        this.rigidBody.userData = new HashMap<String, String>() {{
+            put("name", name);
+        }};
     }
 
-    public boolean isVisible(final Camera cam, Vector3 position) {
-        instance.transform.getTranslation(position);
-        return cam.frustum.pointInFrustum(position);// todo: check this => cam.frustum.sphereInFrustum(position.add(center), radius);
+    public boolean isVisible(final Camera cam) {
+        return cam.frustum.pointInFrustum(getPosition());// todo: check this => cam.frustum.sphereInFrustum(position.add(center), radius);
     }
 
     public void dispose() {
@@ -41,5 +45,11 @@ public class GameObject {
         this.rigidBody.dispose();
         this.model.dispose();
         this.motionState.dispose();
+    }
+
+    public Vector3 position = new Vector3();
+
+    public Vector3 getPosition() {
+        return instance.transform.getTranslation(position);
     }
 }

@@ -2,14 +2,12 @@ package com.nhuchhe.bangbang;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g3d.Model;
-import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.bullet.collision.btCollisionObject;
 import com.badlogic.gdx.physics.bullet.collision.btSphereShape;
 import com.badlogic.gdx.physics.bullet.dynamics.btRigidBody.btRigidBodyConstructionInfo;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class AssetManagerHelper {
     /**
@@ -22,6 +20,11 @@ public class AssetManagerHelper {
     private final BangBang appContext;
     private final String[] assets = {
             "ball/ball.obj",
+            "ball2/ball.obj",
+            "ball2/ball.obj",
+            "ball2/ball.obj",
+            "ball2/ball.obj",
+            "ball2/ball.obj",
             "terrain/terrain test3.obj"
     };
 
@@ -39,31 +42,35 @@ public class AssetManagerHelper {
 
     private void populateResources() {
         ArrayList<GameObject> gameObjects = new ArrayList();
-        HashMap<String, GameObject> gameObjectMap = new HashMap<>();
-        HashMap<String, ModelInstance> instanceMap = new HashMap<>();
         for (int i = assets.length - 1; i >= 0; i--) {
-            GameObject object = new GameObject(assets[i], assetManager.get(assets[i], Model.class));
+            GameObject object = null;
             switch (assets[i]) {
                 case "ball/ball.obj":
+                    object = new Player(assets[i], assetManager.get(assets[i], Model.class));
                     object.instance.transform.setTranslation(0f, 10f, 0f);
                     object.createRigidBody(new btRigidBodyConstructionInfo(10, null, new btSphereShape(1), new Vector3()));
                     object.rigidBody.setActivationState(4); //  4 is DISABLE_DEACTIVATION i.e rigidbodies sleep after sometime
-                    appContext.gameObjectManger.player = object;
-                    appContext.inputControllerManager.setPlayer(object);
+                    Player player = (Player) object;
+                    appContext.gameObjectManger.player = player;
+                    appContext.inputControllerManager.setPlayer(player);
+                    break;
+                case "ball2/ball.obj": //enemy ball
+                    object = new Enemy(assets[i], assetManager.get(assets[i], Model.class));
+                    object.instance.transform.setTranslation(0f, 10f, 2f);
+                    object.createRigidBody(new btRigidBodyConstructionInfo(10, null, new btSphereShape(1), new Vector3()));
+                    appContext.gameObjectManger.enemies.add(object);
                     break;
                 case "terrain/terrain test3.obj":
+                    object = new GameObject(assets[i], assetManager.get(assets[i], Model.class));
                     object.createRigidBody(new btRigidBodyConstructionInfo(0, null, CollisionObjectHelper.getCompoundShape(object.model, true), new Vector3()));
                     object.rigidBody.setCollisionFlags(object.rigidBody.getCollisionFlags() | btCollisionObject.CollisionFlags.CF_KINEMATIC_OBJECT);
+                    object.rigidBody.setFriction(2);
                     break;
             }
             gameObjects.add(object);
-            gameObjectMap.put(assets[i] + i, object);
-            instanceMap.put(assets[i] + i, object.instance);
             appContext.world.addRigidBody(object.rigidBody);
         }
         appContext.gameObjectManger.gameObjects = gameObjects;
-        appContext.gameObjectManger.gameObjectMap = gameObjectMap;
-        appContext.gameObjectManger.instanceMap = instanceMap;
     }
 
     public void dispose() {

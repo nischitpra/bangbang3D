@@ -29,17 +29,17 @@ public class BangBang extends ApplicationAdapter {
     public ModelBatch modelBatch;
 
     //bullet
-    public DebugDrawer debugDrawer;
-    public btDiscreteDynamicsWorld world;
+    public static btDiscreteDynamicsWorld world;
+    public static DebugDrawer debugDrawer;
     public btDefaultCollisionConfiguration collisionConfig;
     public btCollisionDispatcher dispatcher;
     public btDbvtBroadphase broadphase;
     public btSequentialImpulseConstraintSolver constraintSolver;
 
     //bangbang
-    public GameObjectManger gameObjectManger = new GameObjectManger();
-    public AssetManagerHelper assetManagerHelper = new AssetManagerHelper(this);
-    public InputControllerManager inputControllerManager = new InputControllerManager();
+    public static GameObjectManger gameObjectManger;
+    public static AssetManagerHelper assetManagerHelper;
+    public static InputControllerManager inputControllerManager;
 
     private void initBullet() {
         Bullet.init();
@@ -73,7 +73,12 @@ public class BangBang extends ApplicationAdapter {
         // camera input controller
         camController = new CameraInputController(cam);
         Gdx.input.setInputProcessor(camController);
+    }
 
+    private void initGame() {
+        gameObjectManger = new GameObjectManger();
+        assetManagerHelper = new AssetManagerHelper(this);
+        inputControllerManager = new InputControllerManager();
     }
 
     @Override
@@ -81,6 +86,7 @@ public class BangBang extends ApplicationAdapter {
         initBullet();
         initEnvironment();
         initCamera();
+        initGame();
         modelBatch = new ModelBatch();
         assetManagerHelper.loadResources(); //block until all resources are loaded
         inputControllerManager.init();
@@ -107,7 +113,7 @@ public class BangBang extends ApplicationAdapter {
         ArrayList<GameObject> gameObjects = gameObjectManger.gameObjects;
         for (int i = gameObjects.size() - 1; i >= 0; i--) {
             GameObject gameObject = gameObjects.get(i);
-            if (gameObject.isVisible(cam, gameObject.instance.transform.getTranslation(tempRenderPosition))) {
+            if (gameObject.isVisible(cam)) {
                 modelBatch.render(gameObject.instance, environment);
             }
         }
@@ -119,8 +125,8 @@ public class BangBang extends ApplicationAdapter {
         debugDrawer.begin(cam);
         update();
         world.debugDrawWorld();
-
-        Vector3 playerPosition = gameObjectManger.player.rigidBody.getCenterOfMassPosition();
+// todo: refactor this to function.
+        Vector3 playerPosition = gameObjectManger.player.getPosition();
         cam.position.set(playerPosition.x + 10, playerPosition.y + 10, playerPosition.z + 10);
         cam.update();
         camController.update();
