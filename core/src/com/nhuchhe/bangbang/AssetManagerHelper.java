@@ -47,6 +47,7 @@ public class AssetManagerHelper {
                 case "ball/ball.obj":
                     object.instance.transform.setTranslation(0f, 10f, 0f);
                     object.createRigidBody(new btRigidBodyConstructionInfo(10, null, new btSphereShape(1), new Vector3()));
+                    object.rigidBody.setActivationState(4); //  4 is DISABLE_DEACTIVATION i.e rigidbodies sleep after sometime
                     appContext.gameObjectManger.player = object;
                     appContext.gamePadControllerManager.setPlayer(object);
                     break;
