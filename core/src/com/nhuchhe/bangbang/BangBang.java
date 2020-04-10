@@ -18,6 +18,7 @@ import com.badlogic.gdx.physics.bullet.collision.btDefaultCollisionConfiguration
 import com.badlogic.gdx.physics.bullet.dynamics.btDiscreteDynamicsWorld;
 import com.badlogic.gdx.physics.bullet.dynamics.btSequentialImpulseConstraintSolver;
 import com.badlogic.gdx.physics.bullet.linearmath.btIDebugDraw;
+import com.badlogic.gdx.utils.Queue;
 
 import java.util.ArrayList;
 
@@ -37,9 +38,9 @@ public class BangBang extends ApplicationAdapter {
     public btSequentialImpulseConstraintSolver constraintSolver;
 
     //bangbang
-    public static GameObjectManger gameObjectManger;
+    public static GameObjectManger gameObjectManger = new GameObjectManger();
     public static AssetManagerHelper assetManagerHelper;
-    public static InputControllerManager inputControllerManager;
+    public static InputControllerManager inputControllerManager = new InputControllerManager();
 
     private void initBullet() {
         Bullet.init();
@@ -76,9 +77,7 @@ public class BangBang extends ApplicationAdapter {
     }
 
     private void initGame() {
-        gameObjectManger = new GameObjectManger();
         assetManagerHelper = new AssetManagerHelper(this);
-        inputControllerManager = new InputControllerManager();
     }
 
     @Override
@@ -102,10 +101,9 @@ public class BangBang extends ApplicationAdapter {
         world.stepSimulation(delta, 5, 1f / 60f); // 60 fps for update
 
         inputControllerManager.update();
+        BombManager.cleanup();
 
     }
-
-    private Vector3 tempRenderPosition = new Vector3();//temp position store to prevent object creation
 
     private void draw() {
         clearViewPort();
@@ -115,6 +113,12 @@ public class BangBang extends ApplicationAdapter {
             GameObject gameObject = gameObjects.get(i);
             if (gameObject.isVisible(cam)) {
                 modelBatch.render(gameObject.instance, environment);
+            }
+        }
+        Queue<Bomb> bombs = BombManager.usedBombQ;
+        for (Bomb bomb : bombs) {
+            if (bomb.isVisible(cam)) {
+                modelBatch.render(bomb.instance, environment);
             }
         }
         modelBatch.end();

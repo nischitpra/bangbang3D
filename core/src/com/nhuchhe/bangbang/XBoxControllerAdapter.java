@@ -5,10 +5,16 @@ import com.badlogic.gdx.controllers.ControllerListener;
 import com.badlogic.gdx.controllers.PovDirection;
 import com.badlogic.gdx.math.Vector3;
 
-public class GamepadControllerAdapter implements ControllerListener {
+public class XBoxControllerAdapter implements ControllerListener {
 
     public float isDownX = 0f;
     public float isDownY = 0f;
+
+    private InputControllerManager manager;
+
+    public XBoxControllerAdapter(InputControllerManager manager) {
+        this.manager = manager;
+    }
 
     @Override
     public void connected(Controller controller) {
@@ -24,16 +30,11 @@ public class GamepadControllerAdapter implements ControllerListener {
     public boolean buttonDown(Controller controller, int buttonCode) {
         switch (buttonCode) {
             case 97:
-                isDownX = 1;
+                manager.majorAttackDown();
                 break;
             case 99:
-                isDownX = -1;
-                break;
             case 96:
-                isDownY = 1;
-                break;
             case 100:
-                isDownY = -1;
                 break;
         }
         return false;
@@ -43,12 +44,10 @@ public class GamepadControllerAdapter implements ControllerListener {
     public boolean buttonUp(Controller controller, int buttonCode) {
         switch (buttonCode) {
             case 97:
+                manager.majorAttackUp();
             case 99:
-                isDownX = 0;
-                break;
             case 96:
             case 100:
-                isDownY = 0;
                 break;
         }
         return false;

@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.bullet.collision.btCollisionObject;
 import com.badlogic.gdx.physics.bullet.collision.btSphereShape;
+import com.badlogic.gdx.physics.bullet.dynamics.btRigidBody;
 import com.badlogic.gdx.physics.bullet.dynamics.btRigidBody.btRigidBodyConstructionInfo;
 
 import java.util.ArrayList;
@@ -21,10 +22,7 @@ public class AssetManagerHelper {
     private final String[] assets = {
             "ball/ball.obj",
             "ball2/ball.obj",
-            "ball2/ball.obj",
-            "ball2/ball.obj",
-            "ball2/ball.obj",
-            "ball2/ball.obj",
+            "bomb/ball.obj",
             "terrain/terrain test3.obj"
     };
 
@@ -67,11 +65,16 @@ public class AssetManagerHelper {
                     object.rigidBody.setFriction(2);
                     object.FORCE_VISIBLE = true;
                     break;
+                case "bomb/ball.obj":
+                    BombManager.name = assets[i];
+                    BombManager.model = assetManager.get(assets[i], Model.class);
+                    BombManager.constructionInfo=new btRigidBodyConstructionInfo(10, null, new btSphereShape(1), new Vector3());
+                    continue; // don't add bomb to the render or anything
             }
             gameObjects.add(object);
             appContext.world.addRigidBody(object.rigidBody);
         }
-        appContext.gameObjectManger.gameObjects = gameObjects;
+        BangBang.gameObjectManger.gameObjects = gameObjects;
     }
 
     public void dispose() {

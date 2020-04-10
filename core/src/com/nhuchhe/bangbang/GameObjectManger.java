@@ -1,6 +1,7 @@
 package com.nhuchhe.bangbang;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class GameObjectManger {
     public Player player;

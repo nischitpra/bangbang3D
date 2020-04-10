@@ -7,9 +7,10 @@ public class InputControllerManager {
 
     public static Controller controller;
     private Player player;
-    private final GamepadControllerAdapter controllerAdapter = new GamepadControllerAdapter();
+    private XBoxControllerAdapter controllerAdapter;
 
     public void init() {
+        this.controllerAdapter = new XBoxControllerAdapter(this);
         this.controller = Controllers.getControllers().get(0);
         this.controller.addListener(this.controllerAdapter);
     }
@@ -22,5 +23,13 @@ public class InputControllerManager {
         if (controllerAdapter.isDownX != 0 || controllerAdapter.isDownY != 0) {// need to adjust this for better movement
             player.controllerFeed(controllerAdapter.isDownX, controllerAdapter.isDownY);
         }
+    }
+
+    public void majorAttackDown() {
+        player.initMajorAttack();
+    }
+
+    public void majorAttackUp() {
+        player.performMajorAttack();
     }
 }
