@@ -17,6 +17,7 @@ public class BombManager {
     public static Queue<Bomb> usedBombQ = new Queue<>();
 
     private static final Vector3 recyclePosition = new Vector3(0, 5, 0);
+    private static final Vector3 clearVelocity = new Vector3(0, 5, 0);
 
     private Bomb createBomb() {
         Bomb bomb = new Bomb(name, model);
@@ -33,18 +34,16 @@ public class BombManager {
         } else {
             bomb = bombPool.removeFirst();
         }
-        bomb.rigidBody.userData = new HashMap<String, String>() {{
-            put("owner", bombOwner);
-        }};
-//        bomb.rigidBody.setCollisionFlags(1); // reactivate rigidBody
-//        bomb.rigidBody.setCollisionFlags(bomb.rigidBody.getCollisionFlags() & ~btCollisionObject.CollisionFlags.CF_NO_CONTACT_RESPONSE); //  reactivate collision
+        bomb.rigidBody.setActivationState(1);
+        ((HashMap<String, String>) bomb.rigidBody.userData).put("owner", bombOwner);
+        bomb.rigidBody.setCollisionFlags(bomb.rigidBody.getCollisionFlags() & ~btCollisionObject.CollisionFlags.CF_NO_CONTACT_RESPONSE); // remove collision
         return bomb;
     }
 
     public static void recycleBomb(Bomb recycleBomb) {
-//        recycleBomb.rigidBody.setActivationState(5); // disable simulation i.e make this deactivated
+        recycleBomb.rigidBody.setActivationState(3);// disable rigidBody
+        recycleBomb.rigidBody.setCollisionFlags(recycleBomb.rigidBody.getCollisionFlags() | btCollisionObject.CollisionFlags.CF_NO_CONTACT_RESPONSE); // remove collision
         recycleBomb.rigidBody.translate(recyclePosition);
-//        recycleBomb.rigidBody.setCollisionFlags(recycleBomb.rigidBody.getCollisionFlags() | btCollisionObject.CollisionFlags.CF_NO_CONTACT_RESPONSE); // remove collision
         bombPool.addLast(recycleBomb);
     }
 

@@ -1,6 +1,7 @@
 package com.nhuchhe.bangbang;
 
 import com.badlogic.gdx.graphics.g3d.Model;
+import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
 
 public class Player extends GameObject {
@@ -24,24 +25,39 @@ public class Player extends GameObject {
         rigidBody.setLinearVelocity(vel);
     }
 
+    public void update() {
+        updateBombPosition();
+    }
+
+    private void updateBombPosition() {
+        if (majorBomb != null) {
+            Vector3 bombPosition = getPosition();
+            bombPosition.y += 2.5; // hover bomb above player
+            Matrix4 tra = rigidBody.getWorldTransform();
+            tra.setTranslation(bombPosition);
+            majorBomb.rigidBody.setWorldTransform(tra);
+            majorBomb.instance.transform.translate(bombPosition);
+        }
+    }
+
     public void initMajorAttack() {
         if (majorBomb != null) return;
-        Vector3 bombPosition = getPosition();
-        bombPosition.y += 2; // hover bomb above player
-
         majorBomb = bombManager.getBomb("player");
-//        majorBomb.rigidBody.translate(bombPosition);
-        majorBomb.instance.transform.getTranslation(bombPosition);
+        updateBombPosition();
+    }
+
+    private void throwBomb() {
+        Vector3 velocity = rigidBody.getLinearVelocity();
+        velocity.y += 10;
+        velocity.scl(10); //  multiply by 10 to increase force
+        majorBomb.rigidBody.applyCentralImpulse(velocity);
+        majorBomb.detonate();
+        majorBomb = null;
     }
 
     public void performMajorAttack() {
         if (majorBomb == null) return;
-//        Vector3 velocity = rigidBody.getLinearVelocity();
-//        velocity.y += 10;
-//        velocity.scl(10); //  multiply by 10 to increase force
-//        majorBomb.rigidBody.applyCentralImpulse(velocity);
-        majorBomb.detonate();
-        majorBomb = null;
+        throwBomb();
     }
 
 }

@@ -101,7 +101,10 @@ public class BangBang extends ApplicationAdapter {
         world.stepSimulation(delta, 5, 1f / 60f); // 60 fps for update
 
         inputControllerManager.update();
+
+        gameObjectManger.player.update();
         BombManager.cleanup();
+
 
     }
 
