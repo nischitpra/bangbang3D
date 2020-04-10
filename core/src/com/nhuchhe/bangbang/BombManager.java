@@ -17,7 +17,6 @@ public class BombManager {
     public static Queue<Bomb> usedBombQ = new Queue<>();
 
     private static final Vector3 recyclePosition = new Vector3(0, 5, 0);
-    private static final Vector3 clearVelocity = new Vector3(0, 5, 0);
 
     private Bomb createBomb() {
         Bomb bomb = new Bomb(name, model);
