@@ -3,12 +3,37 @@ package com.nhuchhe.bangbang;
 import com.badlogic.gdx.graphics.Mesh;
 import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.model.Node;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.bullet.collision.btCompoundShape;
 import com.badlogic.gdx.physics.bullet.collision.btConvexHullShape;
 import com.badlogic.gdx.physics.bullet.collision.btShapeHull;
+import com.badlogic.gdx.physics.bullet.collision.btSphereShape;
+import com.badlogic.gdx.physics.bullet.dynamics.btRigidBody.btRigidBodyConstructionInfo;
 import com.badlogic.gdx.utils.Array;
 
+import java.util.HashMap;
+
 public class CollisionObjectHelper {
+    private static HashMap<String, btRigidBodyConstructionInfo> rigidBodyConstructionInfoMap = new HashMap<>();
+
+    public static btRigidBodyConstructionInfo getPlayerRigidBodyConstructionInfo() {
+        btRigidBodyConstructionInfo info = rigidBodyConstructionInfoMap.get(Constants.AssetNames.PLAYER);
+        if (info == null) {
+            info = new btRigidBodyConstructionInfo(10, null, new btSphereShape(0.2f), new Vector3());
+        }
+        rigidBodyConstructionInfoMap.put(Constants.AssetNames.PLAYER, info);
+        return info;
+    }
+
+    public static btRigidBodyConstructionInfo getBombRigidBodyConstructionInfo() {
+        btRigidBodyConstructionInfo info = rigidBodyConstructionInfoMap.get(Constants.AssetNames.BOMB);
+        if (info == null) {
+            info = new btRigidBodyConstructionInfo(10, null, new btSphereShape(0.05f), new Vector3());
+        }
+        rigidBodyConstructionInfoMap.put(Constants.AssetNames.BOMB, info);
+        return info;
+    }
+
     public static btCompoundShape getCompoundShape(final Model model, final boolean optimize) {
         btCompoundShape shape = new btCompoundShape();
         Array<Mesh> meshes = model.meshes;

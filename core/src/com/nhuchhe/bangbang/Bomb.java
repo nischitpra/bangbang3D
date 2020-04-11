@@ -16,10 +16,10 @@ public class Bomb extends GameObject {
         explodeAt = startTime + 3000;
     }
 
-//    public void update() {
-//        if (System.currentTimeMillis() > (startTime + 3000)) {// recycle bomb
-    // perform explosion
-//        }
-//    }
+    public void update() {
+        if (System.currentTimeMillis() > (startTime + 3000)) {// recycle bomb
+            //     perform explosion
+        }
+    }
 
 }

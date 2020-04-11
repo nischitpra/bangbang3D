@@ -32,7 +32,7 @@ public class GameObject {
         this.rigidBody = new btRigidBody(constructionInfo);
         this.rigidBody.setMotionState(motionState); // set callback for transformation
         this.rigidBody.userData = new HashMap<String, String>() {{
-            put("name", name);
+            put(Constants.UserData.NAME, name);
         }};
     }
 

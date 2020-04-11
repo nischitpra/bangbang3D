@@ -38,7 +38,7 @@ public class Enemy extends GameObject {
         BangBang.world.rayTest(rayFrom, rayTo, callback);
         if (callback.hasHit()) {
             HashMap<String, String> userData = (HashMap<String, String>) callback.getCollisionObject().userData;
-            return userData.get("name").equals("ball/ball.obj");
+            return userData.get(Constants.UserData.NAME).equals(Constants.AssetNames.PLAYER);
         }
         return true;
     }

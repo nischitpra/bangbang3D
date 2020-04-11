@@ -1,28 +1,36 @@
 package com.nhuchhe.bangbang;
 
 import com.badlogic.gdx.graphics.g3d.Model;
-import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
 
 public class Player extends GameObject {
     private Bomb majorBomb;
     private BombManager bombManager = new BombManager();
 
-    private final float MAX_SPEED = 10;
+    private final float MAX_SPEED = 5;
     private boolean isGrounded = true;
 
     Player(String name, Model model) {
         super(name, model);
     }
 
-    public void controllerFeed(final float inputX, final float inputY) {
+    private Vector3 tempVector = new Vector3();
+
+    private final Vector3 rotationAxis = new Vector3(0, 1, 0);
+
+    public void controllerFeed(final float inputX, final float inputY, final float rotationRad) {
         /**
          * need to disable controller feed when not in ground, during explosions etc
          */
-        Vector3 vel = rigidBody.getLinearVelocity();
-        vel.x = MAX_SPEED * inputX;
-        vel.z = MAX_SPEED * inputY;
-        rigidBody.setLinearVelocity(vel);
+        // perform rotation
+        tempVector = getPosition();
+        motionState.transform.setToRotationRad(rotationAxis, rotationRad).setTranslation(tempVector);
+
+        // perform movement
+        tempVector = rigidBody.getLinearVelocity();
+        tempVector.x = MAX_SPEED * inputX;
+        tempVector.z = MAX_SPEED * inputY;
+        rigidBody.setLinearVelocity(tempVector);
     }
 
     public void update() {
@@ -32,23 +40,22 @@ public class Player extends GameObject {
     private void updateBombPosition() {
         if (majorBomb != null) {
             Vector3 bombPosition = getPosition();
-            bombPosition.y += 2.5; // hover bomb above player
-            Matrix4 tra = rigidBody.getWorldTransform();
-            tra.setTranslation(bombPosition);
-            majorBomb.rigidBody.setWorldTransform(tra);
-            majorBomb.instance.transform.translate(bombPosition);
+            // cant use motionstate here cuz the rigidBody id deactivated
+            majorBomb.instance.transform.setTranslation(bombPosition.x, bombPosition.y + 0.3f, bombPosition.z);
+            majorBomb.rigidBody.setWorldTransform(majorBomb.instance.transform);
         }
     }
 
     public void initMajorAttack() {
         if (majorBomb != null) return;
-        majorBomb = bombManager.getBomb("player");
+        majorBomb = bombManager.getBomb(Constants.BombOwner.PLAYER);
         updateBombPosition();
     }
 
     private void throwBomb() {
+        BombManager.activate(majorBomb);
         Vector3 velocity = rigidBody.getLinearVelocity();
-        velocity.y += 10;
+        velocity.y += 4;
         velocity.scl(10); //  multiply by 10 to increase force
         majorBomb.rigidBody.applyCentralImpulse(velocity);
         majorBomb.detonate();

@@ -21,7 +21,8 @@ public class InputControllerManager {
 
     public void update() {
         if (controllerAdapter.isDownX != 0 || controllerAdapter.isDownY != 0) {// need to adjust this for better movement
-            player.controllerFeed(controllerAdapter.isDownX, controllerAdapter.isDownY);
+            float rotationRad = (float) Math.atan2(-controllerAdapter.isDownY, controllerAdapter.isDownX);
+            player.controllerFeed(controllerAdapter.isDownX, controllerAdapter.isDownY, rotationRad);
         }
     }
 

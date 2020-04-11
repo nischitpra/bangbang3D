@@ -3,15 +3,12 @@ package com.nhuchhe.bangbang;
 import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.bullet.collision.btCollisionObject;
-import com.badlogic.gdx.physics.bullet.dynamics.btRigidBody;
 import com.badlogic.gdx.utils.Queue;
 
 import java.util.HashMap;
 
 public class BombManager {
     public static String name;
-    public static Model model; //  details of the model, how it looks, what its position is etc
-    public static btRigidBody.btRigidBodyConstructionInfo constructionInfo;
 
     public static Queue<Bomb> bombPool = new Queue<>();
     public static Queue<Bomb> usedBombQ = new Queue<>();
@@ -19,8 +16,8 @@ public class BombManager {
     private static final Vector3 recyclePosition = new Vector3(0, 5, 0);
 
     private Bomb createBomb() {
-        Bomb bomb = new Bomb(name, model);
-        bomb.createRigidBody(constructionInfo);
+        Bomb bomb = new Bomb(name, BangBang.assetManagerHelper.assetManager.get(name, Model.class));
+        bomb.createRigidBody(CollisionObjectHelper.getBombRigidBodyConstructionInfo());
         bomb.instance.transform.setTranslation(recyclePosition);
         BangBang.world.addRigidBody(bomb.rigidBody);
         return bomb;
@@ -33,12 +30,11 @@ public class BombManager {
         } else {
             bomb = bombPool.removeFirst();
         }
-        bomb.rigidBody.setActivationState(1);
-        ((HashMap<String, String>) bomb.rigidBody.userData).put("owner", bombOwner);
-        bomb.rigidBody.setCollisionFlags(bomb.rigidBody.getCollisionFlags() & ~btCollisionObject.CollisionFlags.CF_NO_CONTACT_RESPONSE); // remove collision
+        ((HashMap<String, String>) bomb.rigidBody.userData).put(Constants.UserData.OWNER, bombOwner);
         return bomb;
     }
 
+    // I think the game slows down after adding many bombs is because the recycled rigidbodies still collide.
     public static void recycleBomb(Bomb recycleBomb) {
         recycleBomb.rigidBody.setActivationState(3);// disable rigidBody
         recycleBomb.rigidBody.setCollisionFlags(recycleBomb.rigidBody.getCollisionFlags() | btCollisionObject.CollisionFlags.CF_NO_CONTACT_RESPONSE); // remove collision
@@ -55,6 +51,11 @@ public class BombManager {
             if (usedBombQ.isEmpty()) break;
             usedBomb = usedBombQ.first();
         }
+    }
+
+    public static void activate(Bomb bomb) {
+        bomb.rigidBody.setActivationState(1);
+        bomb.rigidBody.setCollisionFlags(bomb.rigidBody.getCollisionFlags() & ~btCollisionObject.CollisionFlags.CF_NO_CONTACT_RESPONSE); // add collision
     }
 
 }

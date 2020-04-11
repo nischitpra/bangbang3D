@@ -39,7 +39,7 @@ public class BangBang extends ApplicationAdapter {
 
     //bangbang
     public static GameObjectManger gameObjectManger = new GameObjectManger();
-    public static AssetManagerHelper assetManagerHelper;
+    public static AssetManagerHelper assetManagerHelper = new AssetManagerHelper();
     public static InputControllerManager inputControllerManager = new InputControllerManager();
 
     private void initBullet() {
@@ -65,7 +65,7 @@ public class BangBang extends ApplicationAdapter {
 
     private void initCamera() {
         cam = new PerspectiveCamera(67, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        cam.position.set(10f, 10f, 10f);
+        cam.position.set(2f, 2f, 2f);
         cam.lookAt(0, 0, 0);
         cam.near = 1f;
         cam.far = 300f;
@@ -77,7 +77,6 @@ public class BangBang extends ApplicationAdapter {
     }
 
     private void initGame() {
-        assetManagerHelper = new AssetManagerHelper(this);
     }
 
     @Override
@@ -134,7 +133,7 @@ public class BangBang extends ApplicationAdapter {
         world.debugDrawWorld();
 // todo: refactor this to function.
         Vector3 playerPosition = gameObjectManger.player.getPosition();
-        cam.position.set(playerPosition.x + 10, playerPosition.y + 10, playerPosition.z + 10);
+        cam.position.set(playerPosition.x + 2, playerPosition.y + 2, playerPosition.z + 2);
         cam.update();
         camController.update();
         draw();
