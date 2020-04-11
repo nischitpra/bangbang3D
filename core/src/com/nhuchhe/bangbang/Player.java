@@ -18,23 +18,22 @@ public class Player extends GameObject {
 
     private final Vector3 rotationAxis = new Vector3(0, 1, 0);
 
-    public void controllerFeed(final float inputX, final float inputY, final float rotationRad) {
-        /**
-         * need to disable controller feed when not in ground, during explosions etc
-         */
-        // perform rotation
+    private void rotatePlayer(final float rotationRad) {
         tempVector = getPosition();
-        motionState.transform.setToRotationRad(rotationAxis, rotationRad).setTranslation(tempVector);
+        instance.transform.setToRotationRad(rotationAxis, rotationRad).setTranslation(tempVector);
+        rigidBody.setWorldTransform(instance.transform);
+    }
 
-        // perform movement
+    private void movePlayer(final float inputX, final float inputY) {
         tempVector = rigidBody.getLinearVelocity();
         tempVector.x = MAX_SPEED * inputX;
         tempVector.z = MAX_SPEED * inputY;
         rigidBody.setLinearVelocity(tempVector);
     }
 
-    public void update() {
-        updateBombPosition();
+    public void controllerFeed(final float inputX, final float inputY, final float rotationRad) {
+        rotatePlayer(rotationRad);
+        movePlayer(inputX, inputY);
     }
 
     private void updateBombPosition() {
@@ -65,6 +64,10 @@ public class Player extends GameObject {
     public void performMajorAttack() {
         if (majorBomb == null) return;
         throwBomb();
+    }
+
+    public void update() {
+        updateBombPosition();
     }
 
 }
