@@ -59,7 +59,7 @@ public class Player extends GameObject {
         BombManager.activate(majorBomb);
         tempVector = rigidBody.getLinearVelocity();
         tempVector.y += 2;
-        tempVector.scl(Math.min(25, (System.currentTimeMillis() - bombHoldAt) / 25));
+        tempVector.scl(Math.min(25, 8+(System.currentTimeMillis() - bombHoldAt) / 25));
         majorBomb.rigidBody.applyCentralImpulse(tempVector);
         majorBomb.detonate();
         majorBomb = null;
