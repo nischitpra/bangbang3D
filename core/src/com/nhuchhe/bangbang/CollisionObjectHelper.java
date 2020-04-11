@@ -28,7 +28,7 @@ public class CollisionObjectHelper {
     public static btRigidBodyConstructionInfo getBombRigidBodyConstructionInfo() {
         btRigidBodyConstructionInfo info = rigidBodyConstructionInfoMap.get(Constants.AssetNames.BOMB);
         if (info == null) {
-            info = new btRigidBodyConstructionInfo(10, null, new btSphereShape(0.05f), new Vector3());
+            info = new btRigidBodyConstructionInfo(10, null, new btSphereShape(0.075f), new Vector3());
         }
         rigidBodyConstructionInfoMap.put(Constants.AssetNames.BOMB, info);
         return info;

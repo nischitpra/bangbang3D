@@ -17,8 +17,11 @@ public class Player extends GameObject {
     private Vector3 tempVector = new Vector3();
 
     private final Vector3 rotationAxis = new Vector3(0, 1, 0);
+    private float rotationRad;
+    private long bombHoldAt;
 
     private void rotatePlayer(final float rotationRad) {
+        this.rotationRad = rotationRad;
         tempVector = getPosition();
         instance.transform.setToRotationRad(rotationAxis, rotationRad).setTranslation(tempVector);
         rigidBody.setWorldTransform(instance.transform);
@@ -47,16 +50,17 @@ public class Player extends GameObject {
 
     public void initMajorAttack() {
         if (majorBomb != null) return;
+        bombHoldAt = System.currentTimeMillis();
         majorBomb = bombManager.getBomb(Constants.BombOwner.PLAYER);
         updateBombPosition();
     }
 
     private void throwBomb() {
         BombManager.activate(majorBomb);
-        Vector3 velocity = rigidBody.getLinearVelocity();
-        velocity.y += 4;
-        velocity.scl(10); //  multiply by 10 to increase force
-        majorBomb.rigidBody.applyCentralImpulse(velocity);
+        tempVector = rigidBody.getLinearVelocity();
+        tempVector.y += 2;
+        tempVector.scl(Math.min(25, (System.currentTimeMillis() - bombHoldAt) / 25));
+        majorBomb.rigidBody.applyCentralImpulse(tempVector);
         majorBomb.detonate();
         majorBomb = null;
     }
