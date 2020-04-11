@@ -7,6 +7,7 @@ public class Constants {
         public static final String ENEMY = "enemy/player.obj";
         public static final String BOMB = "bomb/bomb.obj";
         public static final String TERRAIN = "terrain/terrain test3.obj";
+        public static final String EXPLOSION_SPHERE = "explosionSphere";
     }
 
     public static class UserData {

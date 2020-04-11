@@ -34,6 +34,15 @@ public class CollisionObjectHelper {
         return info;
     }
 
+    public static btRigidBodyConstructionInfo getExplosionSphereConstructionInfo() {
+        btRigidBodyConstructionInfo info = rigidBodyConstructionInfoMap.get(Constants.AssetNames.EXPLOSION_SPHERE);
+        if (info == null) {
+            info = new btRigidBodyConstructionInfo(0, null, new btSphereShape(1f), new Vector3());
+        }
+        rigidBodyConstructionInfoMap.put(Constants.AssetNames.EXPLOSION_SPHERE, info);
+        return info;
+    }
+
     public static btCompoundShape getCompoundShape(final Model model, final boolean optimize) {
         btCompoundShape shape = new btCompoundShape();
         Array<Mesh> meshes = model.meshes;

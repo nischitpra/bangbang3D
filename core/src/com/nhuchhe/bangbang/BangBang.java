@@ -119,6 +119,7 @@ public class BangBang extends ApplicationAdapter {
         }
         Queue<Bomb> bombs = BombManager.usedBombQ;
         for (Bomb bomb : bombs) {
+            bomb.update();
             if (bomb.isVisible(cam)) {
                 modelBatch.render(bomb.instance, environment);
             }
