@@ -10,6 +10,7 @@ import com.badlogic.gdx.physics.bullet.dynamics.btRigidBody.btRigidBodyConstruct
 import java.util.HashMap;
 
 public class GameObject {
+    public boolean isUnderForce;
     public String name;
     public Model model; //  details of the model, how it looks, what its position is etc
     public ModelInstance instance; // instance is created from model. to be rendered

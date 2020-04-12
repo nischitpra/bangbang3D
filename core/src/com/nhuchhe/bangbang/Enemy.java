@@ -33,7 +33,7 @@ public class Enemy extends GameObject {
         callback.setRayToWorld(rayTo);
         callback.setClosestHitFraction(1);
 
-        BangBang.debugDrawer.drawLine(rayFrom, rayTo, new Vector3(1, 1, 0));
+//        BangBang.debugDrawer.drawLine(rayFrom, rayTo, new Vector3(1, 1, 0));
 
         BangBang.world.rayTest(rayFrom, rayTo, callback);
         if (callback.hasHit()) {

@@ -4,10 +4,7 @@ import com.badlogic.gdx.graphics.Mesh;
 import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.model.Node;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.physics.bullet.collision.btCompoundShape;
-import com.badlogic.gdx.physics.bullet.collision.btConvexHullShape;
-import com.badlogic.gdx.physics.bullet.collision.btShapeHull;
-import com.badlogic.gdx.physics.bullet.collision.btSphereShape;
+import com.badlogic.gdx.physics.bullet.collision.*;
 import com.badlogic.gdx.physics.bullet.dynamics.btRigidBody.btRigidBodyConstructionInfo;
 import com.badlogic.gdx.utils.Array;
 
@@ -34,13 +31,14 @@ public class CollisionObjectHelper {
         return info;
     }
 
-    public static btRigidBodyConstructionInfo getExplosionSphereConstructionInfo() {
-        btRigidBodyConstructionInfo info = rigidBodyConstructionInfoMap.get(Constants.AssetNames.EXPLOSION_SPHERE);
-        if (info == null) {
-            info = new btRigidBodyConstructionInfo(0, null, new btSphereShape(1f), new Vector3());
-        }
-        rigidBodyConstructionInfoMap.put(Constants.AssetNames.EXPLOSION_SPHERE, info);
-        return info;
+    public static btCollisionShape getExplosionSphereShape() {
+        return new btSphereShape(2f);
+//        btRigidBodyConstructionInfo info = rigidBodyConstructionInfoMap.get(Constants.AssetNames.EXPLOSION_SPHERE);
+//        if (info == null) {
+//            info = new btRigidBodyConstructionInfo(0, null, new btSphereShape(1f), new Vector3());
+//        }
+//        rigidBodyConstructionInfoMap.put(Constants.AssetNames.EXPLOSION_SPHERE, info);
+//        return info;
     }
 
     public static btCompoundShape getCompoundShape(final Model model, final boolean optimize) {

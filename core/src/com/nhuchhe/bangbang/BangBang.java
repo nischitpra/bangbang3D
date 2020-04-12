@@ -15,6 +15,7 @@ import com.badlogic.gdx.physics.bullet.DebugDrawer;
 import com.badlogic.gdx.physics.bullet.collision.btCollisionDispatcher;
 import com.badlogic.gdx.physics.bullet.collision.btDbvtBroadphase;
 import com.badlogic.gdx.physics.bullet.collision.btDefaultCollisionConfiguration;
+import com.badlogic.gdx.physics.bullet.collision.btGhostPairCallback;
 import com.badlogic.gdx.physics.bullet.dynamics.btDiscreteDynamicsWorld;
 import com.badlogic.gdx.physics.bullet.dynamics.btSequentialImpulseConstraintSolver;
 import com.badlogic.gdx.physics.bullet.linearmath.btIDebugDraw;
@@ -23,6 +24,19 @@ import com.badlogic.gdx.utils.Queue;
 import java.util.ArrayList;
 
 public class BangBang extends ApplicationAdapter {
+    /**
+     * todo:
+     * - clean up code
+     * - create helper method to create rigid body.
+     * - set id in every rigidBody.userData. It will be used to get the gameObject.
+     * - user gameObjectManager.gameObjectMap to get objects from id.
+     * - create external force and movement force as extra variables in gameObject so that we can limit the movement force without limiting external force.
+     * <p>
+     * major problems
+     * - need to fix movement and external force.. maybe create another object MovableGameObject : GameObject ( this will have external force and movement force as separate values )
+     * all the force to be applied is ( external + movement )
+     * - need to structure code and its flow. Need to separate and modularize code for AssetManagerHelper.
+     */
     //libgdx
     public Environment environment;
     public PerspectiveCamera cam;
@@ -47,6 +61,7 @@ public class BangBang extends ApplicationAdapter {
         collisionConfig = new btDefaultCollisionConfiguration();
         dispatcher = new btCollisionDispatcher(collisionConfig);
         broadphase = new btDbvtBroadphase();
+        broadphase.getOverlappingPairCache().setInternalGhostPairCallback(new btGhostPairCallback());
         constraintSolver = new btSequentialImpulseConstraintSolver();
         world = new btDiscreteDynamicsWorld(dispatcher, broadphase, constraintSolver, collisionConfig);
         world.setGravity(new Vector3(0, -10f, 0));
@@ -129,16 +144,16 @@ public class BangBang extends ApplicationAdapter {
 
     @Override
     public void render() {
-        debugDrawer.begin(cam);
+//        debugDrawer.begin(cam);
         update();
-        world.debugDrawWorld();
+//        world.debugDrawWorld();
 // todo: refactor this to function.
         Vector3 playerPosition = gameObjectManger.player.getPosition();
         cam.position.set(playerPosition.x + 2, playerPosition.y + 2, playerPosition.z + 2);
         cam.update();
         camController.update();
         draw();
-        debugDrawer.end();
+//        debugDrawer.end();
     }
 
     @Override
