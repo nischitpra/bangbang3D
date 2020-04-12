@@ -56,9 +56,9 @@ public class BombManager {
     // I think the game slows down after adding many bombs is because the recycled rigidbodies still collide.
     public static void recycleBomb(Bomb recycleBomb) {
         recycleBomb.rigidBody.setActivationState(3);// disable rigidBody
-        recycleBomb.rigidBody.setCollisionFlags(recycleBomb.rigidBody.getCollisionFlags() | btCollisionObject.CollisionFlags.CF_NO_CONTACT_RESPONSE); // remove collision
         recycleBomb.rigidBody.translate(recyclePosition);
-        recycleBomb.explosionSphere.getWorldTransform(recycleBomb.instance.transform);
+        recycleBomb.explosionSphere.setWorldTransform(recycleBomb.rigidBody.getWorldTransform());
+        recycleBomb.rigidBody.setCollisionFlags(recycleBomb.rigidBody.getCollisionFlags() | btCollisionObject.CollisionFlags.CF_NO_CONTACT_RESPONSE); // remove collision
         bombPool.addLast(recycleBomb);
     }
 

@@ -25,9 +25,10 @@ public class Bomb extends GameObject {
     }
 
     public void update() {
-        explosionSphere.setWorldTransform(instance.transform);
         if (System.currentTimeMillis() > explodeAt) {// recycle bomb
             applyExplosionForce();
+        } else {
+            explosionSphere.setWorldTransform(instance.transform);
         }
     }
 
