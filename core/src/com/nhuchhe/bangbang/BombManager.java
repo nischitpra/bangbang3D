@@ -57,8 +57,9 @@ public class BombManager {
     public static void recycleBomb(Bomb recycleBomb) {
         recycleBomb.rigidBody.setActivationState(3);// disable rigidBody
         recycleBomb.rigidBody.translate(recyclePosition);
-        recycleBomb.explosionSphere.setWorldTransform(recycleBomb.rigidBody.getWorldTransform());
         recycleBomb.rigidBody.setCollisionFlags(recycleBomb.rigidBody.getCollisionFlags() | btCollisionObject.CollisionFlags.CF_NO_CONTACT_RESPONSE); // remove collision
+        recycleBomb.explosionSphere.setWorldTransform(recycleBomb.rigidBody.getWorldTransform());
+        recycleBomb.explosionSphere.setActivationState(3);
         bombPool.addLast(recycleBomb);
     }
 
@@ -76,6 +77,7 @@ public class BombManager {
     public static void activate(Bomb bomb) {
         bomb.rigidBody.setActivationState(1);
         bomb.rigidBody.setCollisionFlags(bomb.rigidBody.getCollisionFlags() & ~btCollisionObject.CollisionFlags.CF_NO_CONTACT_RESPONSE); // add collision
+        bomb.explosionSphere.setActivationState(1);
     }
 
 }
