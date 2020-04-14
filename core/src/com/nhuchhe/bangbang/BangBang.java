@@ -19,6 +19,8 @@ import com.badlogic.gdx.physics.bullet.collision.btGhostPairCallback;
 import com.badlogic.gdx.physics.bullet.dynamics.btDiscreteDynamicsWorld;
 import com.badlogic.gdx.physics.bullet.dynamics.btSequentialImpulseConstraintSolver;
 import com.badlogic.gdx.physics.bullet.linearmath.btIDebugDraw;
+import com.badlogic.gdx.utils.Queue;
+import com.nhuchhe.bangbang.gameObjects.Bomb;
 import com.nhuchhe.bangbang.gameObjects.base.BaseGameObject;
 import com.nhuchhe.bangbang.helper.CollisionObjectHelper;
 import com.nhuchhe.bangbang.helper.CollisionShapeHelper;
@@ -65,6 +67,9 @@ public class BangBang extends ApplicationAdapter {
     public static CollisionShapeHelper collisionShapeHelper = new CollisionShapeHelper();
     public static CollisionObjectHelper collisionObjectHelper = new CollisionObjectHelper();
     public static RigidBodyHelper rigidBodyHelper = new RigidBodyHelper();
+    public static BombManager bombManager = new BombManager();
+
+    public static long currentMillis; // This is the global clock for game. Always use this time.
 
 
     private void initBullet() {
@@ -128,8 +133,11 @@ public class BangBang extends ApplicationAdapter {
         inputControllerManager.update();
 
         gameObjectManger.player.update();
-        BombManager.cleanup();
 
+        Queue<Bomb> bombs = BombManager.usedBombQ;
+        for (Bomb bomb : bombs) {
+            bomb.update();
+        }
 //        Logger.log("fps: " + Gdx.graphics.getFramesPerSecond());
     }
 
@@ -143,28 +151,25 @@ public class BangBang extends ApplicationAdapter {
                 modelBatch.render(baseGameObject.instance, environment);
             }
         }
-//        Queue<Bomb> bombs = BombManager.usedBombQ;
-//        for (Bomb bomb : bombs) {
-//            bomb.update();
-//            if (bomb.isVisible(cam)) {
-//                modelBatch.render(bomb.instance, environment);
-//            }
-//        }
         modelBatch.end();
     }
 
     @Override
     public void render() {
-//        debugDrawer.begin(cam);
+        currentMillis = System.currentTimeMillis();
+        debugDrawer.begin(cam);
         update();
-//        world.debugDrawWorld();
+        world.debugDrawWorld();
 // todo: refactor this to function.
         Vector3 playerPosition = gameObjectManger.player.getPosition();
         cam.position.set(playerPosition.x + 2, playerPosition.y + 2, playerPosition.z + 2);
         cam.update();
         camController.update();
         draw();
-//        debugDrawer.end();
+        debugDrawer.end();
+
+        //cleanup after everything
+        bombManager.cleanup();
     }
 
     @Override

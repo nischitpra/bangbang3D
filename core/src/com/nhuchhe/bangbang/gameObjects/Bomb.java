@@ -4,11 +4,11 @@ import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.bullet.dynamics.btRigidBody;
 import com.nhuchhe.bangbang.BangBang;
+import com.nhuchhe.bangbang.gameObjects.base.AoeDetectionGameObject;
+import com.nhuchhe.bangbang.manager.BombManager;
 import com.nhuchhe.bangbang.utilities.Constants;
 import com.nhuchhe.bangbang.utilities.Logger;
 import com.nhuchhe.bangbang.utilities.Utilities;
-import com.nhuchhe.bangbang.gameObjects.base.AoeDetectionGameObject;
-import com.nhuchhe.bangbang.manager.BombManager;
 
 import java.util.HashMap;
 
@@ -18,25 +18,25 @@ public class Bomb extends AoeDetectionGameObject {
 
     public String owner;
 
-    public Bomb(String id) {
+    public Bomb(String id, int bombType) {
         super(id, BangBang.collisionShapeHelper.getExplosionShape());
         super.init(
-                BangBang.assetManager.assetManager.get(Constants.AssetNames.BOMB, Model.class),
+                BangBang.assetManager.assetManager.get(Constants.Bombs[bombType], Model.class),
                 BangBang.collisionObjectHelper.getBombConstructionInfo()
         );
     }
 
     public void detonate() {
         BombManager.usedBombQ.addLast(this);
-        startTime = System.currentTimeMillis();
+        startTime = BangBang.currentMillis;
         explodeAt = startTime + 3000;
     }
 
     public void update() {
-        if (System.currentTimeMillis() > explodeAt) {// recycle bomb
+        if (BangBang.currentMillis > explodeAt) {// recycle bomb
             applyExplosionForce();
         } else {
-            aoe.setWorldTransform(instance.transform);
+            aoe.setWorldTransform(motionState.transform);
         }
     }
 

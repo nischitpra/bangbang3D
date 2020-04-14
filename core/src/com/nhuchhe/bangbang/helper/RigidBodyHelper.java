@@ -5,10 +5,10 @@ import com.badlogic.gdx.physics.bullet.collision.btCollisionShape;
 import com.badlogic.gdx.physics.bullet.collision.btGhostObject;
 import com.badlogic.gdx.physics.bullet.dynamics.btRigidBody;
 import com.nhuchhe.bangbang.BangBang;
-import com.nhuchhe.bangbang.utilities.Constants;
 import com.nhuchhe.bangbang.gameObjects.base.AoeDetectionGameObject;
 import com.nhuchhe.bangbang.gameObjects.base.BaseGameObject;
 import com.nhuchhe.bangbang.gameObjects.base.MotionState;
+import com.nhuchhe.bangbang.utilities.Constants;
 
 import java.util.HashMap;
 

@@ -16,12 +16,14 @@ public class Enemy extends BaseGameObject {
     private Vector3 rayTo = new Vector3();
     ClosestRayResultCallback callback = new ClosestRayResultCallback(rayFrom, rayTo);
 
+    private Vector3 spawnPosition = new Vector3(0,10,1);
     public Enemy(String id) {
         super(id);
         super.init(
                 BangBang.assetManager.assetManager.get(Constants.AssetNames.ENEMY, Model.class),
                 BangBang.collisionObjectHelper.getPlayerConstructionInfo()
         );
+        rigidBody.translate(spawnPosition);
     }
 
     @Override
@@ -46,7 +48,7 @@ public class Enemy extends BaseGameObject {
         BangBang.world.rayTest(rayFrom, rayTo, callback);
         if (callback.hasHit()) {
             HashMap<String, String> userData = (HashMap<String, String>) callback.getCollisionObject().userData;
-            return userData.get(Constants.UserData.ID).equals(Constants.AssetNames.PLAYER);
+            return userData.get(Constants.UserData.ID).equals(Constants.GameObjectId.PLAYER);
         }
         return true;
     }

@@ -20,6 +20,7 @@ public class AoeDetectionGameObject extends BaseGameObject {
     public void init(Model model, btRigidBody.btRigidBodyConstructionInfo constructionInfo) {
         super.init(model, constructionInfo);
         BangBang.rigidBodyHelper.createGhostObject(this, aoeShape);
+        aoe.setWorldTransform(motionState.transform);
     }
 
 }
