@@ -8,6 +8,10 @@ public class Player extends GameObject {
     private BombManager bombManager = new BombManager();
 
     private final float MAX_SPEED = 5;
+    private final float FORCE_DELTA = 5;
+    private float friction = 3f;
+    private float linearDampening = 0.3f;
+
     private boolean isGrounded = true;
 
     Player(String name, Model model) {
@@ -28,10 +32,17 @@ public class Player extends GameObject {
     }
 
     private void movePlayer(final float inputX, final float inputY) {
+        rigidBody.setFriction(friction);
+        rigidBody.setDamping(linearDampening, rigidBody.getAngularDamping());
+
+        float velMag = Utilities.getVelocityMagnitude(tempVector);
         tempVector = rigidBody.getLinearVelocity();
-        tempVector.x = MAX_SPEED * inputX;
-        tempVector.z = MAX_SPEED * inputY;
-        rigidBody.setLinearVelocity(tempVector);
+        tempVector = rigidBody.getTotalForce();
+        if (velMag < MAX_SPEED) {
+            tempVector.x = inputX * FORCE_DELTA;
+            tempVector.z = inputY * FORCE_DELTA;
+            rigidBody.applyCentralImpulse(tempVector);
+        }
     }
 
     public void controllerFeed(final float inputX, final float inputY, final float rotationRad) {
@@ -59,7 +70,7 @@ public class Player extends GameObject {
         BombManager.activate(majorBomb);
         tempVector = rigidBody.getLinearVelocity();
         tempVector.y += 2;
-        tempVector.scl(Math.min(25, 8+(System.currentTimeMillis() - bombHoldAt) / 25));
+        tempVector.scl(Math.min(25, 8 + (System.currentTimeMillis() - bombHoldAt) / 25));
         majorBomb.rigidBody.applyCentralImpulse(tempVector);
         majorBomb.detonate();
         majorBomb = null;
@@ -71,6 +82,7 @@ public class Player extends GameObject {
     }
 
     public void update() {
+        Logger.log(Utilities.getVelocityMagnitude(rigidBody.getLinearVelocity()) + "");
         updateBombPosition();
     }
 

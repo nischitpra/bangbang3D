@@ -58,7 +58,7 @@ public class AssetManagerHelper {
                     object = new GameObject(objecKey, assetManager.get(assets[i], Model.class));
                     object.createRigidBody(new btRigidBodyConstructionInfo(0, null, CollisionObjectHelper.getCompoundShape(object.model, true), new Vector3()));
                     object.rigidBody.setCollisionFlags(object.rigidBody.getCollisionFlags() | btCollisionObject.CollisionFlags.CF_KINEMATIC_OBJECT);
-                    object.rigidBody.setFriction(2);
+//                    object.rigidBody.setFriction(3f);
                     object.FORCE_VISIBLE = true;
                     BangBang.gameObjectManger.terrain = object;
                     break;

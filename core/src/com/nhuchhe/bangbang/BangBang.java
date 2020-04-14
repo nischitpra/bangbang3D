@@ -144,16 +144,16 @@ public class BangBang extends ApplicationAdapter {
 
     @Override
     public void render() {
-        debugDrawer.begin(cam);
+//        debugDrawer.begin(cam);
         update();
-        world.debugDrawWorld();
+//        world.debugDrawWorld();
 // todo: refactor this to function.
         Vector3 playerPosition = gameObjectManger.player.getPosition();
         cam.position.set(playerPosition.x + 2, playerPosition.y + 2, playerPosition.z + 2);
         cam.update();
         camController.update();
         draw();
-        debugDrawer.end();
+//        debugDrawer.end();
     }
 
     @Override
