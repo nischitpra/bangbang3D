@@ -1,29 +1,22 @@
 package com.nhuchhe.bangbang.gameObjects;
 
 import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.bullet.collision.ClosestRayResultCallback;
 import com.nhuchhe.bangbang.BangBang;
+import com.nhuchhe.bangbang.gameObjects.base.PlayableGameObject;
 import com.nhuchhe.bangbang.utilities.Constants;
-import com.nhuchhe.bangbang.gameObjects.base.BaseGameObject;
 
 import java.util.HashMap;
 
-public class Enemy extends BaseGameObject {
+public class Enemy extends PlayableGameObject {
 
     private Vector3 rayFrom = new Vector3();
     private Vector3 rayTo = new Vector3();
     ClosestRayResultCallback callback = new ClosestRayResultCallback(rayFrom, rayTo);
 
-    private Vector3 spawnPosition = new Vector3(0,10,1);
     public Enemy(String id) {
-        super(id);
-        super.init(
-                BangBang.assetManager.assetManager.get(Constants.AssetNames.ENEMY, Model.class),
-                BangBang.collisionObjectHelper.getPlayerConstructionInfo()
-        );
-        rigidBody.translate(spawnPosition);
+        super(id, Constants.AssetNames.ENEMY);
     }
 
     @Override

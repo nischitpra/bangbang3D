@@ -1,9 +1,8 @@
 package com.nhuchhe.bangbang.gameObjects;
 
-import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.math.Vector3;
 import com.nhuchhe.bangbang.BangBang;
-import com.nhuchhe.bangbang.gameObjects.base.BaseGameObject;
+import com.nhuchhe.bangbang.gameObjects.base.PlayableGameObject;
 import com.nhuchhe.bangbang.utilities.Constants;
 import com.nhuchhe.bangbang.utilities.Utilities;
 
@@ -14,32 +13,19 @@ import com.nhuchhe.bangbang.utilities.Utilities;
  * update instance.transfrom.translate and then rigidbody.setWorldTransfrom(instance.transform) always works like it should.
  * I don't know what motionstate.transfrom is used for
  */
-public class Player extends BaseGameObject {
+public class Player extends PlayableGameObject {
 
     private final float MAX_SPEED = 5;
     private final float FORCE_DELTA = 5;
     private final Vector3 rotationAxis = new Vector3(0, 1, 0);
 
     private long bombHoldAt;
-    private float friction = 3f;
-    private float linearDampening = 0.3f;
     private Vector3 tempVector = new Vector3();
 
     private Bomb majorBomb;
 
-    private Vector3 spawnPosition = new Vector3(0, 10, 0);
-
     public Player(String id) {
-        super(id);
-        super.init(
-                BangBang.assetManager.assetManager.get(Constants.AssetNames.PLAYER, Model.class),
-                BangBang.collisionObjectHelper.getPlayerConstructionInfo()
-        );
-        rigidBody.setActivationState(4);
-        rigidBody.translate(spawnPosition);
-        rigidBody.setFriction(friction);
-        rigidBody.setDamping(linearDampening, rigidBody.getAngularDamping());
-
+        super(id, Constants.AssetNames.PLAYER);
         BangBang.gameObjectManger.player = this;
         BangBang.inputControllerManager.setPlayer(this);
     }
