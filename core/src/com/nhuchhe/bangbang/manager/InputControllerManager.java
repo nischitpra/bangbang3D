@@ -1,7 +1,9 @@
-package com.nhuchhe.bangbang;
+package com.nhuchhe.bangbang.manager;
 
 import com.badlogic.gdx.controllers.Controller;
 import com.badlogic.gdx.controllers.Controllers;
+import com.nhuchhe.bangbang.inputController.XBoxControllerAdapter;
+import com.nhuchhe.bangbang.gameObjects.Player;
 
 public class InputControllerManager {
 

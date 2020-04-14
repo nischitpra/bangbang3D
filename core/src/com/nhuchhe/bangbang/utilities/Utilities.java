@@ -1,4 +1,4 @@
-package com.nhuchhe.bangbang;
+package com.nhuchhe.bangbang.utilities;
 
 import com.badlogic.gdx.math.Vector3;
 
@@ -15,5 +15,16 @@ public class Utilities {
 
     public static float getVelocityMagnitude(Vector3 velocity) {
         return (float) Math.sqrt(velocity.x * velocity.x + velocity.z * velocity.z);
+    }
+
+    public static String createGameObjectId(String assetName, int id) {
+        return String.format(assetName, id);
+    }
+
+    public static Vector3 addVector(Vector3 addTo, Vector3 delta) {
+        addTo.x += delta.x;
+        addTo.y += delta.y;
+        addTo.z += delta.z;
+        return addTo;
     }
 }

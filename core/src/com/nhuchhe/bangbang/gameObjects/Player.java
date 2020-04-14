@@ -1,28 +1,41 @@
-package com.nhuchhe.bangbang;
+package com.nhuchhe.bangbang.gameObjects;
 
 import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.math.Vector3;
+import com.nhuchhe.bangbang.BangBang;
+import com.nhuchhe.bangbang.gameObjects.base.BaseGameObject;
+import com.nhuchhe.bangbang.manager.BombManager;
+import com.nhuchhe.bangbang.utilities.Constants;
+import com.nhuchhe.bangbang.utilities.Utilities;
 
-public class Player extends GameObject {
-    private Bomb majorBomb;
-    private BombManager bombManager = new BombManager();
+public class Player extends BaseGameObject {
 
     private final float MAX_SPEED = 5;
     private final float FORCE_DELTA = 5;
+    private final Vector3 rotationAxis = new Vector3(0, 1, 0);
+
+    private long bombHoldAt;
+    private float rotationRad;
     private float friction = 3f;
     private float linearDampening = 0.3f;
-
-    private boolean isGrounded = true;
-
-    Player(String name, Model model) {
-        super(name, model);
-    }
-
     private Vector3 tempVector = new Vector3();
 
-    private final Vector3 rotationAxis = new Vector3(0, 1, 0);
-    private float rotationRad;
-    private long bombHoldAt;
+    private Bomb majorBomb;
+    private BombManager bombManager = new BombManager();
+
+
+    public Player(String id) {
+        super(id);
+        super.init(
+                BangBang.assetManager.assetManager.get(Constants.AssetNames.PLAYER, Model.class),
+                BangBang.collisionObjectHelper.getPlayerConstructionInfo()
+        );
+        rigidBody.setActivationState(4);
+        instance.transform.setTranslation(0, 10f, 0f);
+        motionState.setWorldTransform(instance.transform);
+        BangBang.gameObjectManger.player = this;
+        BangBang.inputControllerManager.setPlayer(this);
+    }
 
     private void rotatePlayer(final float rotationRad) {
         this.rotationRad = rotationRad;
@@ -82,7 +95,7 @@ public class Player extends GameObject {
     }
 
     public void update() {
-        Logger.log(Utilities.getVelocityMagnitude(rigidBody.getLinearVelocity()) + "");
+//        Logger.log(Utilities.getVelocityMagnitude(rigidBody.getLinearVelocity()) + "");
         updateBombPosition();
     }
 

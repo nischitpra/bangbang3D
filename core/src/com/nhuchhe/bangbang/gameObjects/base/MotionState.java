@@ -1,4 +1,4 @@
-package com.nhuchhe.bangbang;
+package com.nhuchhe.bangbang.gameObjects.base;
 
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.physics.bullet.linearmath.btMotionState;
@@ -6,8 +6,8 @@ import com.badlogic.gdx.physics.bullet.linearmath.btMotionState;
 /**
  * MotionState creates callback for rigidBody transformation and then transforms the transform Matrix which is pointed to the model.instance.transform
  */
-public class GameObjectMotionState extends btMotionState {
-    Matrix4 transform;
+public class MotionState extends btMotionState {
+    public Matrix4 transform;
 
     @Override
     public void getWorldTransform(Matrix4 worldTrans) {

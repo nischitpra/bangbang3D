@@ -1,21 +1,29 @@
-package com.nhuchhe.bangbang;
+package com.nhuchhe.bangbang.gameObjects;
 
 import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.physics.bullet.collision.btGhostObject;
 import com.badlogic.gdx.physics.bullet.dynamics.btRigidBody;
+import com.nhuchhe.bangbang.BangBang;
+import com.nhuchhe.bangbang.utilities.Constants;
+import com.nhuchhe.bangbang.utilities.Logger;
+import com.nhuchhe.bangbang.utilities.Utilities;
+import com.nhuchhe.bangbang.gameObjects.base.AoeDetectionGameObject;
+import com.nhuchhe.bangbang.manager.BombManager;
 
 import java.util.HashMap;
 
-public class Bomb extends GameObject {
+public class Bomb extends AoeDetectionGameObject {
     public long startTime;
     public long explodeAt;
 
-    public btGhostObject explosionSphere;
     public String owner;
 
-    Bomb(String name, Model model) {
-        super(name, model);
+    public Bomb(String id) {
+        super(id, BangBang.collisionShapeHelper.getExplosionShape());
+        super.init(
+                BangBang.assetManager.assetManager.get(Constants.AssetNames.BOMB, Model.class),
+                BangBang.collisionObjectHelper.getBombConstructionInfo()
+        );
     }
 
     public void detonate() {
@@ -28,21 +36,21 @@ public class Bomb extends GameObject {
         if (System.currentTimeMillis() > explodeAt) {// recycle bomb
             applyExplosionForce();
         } else {
-            explosionSphere.setWorldTransform(instance.transform);
+            aoe.setWorldTransform(instance.transform);
         }
     }
 
     private Vector3 tempVector = new Vector3();
 
     private void applyExplosionForce() {
-        int count = explosionSphere.getNumOverlappingObjects();
+        int count = aoe.getNumOverlappingObjects();
         Logger.log("count: " + count);
         Vector3 explosionCenter = getPosition();
         for (int i = count - 1; i >= 0; i--) {
-            btRigidBody obj = (btRigidBody) explosionSphere.getOverlappingObject(i);
+            btRigidBody obj = (btRigidBody) aoe.getOverlappingObject(i);
             HashMap<String, String> userData = Utilities.getUserData(obj.userData);
-            String objectKey = userData.get(Constants.UserData.NAME);
-            if (objectKey.equals(name) && userData.get(Constants.UserData.OWNER).equals(owner))
+            String objectKey = userData.get(Constants.UserData.ID);
+            if (objectKey.equals(id) && userData.get(Constants.UserData.OWNER).equals(owner))
                 continue;
             Logger.log(obj.userData + "");
             obj.getWorldTransform().getTranslation(tempVector);

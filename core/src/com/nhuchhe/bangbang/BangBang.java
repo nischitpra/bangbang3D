@@ -19,7 +19,14 @@ import com.badlogic.gdx.physics.bullet.collision.btGhostPairCallback;
 import com.badlogic.gdx.physics.bullet.dynamics.btDiscreteDynamicsWorld;
 import com.badlogic.gdx.physics.bullet.dynamics.btSequentialImpulseConstraintSolver;
 import com.badlogic.gdx.physics.bullet.linearmath.btIDebugDraw;
-import com.badlogic.gdx.utils.Queue;
+import com.nhuchhe.bangbang.gameObjects.base.BaseGameObject;
+import com.nhuchhe.bangbang.helper.CollisionObjectHelper;
+import com.nhuchhe.bangbang.helper.CollisionShapeHelper;
+import com.nhuchhe.bangbang.helper.RigidBodyHelper;
+import com.nhuchhe.bangbang.manager.AssetManager;
+import com.nhuchhe.bangbang.manager.BombManager;
+import com.nhuchhe.bangbang.manager.GameObjectManger;
+import com.nhuchhe.bangbang.manager.InputControllerManager;
 
 import java.util.ArrayList;
 
@@ -53,8 +60,12 @@ public class BangBang extends ApplicationAdapter {
 
     //bangbang
     public static GameObjectManger gameObjectManger = new GameObjectManger();
-    public static AssetManagerHelper assetManagerHelper = new AssetManagerHelper();
+    public static AssetManager assetManager = new AssetManager();
     public static InputControllerManager inputControllerManager = new InputControllerManager();
+    public static CollisionShapeHelper collisionShapeHelper = new CollisionShapeHelper();
+    public static CollisionObjectHelper collisionObjectHelper = new CollisionObjectHelper();
+    public static RigidBodyHelper rigidBodyHelper = new RigidBodyHelper();
+
 
     private void initBullet() {
         Bullet.init();
@@ -101,7 +112,7 @@ public class BangBang extends ApplicationAdapter {
         initCamera();
         initGame();
         modelBatch = new ModelBatch();
-        assetManagerHelper.loadResources(); //block until all resources are loaded
+        assetManager.loadResources(); //block until all resources are loaded
         inputControllerManager.init();
     }
 
@@ -125,20 +136,20 @@ public class BangBang extends ApplicationAdapter {
     private void draw() {
         clearViewPort();
         modelBatch.begin(cam);
-        ArrayList<GameObject> gameObjects = gameObjectManger.gameObjects;
-        for (int i = gameObjects.size() - 1; i >= 0; i--) {
-            GameObject gameObject = gameObjects.get(i);
-            if (gameObject.isVisible(cam)) {
-                modelBatch.render(gameObject.instance, environment);
+        ArrayList<BaseGameObject> baseGameObjects = gameObjectManger.renderList;
+        for (int i = baseGameObjects.size() - 1; i >= 0; i--) {
+            BaseGameObject baseGameObject = baseGameObjects.get(i);
+            if (baseGameObject.isVisible(cam)) {
+                modelBatch.render(baseGameObject.instance, environment);
             }
         }
-        Queue<Bomb> bombs = BombManager.usedBombQ;
-        for (Bomb bomb : bombs) {
-            bomb.update();
-            if (bomb.isVisible(cam)) {
-                modelBatch.render(bomb.instance, environment);
-            }
-        }
+//        Queue<Bomb> bombs = BombManager.usedBombQ;
+//        for (Bomb bomb : bombs) {
+//            bomb.update();
+//            if (bomb.isVisible(cam)) {
+//                modelBatch.render(bomb.instance, environment);
+//            }
+//        }
         modelBatch.end();
     }
 
@@ -160,7 +171,7 @@ public class BangBang extends ApplicationAdapter {
     public void dispose() {
         modelBatch.dispose();
         gameObjectManger.dispose();
-        assetManagerHelper.dispose();
+        assetManager.dispose();
 
         collisionConfig.dispose();
         dispatcher.dispose();

@@ -1,25 +1,33 @@
-package com.nhuchhe.bangbang;
+package com.nhuchhe.bangbang.gameObjects;
 
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.bullet.collision.ClosestRayResultCallback;
+import com.nhuchhe.bangbang.BangBang;
+import com.nhuchhe.bangbang.utilities.Constants;
+import com.nhuchhe.bangbang.gameObjects.base.BaseGameObject;
 
 import java.util.HashMap;
 
-public class Enemy extends GameObject {
-    Enemy(String name, Model model) {
-        super(name, model);
+public class Enemy extends BaseGameObject {
+
+    private Vector3 rayFrom = new Vector3();
+    private Vector3 rayTo = new Vector3();
+    ClosestRayResultCallback callback = new ClosestRayResultCallback(rayFrom, rayTo);
+
+    public Enemy(String id) {
+        super(id);
+        super.init(
+                BangBang.assetManager.assetManager.get(Constants.AssetNames.ENEMY, Model.class),
+                BangBang.collisionObjectHelper.getPlayerConstructionInfo()
+        );
     }
 
     @Override
     public boolean isVisible(Camera cam) {
         return super.isVisible(cam) && isVisibleToPlayer();
     }
-
-    private Vector3 rayFrom = new Vector3();
-    private Vector3 rayTo = new Vector3();
-    ClosestRayResultCallback callback = new ClosestRayResultCallback(rayFrom, rayTo);
 
     /**
      * update this and refine it.. get list of objects hit by raytrace, and check if terrain comes before player.. if it does, return false, else return true
@@ -38,7 +46,7 @@ public class Enemy extends GameObject {
         BangBang.world.rayTest(rayFrom, rayTo, callback);
         if (callback.hasHit()) {
             HashMap<String, String> userData = (HashMap<String, String>) callback.getCollisionObject().userData;
-            return userData.get(Constants.UserData.NAME).equals(Constants.AssetNames.PLAYER);
+            return userData.get(Constants.UserData.ID).equals(Constants.AssetNames.PLAYER);
         }
         return true;
     }

@@ -1,9 +1,10 @@
-package com.nhuchhe.bangbang;
+package com.nhuchhe.bangbang.inputController;
 
 import com.badlogic.gdx.controllers.Controller;
 import com.badlogic.gdx.controllers.ControllerListener;
 import com.badlogic.gdx.controllers.PovDirection;
 import com.badlogic.gdx.math.Vector3;
+import com.nhuchhe.bangbang.manager.InputControllerManager;
 
 public class XBoxControllerAdapter implements ControllerListener {
 
