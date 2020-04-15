@@ -20,5 +20,6 @@ public class PlayableGameObject extends BaseGameObject {
         rigidBody.translate(spawnPosition);
         rigidBody.setFriction(friction);
         rigidBody.setDamping(linearDampening, rigidBody.getAngularDamping());
+        rigidBody.setRestitution(0.25f);
     }
 }

@@ -70,7 +70,7 @@ public class Player extends PlayableGameObject {
         BangBang.bombManager.activate(majorBomb);
         tempVector = rigidBody.getLinearVelocity();
         tempVector.y += 2;
-        tempVector.scl(Math.min(25, 8 + (BangBang.currentMillis - bombHoldAt) / 25));
+        tempVector.scl(Math.min(4, 1.6f + (BangBang.currentMillis - bombHoldAt) / 25));
         majorBomb.rigidBody.applyCentralImpulse(tempVector);
         majorBomb.detonate();
         majorBomb = null;

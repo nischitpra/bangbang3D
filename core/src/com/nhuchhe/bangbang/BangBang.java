@@ -33,19 +33,7 @@ import com.nhuchhe.bangbang.manager.InputControllerManager;
 import java.util.ArrayList;
 
 public class BangBang extends ApplicationAdapter {
-    /**
-     * todo:
-     * - clean up code
-     * - create helper method to create rigid body.
-     * - set id in every rigidBody.userData. It will be used to get the gameObject.
-     * - user gameObjectManager.gameObjectMap to get objects from id.
-     * - create external force and movement force as extra variables in gameObject so that we can limit the movement force without limiting external force.
-     * <p>
-     * major problems
-     * - need to fix movement and external force.. maybe create another object MovableGameObject : GameObject ( this will have external force and movement force as separate values )
-     * all the force to be applied is ( external + movement )
-     * - need to structure code and its flow. Need to separate and modularize code for AssetManagerHelper.
-     */
+
     //libgdx
     public Environment environment;
     public PerspectiveCamera cam;
@@ -96,7 +84,7 @@ public class BangBang extends ApplicationAdapter {
 
     private void initCamera() {
         cam = new PerspectiveCamera(67, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        cam.position.set(2f, 2f, 2f);
+        cam.position.set(2f, 10f, 2f);
         cam.lookAt(0, 0, 0);
         cam.near = 1f;
         cam.far = 300f;
@@ -154,19 +142,24 @@ public class BangBang extends ApplicationAdapter {
         modelBatch.end();
     }
 
+    private void updateCamera() {
+        Vector3 playerPosition = gameObjectManger.player.getPosition();
+        cam.position.set(playerPosition.x + 2, playerPosition.y + 5, playerPosition.z + 2);
+        cam.lookAt(playerPosition.x, playerPosition.y, playerPosition.z);
+        cam.update();
+        camController.update();
+    }
+
     @Override
     public void render() {
         currentMillis = System.currentTimeMillis();
-        debugDrawer.begin(cam);
+//        debugDrawer.begin(cam);
         update();
-        world.debugDrawWorld();
+//        world.debugDrawWorld();
+        updateCamera();
 // todo: refactor this to function.
-        Vector3 playerPosition = gameObjectManger.player.getPosition();
-        cam.position.set(playerPosition.x + 2, playerPosition.y + 2, playerPosition.z + 2);
-        cam.update();
-        camController.update();
         draw();
-        debugDrawer.end();
+//        debugDrawer.end();
 
         //cleanup after everything
         bombManager.cleanup();

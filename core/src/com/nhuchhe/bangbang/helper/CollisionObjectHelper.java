@@ -19,7 +19,7 @@ public class CollisionObjectHelper {
     }
 
     public btRigidBodyConstructionInfo getBombConstructionInfo() {
-        return getRigidBodyConstructionInfo(Constants.CollisionObject.BOMB, 10, collisionShapeHelper.getBombShape());
+        return getRigidBodyConstructionInfo(Constants.CollisionObject.BOMB, 2, collisionShapeHelper.getBombShape());
     }
 
     public btRigidBodyConstructionInfo getTerrainConstructionInfo(final Model model) {

@@ -15,6 +15,7 @@ public class Terrain extends BaseGameObject {
                 model,
                 BangBang.collisionObjectHelper.getTerrainConstructionInfo(model)
         );
+        rigidBody.setRestitution(1f);
         rigidBody.setCollisionFlags(rigidBody.getCollisionFlags() | btCollisionObject.CollisionFlags.CF_KINEMATIC_OBJECT);
         BangBang.gameObjectManger.terrain = this;
     }

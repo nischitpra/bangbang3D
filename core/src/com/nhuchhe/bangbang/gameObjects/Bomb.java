@@ -13,8 +13,13 @@ import com.nhuchhe.bangbang.utilities.Utilities;
 import java.util.HashMap;
 
 public class Bomb extends AoeDetectionGameObject {
+    public final int EXPLODE_DELAY_MILLIS = 2500;
+    public final float EXPLOSION_FORCE = 150;
+    public final float EXPLOSION_HEIGHT_INCREMENT = 0.25f;
+
     public long startTime;
     public long explodeAt;
+
 
     public String owner;
 
@@ -24,12 +29,14 @@ public class Bomb extends AoeDetectionGameObject {
                 BangBang.assetManager.assetManager.get(Constants.Bombs[bombType], Model.class),
                 BangBang.collisionObjectHelper.getBombConstructionInfo()
         );
+        rigidBody.setFriction(1.5f);
+        rigidBody.setRestitution(0.5f);
     }
 
     public void detonate() {
         BombManager.usedBombQ.addLast(this);
         startTime = BangBang.currentMillis;
-        explodeAt = startTime + 3000;
+        explodeAt = startTime + EXPLODE_DELAY_MILLIS;
     }
 
     public void update() {
@@ -54,10 +61,9 @@ public class Bomb extends AoeDetectionGameObject {
                 continue;
             Logger.log(obj.userData + "");
             obj.getWorldTransform().getTranslation(tempVector);
-            tempVector.x = tempVector.x - explosionCenter.x;
-            tempVector.y = tempVector.y - explosionCenter.y;
-            tempVector.z = tempVector.z - explosionCenter.z;
-            tempVector.scl(100);
+            tempVector = Utilities.getNormalizedProximity(tempVector, explosionCenter);
+            tempVector.y += EXPLOSION_HEIGHT_INCREMENT;
+            tempVector.scl(EXPLOSION_FORCE);
             obj.activate(true);
             obj.applyCentralImpulse(tempVector);
         }
