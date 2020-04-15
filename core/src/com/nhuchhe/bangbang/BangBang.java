@@ -156,13 +156,13 @@ public class BangBang extends ApplicationAdapter {
     @Override
     public void render() {
         currentMillis = System.currentTimeMillis();
-//        debugDrawer.begin(cam);
+        debugDrawer.begin(cam);
         update();
-//        world.debugDrawWorld();
         updateCamera();
 // todo: refactor this to function.
         draw();
-//        debugDrawer.end();
+        world.debugDrawWorld();
+        debugDrawer.end();
 
         //cleanup after everything
         bombManager.cleanup();
