@@ -43,7 +43,8 @@ public class Constants {
     }
 
     public static final String[] Bombs = {
-            "bomb/bomb.obj"
+            "bomb/bomb.obj",
+            "bomb/bomb_1/bomb.obj"
     };
 
     public static final String[] Terrains = {

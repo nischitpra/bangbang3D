@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.bullet.collision.btCollisionShape;
 import com.badlogic.gdx.physics.bullet.dynamics.btRigidBody.btRigidBodyConstructionInfo;
+import com.badlogic.gdx.physics.bullet.linearmath.btVector3;
 import com.nhuchhe.bangbang.utilities.Constants;
 
 import java.util.HashMap;
@@ -19,7 +20,13 @@ public class CollisionObjectHelper {
     }
 
     public btRigidBodyConstructionInfo getBombConstructionInfo() {
-        return getRigidBodyConstructionInfo(Constants.CollisionObject.BOMB, 2, collisionShapeHelper.getBombShape());
+        Vector3 inertiaVector = new Vector3();
+        btVector3 bulletInertia = new btVector3();
+        btRigidBodyConstructionInfo constructionInfo = getRigidBodyConstructionInfo(Constants.CollisionObject.BOMB, 2, collisionShapeHelper.getBombShape());
+        constructionInfo.getCollisionShape().calculateLocalInertia(constructionInfo.getMass(), inertiaVector);
+        bulletInertia.setValue(inertiaVector.x, inertiaVector.y, inertiaVector.z);
+        constructionInfo.setLocalInertia(bulletInertia);
+        return constructionInfo;
     }
 
     public btRigidBodyConstructionInfo getTerrainConstructionInfo(final Model model) {

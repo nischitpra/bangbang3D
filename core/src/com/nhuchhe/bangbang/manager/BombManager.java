@@ -19,9 +19,10 @@ public class BombManager {
     private int bombCount;
 
     private int bombType = 0;
+    private final int BOMB_TYPES_COUNT = Constants.Bombs.length;
 
     private Bomb createBomb() {
-        return new Bomb(Utilities.getGameObjectMapKey(Constants.GameObjectId.BOMB, bombCount++), bombType);
+        return new Bomb(Utilities.getGameObjectMapKey(Constants.GameObjectId.BOMB, bombCount++), bombCount % 2);
     }
 
     public Bomb getBomb(final String bombOwner) {

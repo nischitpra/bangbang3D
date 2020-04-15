@@ -33,6 +33,9 @@ import com.nhuchhe.bangbang.manager.InputControllerManager;
 import java.util.ArrayList;
 
 public class BangBang extends ApplicationAdapter {
+    /**
+     * using fbx converter:  LD_LIBRARY_PATH=. ./fbx-conv -f ../../blender/explosion_anim.fbx
+     */
 
     //libgdx
     public Environment environment;
@@ -103,10 +106,10 @@ public class BangBang extends ApplicationAdapter {
         initBullet();
         initEnvironment();
         initCamera();
-        initGame();
         modelBatch = new ModelBatch();
         assetManager.loadResources(); //block until all resources are loaded
         inputControllerManager.init();
+        initGame();
     }
 
     private void clearViewPort() {
