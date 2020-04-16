@@ -5,6 +5,9 @@ import com.badlogic.gdx.math.Vector3;
 import java.util.HashMap;
 
 public class Utilities {
+
+    private static Vector3 tempVector = new Vector3();
+
     public static HashMap<String, String> getUserData(Object userData) {
         return (HashMap<String, String>) userData;
     }
@@ -47,14 +50,15 @@ public class Utilities {
         return vector3;
     }
 
-    public static Vector3 getNormalizedDirection(Vector3 from, Vector3 to) {
-        from.x = from.x - to.x;
-        from.y = from.y - to.y;
-        from.z = from.z - to.z;
-        return Utilities.normalize(from);
+    public static Vector3 getNormalizedDirection(final Vector3 from, final Vector3 to) {
+        tempVector.x = to.x - from.x;
+        tempVector.y = to.y - from.y;
+        tempVector.z = to.z - from.z;
+        return Utilities.normalize(tempVector);
     }
 
-    public static Vector3 getNormalizedProximity(Vector3 from, Vector3 to) {
-        return getNormalizedDirection(from, to).add(-1);
+    public static Vector3 getNormalizedProximity(final Vector3 from, final Vector3 to) {
+        return getNormalizedDirection(from, to);
     }
+
 }

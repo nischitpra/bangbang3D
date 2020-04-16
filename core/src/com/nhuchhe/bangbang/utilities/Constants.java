@@ -48,7 +48,7 @@ public class Constants {
     };
 
     public static final String[] Terrains = {
-            "terrain/terrain_test3.g3db"
+            "terrain/terrain_test3.obj"
     };
 
 }

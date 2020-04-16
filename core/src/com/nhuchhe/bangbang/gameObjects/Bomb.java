@@ -5,9 +5,9 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.bullet.dynamics.btRigidBody;
 import com.nhuchhe.bangbang.BangBang;
 import com.nhuchhe.bangbang.gameObjects.base.AoeDetectionGameObject;
+import com.nhuchhe.bangbang.gameObjects.base.BaseGameObject;
 import com.nhuchhe.bangbang.manager.BombManager;
 import com.nhuchhe.bangbang.utilities.Constants;
-import com.nhuchhe.bangbang.utilities.Logger;
 import com.nhuchhe.bangbang.utilities.Utilities;
 
 import java.util.HashMap;
@@ -51,21 +51,20 @@ public class Bomb extends AoeDetectionGameObject {
 
     private void applyExplosionForce() {
         int count = aoe.getNumOverlappingObjects();
-        Logger.log("count: " + count);
         Vector3 explosionCenter = getPosition();
         for (int i = count - 1; i >= 0; i--) {
-            btRigidBody obj = (btRigidBody) aoe.getOverlappingObject(i);
-            HashMap<String, String> userData = Utilities.getUserData(obj.userData);
+            btRigidBody body = (btRigidBody) aoe.getOverlappingObject(i);
+            HashMap<String, String> userData = Utilities.getUserData(body.userData);
             String objectKey = userData.get(Constants.UserData.ID);
-            if (objectKey.equals(id) && userData.get(Constants.UserData.OWNER).equals(owner))
-                continue;
-            Logger.log(obj.userData + "");
-            obj.getWorldTransform().getTranslation(tempVector);
-            tempVector = Utilities.getNormalizedProximity(tempVector, explosionCenter);
+            if (objectKey.equals(id)) continue;
+            BaseGameObject bgo = BangBang.gameObjectManger.gameObjectMap.get(objectKey);
+            tempVector = bgo.getPosition();
+            tempVector = Utilities.getNormalizedProximity(explosionCenter, tempVector);
             tempVector.y += EXPLOSION_HEIGHT_INCREMENT;
             tempVector.scl(EXPLOSION_FORCE);
-            obj.activate(true);
-            obj.applyCentralImpulse(tempVector);
+
+            body.activate(true);
+            body.applyCentralImpulse(tempVector);
         }
     }
 
