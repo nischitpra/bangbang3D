@@ -37,6 +37,10 @@ public class BangBang extends ApplicationAdapter {
     /**
      * using fbx converter:  LD_LIBRARY_PATH=. ./fbx-conv -f ../../blender/explosion_anim.fbx
      */
+    /**
+     * todo:
+     * make two types of object: 1 for rendering an 2 for collision.
+     */
 
     //libgdx
     public Environment environment;

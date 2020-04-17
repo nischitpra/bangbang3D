@@ -19,10 +19,10 @@ public class Enemy extends PlayableGameObject {
         super(id, Constants.AssetNames.ENEMY);
     }
 
-    @Override
-    public boolean isVisible(Camera cam) {
-        return super.isVisible(cam) && isVisibleToPlayer();
-    }
+//    @Override
+//    public boolean isVisible(Camera cam) {
+//        return super.isVisible(cam) && isVisibleToPlayer();
+//    }
 
     /**
      * update this and refine it.. get list of objects hit by raytrace, and check if terrain comes before player.. if it does, return false, else return true
