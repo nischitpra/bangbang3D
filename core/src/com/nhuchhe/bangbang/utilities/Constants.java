@@ -5,7 +5,8 @@ public class Constants {
             Constants.AssetNames.PLAYER,
             Constants.AssetNames.ENEMY,
             Constants.AssetNames.BOMB,
-            Constants.AssetNames.TERRAIN
+            Constants.AssetNames.TERRAIN,
+            AssetNames.EXPLOSION_ANIM
     };
 
     // Can I convert these to enums? will be faster to compare
@@ -15,6 +16,7 @@ public class Constants {
         public static final String BOMB = "bomb_placeholder";
         public static final String EXPLOSION_SPHERE = "explosionSphere";
         public static final String TERRAIN = "terrain_placeholder";
+        public static final String EXPLOSION_ANIM = "animation/explosion/explosion_anim.g3db";
     }
 
     public static class UserData {

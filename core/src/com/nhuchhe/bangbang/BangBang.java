@@ -20,6 +20,7 @@ import com.badlogic.gdx.physics.bullet.dynamics.btDiscreteDynamicsWorld;
 import com.badlogic.gdx.physics.bullet.dynamics.btSequentialImpulseConstraintSolver;
 import com.badlogic.gdx.physics.bullet.linearmath.btIDebugDraw;
 import com.badlogic.gdx.utils.Queue;
+import com.nhuchhe.bangbang.animator.Animator;
 import com.nhuchhe.bangbang.gameObjects.Bomb;
 import com.nhuchhe.bangbang.gameObjects.base.BaseGameObject;
 import com.nhuchhe.bangbang.helper.CollisionObjectHelper;
@@ -41,7 +42,7 @@ public class BangBang extends ApplicationAdapter {
     public Environment environment;
     public PerspectiveCamera cam;
     public CameraInputController camController;
-    public ModelBatch modelBatch;
+    public static ModelBatch modelBatch;
 
     //bullet
     public static btDiscreteDynamicsWorld world;
@@ -59,6 +60,8 @@ public class BangBang extends ApplicationAdapter {
     public static CollisionObjectHelper collisionObjectHelper = new CollisionObjectHelper();
     public static RigidBodyHelper rigidBodyHelper = new RigidBodyHelper();
     public static BombManager bombManager = new BombManager();
+    public static Animator animator = new Animator();
+
 
     public static long currentMillis; // This is the global clock for game. Always use this time.
 
@@ -142,6 +145,7 @@ public class BangBang extends ApplicationAdapter {
                 modelBatch.render(baseGameObject.instance, environment);
             }
         }
+        animator.render();
         modelBatch.end();
     }
 

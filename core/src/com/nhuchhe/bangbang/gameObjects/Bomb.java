@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.bullet.dynamics.btRigidBody;
 import com.nhuchhe.bangbang.BangBang;
+import com.nhuchhe.bangbang.animator.AnimationObject;
 import com.nhuchhe.bangbang.gameObjects.base.AoeDetectionGameObject;
 import com.nhuchhe.bangbang.gameObjects.base.BaseGameObject;
 import com.nhuchhe.bangbang.manager.BombManager;
@@ -20,8 +21,9 @@ public class Bomb extends AoeDetectionGameObject {
     public long startTime;
     public long explodeAt;
 
-
+    public AnimationObject animationObject;
     public String owner;
+
 
     public Bomb(String id, int bombType) {
         super(id, BangBang.collisionShapeHelper.getExplosionShape());
@@ -29,6 +31,8 @@ public class Bomb extends AoeDetectionGameObject {
                 BangBang.assetManager.assetManager.get(Constants.Bombs[bombType], Model.class),
                 BangBang.collisionObjectHelper.getBombConstructionInfo()
         );
+        animationObject = new AnimationObject(Constants.AssetNames.EXPLOSION_ANIM, "Sphere|explosion", false, BombManager.recyclePosition);
+        BangBang.gameObjectManger.animationObjects.add(animationObject);
         rigidBody.setFriction(1.5f);
         rigidBody.setRestitution(0.5f);
     }
@@ -39,8 +43,13 @@ public class Bomb extends AoeDetectionGameObject {
         explodeAt = startTime + EXPLODE_DELAY_MILLIS;
     }
 
+    private void updateAnimation() {
+        animationObject.play(getPosition());
+    }
+
     public void update() {
         if (BangBang.currentMillis > explodeAt) {// recycle bomb
+            updateAnimation();
             applyExplosionForce();
         } else {
             aoe.setWorldTransform(motionState.transform);

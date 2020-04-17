@@ -15,7 +15,7 @@ public class BombManager {
     public static Queue<Bomb> bombPool = new Queue<>();
     public static Queue<Bomb> usedBombQ = new Queue<>();
 
-    private static final Vector3 recyclePosition = new Vector3(0, 5, 0);
+    public static final Vector3 recyclePosition = new Vector3(0, -10, 0);
     private int bombCount;
 
     private int bombType = 0;
