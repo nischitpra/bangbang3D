@@ -14,7 +14,7 @@ import com.nhuchhe.bangbang.utilities.Utilities;
 import java.util.HashMap;
 
 public class Bomb extends AoeDetectionGameObject {
-    public final int EXPLODE_DELAY_MILLIS = 2500;
+    public final int EXPLODE_DELAY_MILLIS = 2000;
     public final float EXPLOSION_FORCE = 150;
     public final float EXPLOSION_HEIGHT_INCREMENT = 0.25f;
 
