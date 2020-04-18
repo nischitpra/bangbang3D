@@ -25,7 +25,7 @@ public class Player extends PlayableGameObject {
 
     private final Vector3 MAJOR_ATTACK_POSITION = new Vector3(0, 0.5f, 0);
     private Vector3 MINOR_ATTACK_POSITION = new Vector3(0, 0, 0);
-    private float MINOR_ATTACK_POSITION_OFFSET = 0.75f;
+    private float MINOR_ATTACK_POSITION_OFFSET = 0.65f;
 
     private long bombHoldAt;
     private Vector3 tempVector = new Vector3();
