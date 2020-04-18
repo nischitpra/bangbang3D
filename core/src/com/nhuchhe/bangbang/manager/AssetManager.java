@@ -10,7 +10,7 @@ import com.nhuchhe.bangbang.gameObjects.Terrain;
 
 public class AssetManager {
     int enemyCount = 1; // get from option
-    int selectedTerrainIndex = 1; // get from option
+    int selectedTerrainIndex = 0; // get from option
     /**
      * Remember:
      * need to check mtl files for texture and material. this is defined in the .obj file

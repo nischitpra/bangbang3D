@@ -8,6 +8,8 @@ public class Bullet extends BaseBomb {
 
     public static float BULLET_SPEED = 15f;
 
+    private Vector3 tempVector = new Vector3();
+
     public Bullet(String id) {
         super(id, 0, BangBang.collisionObjectHelper.getBulletConstructionInfo(), BangBang.collisionShapeHelper.getBulletExplosionShape(), 5000, 35f, 0.01f);
         rigidBody.setGravity(new Vector3(0, 0, 0));
@@ -19,8 +21,18 @@ public class Bullet extends BaseBomb {
     public void update() {
         super.update();
 
-        if (aoe.getNumOverlappingObjects() > 1 || (explodeAt > 0 && BangBang.currentMillis > explodeAt)) {
+        if (aoe.getNumOverlappingObjects() > 1 || hasBombExpired()) {
             explode();
         }
+    }
+
+    @Override
+    protected boolean shouldNotApplyForce(String objectId) {
+        return objectId.equals(id) || objectId.equals(ownerId);
+    }
+
+    @Override
+    protected boolean shouldExplode(int countAffected) {
+        return countAffected > 0 || hasBombExpired();
     }
 }

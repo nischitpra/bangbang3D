@@ -25,10 +25,6 @@ public class Constants {
         public static final String ID = "id";
     }
 
-    public static class BombOwner {
-        public static final String PLAYER = "player";
-    }
-
     public static class CollisionObject {
         public static final String PLAYER = "PLAYER";
         public static final String ENEMY = "ENEMY";

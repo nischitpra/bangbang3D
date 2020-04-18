@@ -25,7 +25,7 @@ public class Player extends PlayableGameObject {
 
     private final Vector3 MAJOR_ATTACK_POSITION = new Vector3(0, 0.5f, 0);
     private Vector3 MINOR_ATTACK_POSITION = new Vector3(0, 0, 0);
-    private float MINOR_ATTACK_POSITION_OFFSET = 0.65f;
+    private float MINOR_ATTACK_POSITION_OFFSET = 0.3f;
 
     private long bombHoldAt;
     private Vector3 tempVector = new Vector3();
@@ -85,7 +85,7 @@ public class Player extends PlayableGameObject {
     public void initMajorAttack() {
         if (majorBomb != null) return;
         bombHoldAt = BangBang.currentMillis;
-        majorBomb = (Grenade) BangBang.bombManager.getBomb(Constants.BombOwner.PLAYER, 1); // need to be able to set bomb type here
+        majorBomb = (Grenade) BangBang.bombManager.getBomb(id, 1); // need to be able to set bomb type here
         updateBombPosition(majorBomb, MAJOR_ATTACK_POSITION);
     }
 
@@ -99,7 +99,7 @@ public class Player extends PlayableGameObject {
     }
 
     public void performMinorAttack() {
-        Bullet bullet = (Bullet) BangBang.bombManager.getBomb(Constants.BombOwner.PLAYER, 0);
+        Bullet bullet = (Bullet) BangBang.bombManager.getBomb(id, 0);
         BangBang.bombManager.activate(bullet);
         updateBombPosition(bullet, MINOR_ATTACK_POSITION);
 

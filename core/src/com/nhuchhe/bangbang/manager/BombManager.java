@@ -44,7 +44,7 @@ public class BombManager {
         throw new RuntimeException(bombType + " BombType not supported! Please contact the developer nischipra@gmail.com");
     }
 
-    public BaseBomb getBomb(final String bombOwner, int bombType) {
+    public BaseBomb getBomb(final String ownerId, int bombType) {
         BaseBomb bomb;
         if (hasBombTypeInPool(bombType)) {
             bomb = bombsPool.get(bombType).removeFirst();
@@ -52,8 +52,8 @@ public class BombManager {
             bomb = createBomb(bombType);
         }
         disable(bomb);
-        bomb.owner = bombOwner;
-        ((HashMap<String, String>) bomb.rigidBody.userData).put(Constants.UserData.OWNER, bombOwner);
+        bomb.ownerId = ownerId;
+        ((HashMap<String, String>) bomb.rigidBody.userData).put(Constants.UserData.OWNER, ownerId);
         return bomb;
     }
 

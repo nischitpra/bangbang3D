@@ -10,7 +10,6 @@ import com.nhuchhe.bangbang.gameObjects.base.AoeDetectionGameObject;
 import com.nhuchhe.bangbang.gameObjects.base.BaseGameObject;
 import com.nhuchhe.bangbang.manager.BombManager;
 import com.nhuchhe.bangbang.utilities.Constants;
-import com.nhuchhe.bangbang.utilities.Logger;
 import com.nhuchhe.bangbang.utilities.Utilities;
 
 import java.util.HashMap;
@@ -18,13 +17,13 @@ import java.util.HashMap;
 public abstract class BaseBomb extends AoeDetectionGameObject {
 
     public int bombType;
-    public String owner;
+    public String ownerId;
     public long explodeAt = -1;
     public boolean shouldRecycle;
 
     private final long EXPLODE_DELAY_MILLIS;
-    private final float EXPLOSION_HEIGHT_INCREMENT;
-    private final float EXPLOSION_FORCE;
+    protected final float EXPLOSION_HEIGHT_INCREMENT;
+    protected final float EXPLOSION_FORCE;
     private AnimationObject animationObject;
     private Vector3 tempVector = new Vector3();
 
@@ -45,7 +44,11 @@ public abstract class BaseBomb extends AoeDetectionGameObject {
         rigidBody.setRestitution(0.5f);
     }
 
-    private void explodeAnimation() {
+    protected boolean hasBombExpired() {
+        return explodeAt > 0 && BangBang.currentMillis > explodeAt;
+    }
+
+    protected void explodeAnimation() {
         animationObject.play(getPosition());
     }
 
@@ -57,26 +60,44 @@ public abstract class BaseBomb extends AoeDetectionGameObject {
         aoe.setWorldTransform(motionState.transform);
     }
 
+    protected boolean shouldNotApplyForce(String objectId) {
+        return objectId.equals(id);
+    }
+
+    protected boolean shouldExplode(int countAffected) {
+        return true;
+    }
+
+    private String getGameObjectIdFromCollisionObject(btRigidBody body) {
+        HashMap<String, String> userData = Utilities.getUserData(body.userData);
+        return userData.get(Constants.UserData.ID);
+    }
+
+    private void applyExplosionForce(String objectKey, Vector3 explosionCenter) {
+        BaseGameObject bgo = BangBang.gameObjectManger.gameObjectMap.get(objectKey);
+        Utilities.copyValueTo(bgo.getPosition(), tempVector);
+        tempVector = Utilities.getNormalizedProximity(explosionCenter, tempVector);
+        tempVector.y += EXPLOSION_HEIGHT_INCREMENT;
+        tempVector.scl(EXPLOSION_FORCE);
+
+        bgo.rigidBody.activate(true);
+        bgo.rigidBody.applyCentralImpulse(tempVector);
+    }
+
     // call this only during explosion
     protected void explode() {
-        explodeAnimation();
         int count = aoe.getNumOverlappingObjects();
+        int countAffected = 0;
         Vector3 explosionCenter = getPosition();
         for (int i = count - 1; i >= 0; i--) {
-            btRigidBody body = (btRigidBody) aoe.getOverlappingObject(i);
-            HashMap<String, String> userData = Utilities.getUserData(body.userData);
-            String objectKey = userData.get(Constants.UserData.ID);
-            if (objectKey.equals(id)) continue;
-            Logger.log(id + "::" + objectKey);
-            BaseGameObject bgo = BangBang.gameObjectManger.gameObjectMap.get(objectKey);
-            Utilities.copyValueTo(bgo.getPosition(), tempVector);
-            tempVector = Utilities.getNormalizedProximity(explosionCenter, tempVector);
-            tempVector.y += EXPLOSION_HEIGHT_INCREMENT;
-            tempVector.scl(EXPLOSION_FORCE);
-
-            body.activate(true);
-            body.applyCentralImpulse(tempVector);
+            String objectId = getGameObjectIdFromCollisionObject((btRigidBody) aoe.getOverlappingObject(i));
+            if (shouldNotApplyForce(objectId)) continue;
+            applyExplosionForce(objectId, explosionCenter);
+            countAffected++;
         }
-        shouldRecycle = true;
+        if (shouldExplode(countAffected)) {
+            explodeAnimation();
+            shouldRecycle = true;
+        }
     }
 }

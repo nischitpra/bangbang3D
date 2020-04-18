@@ -30,7 +30,7 @@ public class CollisionShapeHelper {
     }
 
     public btCollisionShape getBulletExplosionShape() {
-        return getSphereShape(Constants.CollisionObject.BULLET_EXPLOSION_SPHERE, 0.09f);
+        return getSphereShape(Constants.CollisionObject.BULLET_EXPLOSION_SPHERE, 0.125f);
     }
 
     public btCollisionShape getTerrainShape(final Model model, final boolean optimize) {
