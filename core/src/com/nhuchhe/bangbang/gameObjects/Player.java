@@ -47,20 +47,20 @@ public class Player extends PlayableGameObject {
         PLAYER_DIRECTION.z = (float) -Math.sin(rotationRad) * MINOR_ATTACK_POSITION_OFFSET;
     }
 
-    private void movePlayer(final float inputX, final float inputY) {
+    private void movePlayer(final float inputX, final float inputY, final float lt) {
         Utilities.copyValueTo(rigidBody.getLinearVelocity(), tempVector);
         float velMag = Utilities.getVelocityMagnitude(tempVector);
         if (velMag < MAX_MOVEMENT_SPEED) {
-            tempVector.x = inputX * MOVEMENT_FORCE_DELTA;
+            tempVector.x = inputX * MOVEMENT_FORCE_DELTA * (1.0f - lt);
             tempVector.y = 0;
-            tempVector.z = inputY * MOVEMENT_FORCE_DELTA;
+            tempVector.z = inputY * MOVEMENT_FORCE_DELTA * (1.0f - lt);
             rigidBody.applyCentralImpulse(tempVector);
         }
     }
 
-    public void controllerFeed(final float inputX, final float inputY, final float rotationRad) {
+    public void controllerFeed(final float inputX, final float inputY, final float rotationRad, float lt) {
         rotatePlayer(rotationRad);
-        movePlayer(inputX, inputY);
+        movePlayer(inputX, inputY, lt);
     }
 
     private void updateBombPosition(BaseBomb bomb, Vector3 attackPositionOffset) {
@@ -75,7 +75,7 @@ public class Player extends PlayableGameObject {
         BangBang.bombManager.activate(majorBomb);
         Utilities.copyValueTo(PLAYER_DIRECTION, tempVector);//todo: normalize this to get direction and then apply force.
         tempVector.y += 0.05f;
-        tempVector.scl(3.4f + Math.min(800, BangBang.currentMillis - bombHoldAt) / 10);
+        tempVector.scl(3.4f + Math.min(600, BangBang.currentMillis - bombHoldAt) / 5);
         majorBomb.rigidBody.applyCentralImpulse(tempVector);
         majorBomb.setDetonationTime();
         BombManager.usedBombQ.addLast(majorBomb);

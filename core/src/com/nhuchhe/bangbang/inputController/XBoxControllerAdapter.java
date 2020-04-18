@@ -5,11 +5,14 @@ import com.badlogic.gdx.controllers.ControllerListener;
 import com.badlogic.gdx.controllers.PovDirection;
 import com.badlogic.gdx.math.Vector3;
 import com.nhuchhe.bangbang.manager.InputControllerManager;
+import com.nhuchhe.bangbang.utilities.Logger;
 
 public class XBoxControllerAdapter implements ControllerListener {
 
     public float isDownX = 0f;
     public float isDownY = 0f;
+
+    public float lt = 0f;
 
     private InputControllerManager manager;
 
@@ -29,6 +32,7 @@ public class XBoxControllerAdapter implements ControllerListener {
 
     @Override
     public boolean buttonDown(Controller controller, int buttonCode) {
+        Logger.log("" + buttonCode);
         switch (buttonCode) {
             case 97:
                 manager.majorAttackDown();
@@ -69,6 +73,10 @@ public class XBoxControllerAdapter implements ControllerListener {
             case 1://y
                 if (Math.abs(value) > 0.1) isDownY = value;
                 else isDownY = 0;
+                break;
+            case 5://LT ( left top )
+                Logger.log("" + axisCode + ", " + value);
+                lt = value;
                 break;
         }
         return false;
