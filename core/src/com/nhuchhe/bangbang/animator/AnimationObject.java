@@ -27,14 +27,12 @@ public class AnimationObject {
     }
 
     public void reset() {
-        Logger.log("reset animation");
         state = AnimationState.IS_RECYCLED;
         modelInstance.transform.setTranslation(recyclePosition.x, recyclePosition.y, recyclePosition.z);
         animationController.paused = true;
     }
 
     public void play(Vector3 position) {
-        Logger.log("play animation");
         modelInstance.transform.setTranslation(position.x, position.y, position.z);
         state = AnimationState.SHOULD_PLAY;
         animationController.paused = false;

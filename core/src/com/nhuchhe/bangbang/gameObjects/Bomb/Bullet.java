@@ -6,7 +6,7 @@ import com.nhuchhe.bangbang.gameObjects.Bomb.base.BaseBomb;
 
 public class Bullet extends BaseBomb {
 
-    public static float BULLET_SPEED = 15f;
+    public static float BULLET_SPEED = 25f;
 
     private Vector3 tempVector = new Vector3();
 

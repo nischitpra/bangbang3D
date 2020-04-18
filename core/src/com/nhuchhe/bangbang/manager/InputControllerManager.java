@@ -4,7 +4,6 @@ import com.badlogic.gdx.controllers.Controller;
 import com.badlogic.gdx.controllers.Controllers;
 import com.nhuchhe.bangbang.gameObjects.Player;
 import com.nhuchhe.bangbang.inputController.XBoxControllerAdapter;
-import com.nhuchhe.bangbang.utilities.Logger;
 
 public class InputControllerManager {
 
@@ -30,7 +29,6 @@ public class InputControllerManager {
     }
 
     public void majorAttackDown() {
-        Logger.log("major");
         player.initMajorAttack();
     }
 
@@ -39,7 +37,6 @@ public class InputControllerManager {
     }
 
     public void minorAttackDown() {
-        Logger.log("minor");
         player.initMinorAttack();
     }
 

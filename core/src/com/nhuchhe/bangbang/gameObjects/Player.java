@@ -19,7 +19,7 @@ import com.nhuchhe.bangbang.utilities.Utilities;
  */
 public class Player extends PlayableGameObject {
 
-    private final float MAX_SPEED = 5;
+    private final float MAX_SPEED = 2.5f;
     private final float FORCE_DELTA = 5;
     private final Vector3 rotationAxis = new Vector3(0, 1, 0);
 
