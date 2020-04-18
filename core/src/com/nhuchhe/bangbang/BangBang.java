@@ -19,7 +19,6 @@ import com.badlogic.gdx.physics.bullet.collision.btGhostPairCallback;
 import com.badlogic.gdx.physics.bullet.dynamics.btDiscreteDynamicsWorld;
 import com.badlogic.gdx.physics.bullet.dynamics.btSequentialImpulseConstraintSolver;
 import com.badlogic.gdx.physics.bullet.linearmath.btIDebugDraw;
-import com.badlogic.gdx.utils.Queue;
 import com.nhuchhe.bangbang.animator.Animator;
 import com.nhuchhe.bangbang.gameObjects.Bomb.base.BaseBomb;
 import com.nhuchhe.bangbang.gameObjects.base.BaseGameObject;
@@ -32,6 +31,7 @@ import com.nhuchhe.bangbang.manager.GameObjectManger;
 import com.nhuchhe.bangbang.manager.InputControllerManager;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class BangBang extends ApplicationAdapter {
     /**
@@ -40,7 +40,7 @@ public class BangBang extends ApplicationAdapter {
     /**
      * todo:
      * make two types of object: 1 for rendering an 2 for collision.
-     *
+     * <p>
      * ALWAYS USE {@link com.nhuchhe.bangbang.utilities.Utilities#copyValueTo(Vector3, Vector3)}
      */
 
@@ -134,8 +134,9 @@ public class BangBang extends ApplicationAdapter {
 
         gameObjectManger.player.update();
 
-        Queue<BaseBomb> bombs = BombManager.usedBombQ;
+        LinkedList<BaseBomb> bombs = BombManager.usedBombQ;
         for (BaseBomb bomb : bombs) {
+            if (bomb.shouldRecycle) continue;
             bomb.update();
         }
 //        Logger.log("fps: " + Gdx.graphics.getFramesPerSecond());

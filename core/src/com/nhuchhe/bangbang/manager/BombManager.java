@@ -3,6 +3,7 @@ package com.nhuchhe.bangbang.manager;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.bullet.collision.btCollisionObject;
 import com.badlogic.gdx.utils.Queue;
+import com.nhuchhe.bangbang.BangBang;
 import com.nhuchhe.bangbang.gameObjects.Bomb.Bullet;
 import com.nhuchhe.bangbang.gameObjects.Bomb.Grenade;
 import com.nhuchhe.bangbang.gameObjects.Bomb.base.BaseBomb;
@@ -11,11 +12,12 @@ import com.nhuchhe.bangbang.utilities.Utilities;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
 
 public class BombManager {
 
     public static HashMap<Integer, Queue<BaseBomb>> bombsPool = new HashMap<>();
-    public static Queue<BaseBomb> usedBombQ = new Queue<>();
+    public static LinkedList<BaseBomb> usedBombQ = new LinkedList();
 
     public static final Vector3 recyclePosition = new Vector3(0, -10, 0);
     private int bombCount;
@@ -72,22 +74,26 @@ public class BombManager {
 
     public void cleanup() {
         if (usedBombQ.isEmpty()) return;
+
         Iterator<BaseBomb> itr = usedBombQ.iterator();
         while (itr.hasNext()) {
             BaseBomb usedBomb = itr.next();
             if (usedBomb.shouldRecycle) {
-                recycleBomb(usedBombQ.removeFirst());
+                recycleBomb(usedBomb);
+                itr.remove();
             }
         }
     }
 
     public void disable(BaseBomb bomb) {
+        BangBang.world.removeRigidBody(bomb.rigidBody);
         bomb.rigidBody.setActivationState(3);
         bomb.rigidBody.setCollisionFlags(bomb.rigidBody.getCollisionFlags() | btCollisionObject.CollisionFlags.CF_NO_CONTACT_RESPONSE); // remove collision
         bomb.aoe.setActivationState(3);
     }
 
     public void activate(BaseBomb bomb) {
+        BangBang.world.addRigidBody(bomb.rigidBody);
         bomb.rigidBody.setActivationState(1);
         bomb.rigidBody.setCollisionFlags(bomb.rigidBody.getCollisionFlags() & ~btCollisionObject.CollisionFlags.CF_NO_CONTACT_RESPONSE); // add collision
         bomb.aoe.setActivationState(1);

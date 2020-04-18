@@ -9,7 +9,7 @@ public class Bullet extends BaseBomb {
     public static float BULLET_SPEED = 25f;
 
     public Bullet(String id) {
-        super(id, 0, BangBang.collisionObjectHelper.getBulletConstructionInfo(), BangBang.collisionShapeHelper.getBulletExplosionShape(), 99999999, 35f, 0.01f);
+        super(id, 0, BangBang.collisionObjectHelper.getBulletConstructionInfo(), BangBang.collisionShapeHelper.getBulletExplosionShape(), 5000, 35f, 0.01f);
         rigidBody.setGravity(new Vector3(0, 0, 0));
         rigidBody.setFriction(0);
         rigidBody.setRestitution(0.5f);
