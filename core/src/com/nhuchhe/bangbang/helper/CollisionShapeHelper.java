@@ -17,12 +17,20 @@ public class CollisionShapeHelper {
         return getSphereShape(Constants.CollisionObject.PLAYER, 0.2f);
     }
 
-    public btCollisionShape getBombShape() {
-        return getSphereShape(Constants.CollisionObject.BOMB, 0.075f);
+    public btCollisionShape getGrenadeShape() {
+        return getSphereShape(Constants.CollisionObject.GRENADE, 0.2f);
     }
 
-    public btCollisionShape getExplosionShape() {
-        return getSphereShape(Constants.CollisionObject.EXPLOSION_SPHERE, 2);
+    public btCollisionShape getBulletShape() {
+        return getSphereShape(Constants.CollisionObject.BULLET, 0.075f);
+    }
+
+    public btCollisionShape getGrenadeExplosionShape() {
+        return getSphereShape(Constants.CollisionObject.GRENADE_EXPLOSION_SPHERE, 2);
+    }
+
+    public btCollisionShape getBulletExplosionShape() {
+        return getSphereShape(Constants.CollisionObject.BULLET_EXPLOSION_SPHERE, 0.2f);
     }
 
     public btCollisionShape getTerrainShape(final Model model, final boolean optimize) {

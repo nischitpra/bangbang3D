@@ -19,14 +19,18 @@ public class CollisionObjectHelper {
         return getRigidBodyConstructionInfo(Constants.CollisionObject.PLAYER, 10, collisionShapeHelper.getPlayerShape());
     }
 
-    public btRigidBodyConstructionInfo getBombConstructionInfo() {
+    public btRigidBodyConstructionInfo getGrenadeConstructionInfo() {
         Vector3 inertiaVector = new Vector3();
         btVector3 bulletInertia = new btVector3();
-        btRigidBodyConstructionInfo constructionInfo = getRigidBodyConstructionInfo(Constants.CollisionObject.BOMB, 2, collisionShapeHelper.getBombShape());
+        btRigidBodyConstructionInfo constructionInfo = getRigidBodyConstructionInfo(Constants.CollisionObject.GRENADE, 2, collisionShapeHelper.getGrenadeShape());
         constructionInfo.getCollisionShape().calculateLocalInertia(constructionInfo.getMass(), inertiaVector);
         bulletInertia.setValue(inertiaVector.x, inertiaVector.y, inertiaVector.z);
         constructionInfo.setLocalInertia(bulletInertia);
         return constructionInfo;
+    }
+
+    public btRigidBodyConstructionInfo getBulletConstructionInfo() {
+        return getRigidBodyConstructionInfo(Constants.CollisionObject.BULLET, 0.1f, collisionShapeHelper.getBulletShape());
     }
 
     public btRigidBodyConstructionInfo getTerrainConstructionInfo(final Model model) {

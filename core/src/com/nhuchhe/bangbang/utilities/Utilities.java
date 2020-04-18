@@ -13,7 +13,7 @@ public class Utilities {
     }
 
     public static String getGameObjectMapKey(String assetName, int id) {
-        return assetName + "_" + id;
+        return String.format(assetName, id);
     }
 
 

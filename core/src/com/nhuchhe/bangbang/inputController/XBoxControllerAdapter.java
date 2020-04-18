@@ -34,6 +34,8 @@ public class XBoxControllerAdapter implements ControllerListener {
                 manager.majorAttackDown();
                 break;
             case 99:
+                manager.minorAttackDown();
+                break;
             case 96:
             case 100:
                 break;
@@ -46,7 +48,10 @@ public class XBoxControllerAdapter implements ControllerListener {
         switch (buttonCode) {
             case 97:
                 manager.majorAttackUp();
+                break;
             case 99:
+                manager.minorAttackUp();
+                break;
             case 96:
             case 100:
                 break;

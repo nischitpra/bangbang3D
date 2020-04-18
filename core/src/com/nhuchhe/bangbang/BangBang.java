@@ -21,7 +21,7 @@ import com.badlogic.gdx.physics.bullet.dynamics.btSequentialImpulseConstraintSol
 import com.badlogic.gdx.physics.bullet.linearmath.btIDebugDraw;
 import com.badlogic.gdx.utils.Queue;
 import com.nhuchhe.bangbang.animator.Animator;
-import com.nhuchhe.bangbang.gameObjects.Bomb;
+import com.nhuchhe.bangbang.gameObjects.Bomb.base.BaseBomb;
 import com.nhuchhe.bangbang.gameObjects.base.BaseGameObject;
 import com.nhuchhe.bangbang.helper.CollisionObjectHelper;
 import com.nhuchhe.bangbang.helper.CollisionShapeHelper;
@@ -132,8 +132,8 @@ public class BangBang extends ApplicationAdapter {
 
         gameObjectManger.player.update();
 
-        Queue<Bomb> bombs = BombManager.usedBombQ;
-        for (Bomb bomb : bombs) {
+        Queue<BaseBomb> bombs = BombManager.usedBombQ;
+        for (BaseBomb bomb : bombs) {
             bomb.update();
         }
 //        Logger.log("fps: " + Gdx.graphics.getFramesPerSecond());
@@ -164,13 +164,13 @@ public class BangBang extends ApplicationAdapter {
     @Override
     public void render() {
         currentMillis = System.currentTimeMillis();
-//        debugDrawer.begin(cam);
+        debugDrawer.begin(cam);
         update();
         updateCamera();
 // todo: refactor this to function.
         draw();
-//        world.debugDrawWorld();
-//        debugDrawer.end();
+        world.debugDrawWorld();
+        debugDrawer.end();
 
         //cleanup after everything
         bombManager.cleanup();

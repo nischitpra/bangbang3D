@@ -1,6 +1,6 @@
-# Blender v2.82 (sub 7) OBJ File: 'terrain_test3.blend'
+# Blender v2.82 (sub 7) OBJ File: 'forest.blend'
 # www.blender.org
-mtllib terrain_test3.mtl
+mtllib forest.mtl
 o ground_Plane
 v 0.433408 0.000000 22.224033
 v 21.632299 0.000000 0.996526

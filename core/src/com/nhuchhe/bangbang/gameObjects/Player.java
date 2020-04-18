@@ -2,7 +2,11 @@ package com.nhuchhe.bangbang.gameObjects;
 
 import com.badlogic.gdx.math.Vector3;
 import com.nhuchhe.bangbang.BangBang;
+import com.nhuchhe.bangbang.gameObjects.Bomb.Bullet;
+import com.nhuchhe.bangbang.gameObjects.Bomb.Grenade;
+import com.nhuchhe.bangbang.gameObjects.Bomb.base.BaseBomb;
 import com.nhuchhe.bangbang.gameObjects.base.PlayableGameObject;
+import com.nhuchhe.bangbang.manager.BombManager;
 import com.nhuchhe.bangbang.utilities.Constants;
 import com.nhuchhe.bangbang.utilities.Utilities;
 
@@ -22,7 +26,7 @@ public class Player extends PlayableGameObject {
     private long bombHoldAt;
     private Vector3 tempVector = new Vector3();
 
-    private Bomb majorBomb;
+    private Grenade majorBomb;
 
     public Player(String id) {
         super(id, Constants.AssetNames.PLAYER);
@@ -51,29 +55,30 @@ public class Player extends PlayableGameObject {
         movePlayer(inputX, inputY);
     }
 
-    private void updateBombPosition() {
-        if (majorBomb != null) {
+    private void updateBombPosition(BaseBomb bomb) {
+        if (bomb != null) {
             Vector3 bombPosition = getPosition();
-            majorBomb.instance.transform.setTranslation(bombPosition.x, bombPosition.y + 0.3f, bombPosition.z);
-            majorBomb.rigidBody.setWorldTransform(majorBomb.instance.transform);
+            bomb.instance.transform.setTranslation(bombPosition.x, bombPosition.y + 0.7f, bombPosition.z);
+            bomb.rigidBody.setWorldTransform(bomb.instance.transform);
         }
+    }
+
+    private void throwBomb() {
+        BangBang.bombManager.activate(majorBomb);
+        tempVector = rigidBody.getLinearVelocity(); //todo: normalize this to get direction and then apply force.
+        tempVector.y += 2;
+        tempVector.scl(Math.min(3.5f, 1.6f + (BangBang.currentMillis - bombHoldAt) / 25));
+        majorBomb.rigidBody.applyCentralImpulse(tempVector);
+        majorBomb.setDetonationTime();
+        BombManager.usedBombQ.addLast(majorBomb);
+        majorBomb = null;
     }
 
     public void initMajorAttack() {
         if (majorBomb != null) return;
         bombHoldAt = BangBang.currentMillis;
-        majorBomb = BangBang.bombManager.getBomb(Constants.BombOwner.PLAYER);
-        updateBombPosition();
-    }
-
-    private void throwBomb() {
-        BangBang.bombManager.activate(majorBomb);
-        tempVector = rigidBody.getLinearVelocity();
-        tempVector.y += 2;
-        tempVector.scl(Math.min(3.5f, 1.6f + (BangBang.currentMillis - bombHoldAt) / 25));
-        majorBomb.rigidBody.applyCentralImpulse(tempVector);
-        majorBomb.detonate();
-        majorBomb = null;
+        majorBomb = (Grenade) BangBang.bombManager.getBomb(Constants.BombOwner.PLAYER, 1); // need to be able to set bomb type here
+        updateBombPosition(majorBomb);
     }
 
     public void performMajorAttack() {
@@ -81,8 +86,23 @@ public class Player extends PlayableGameObject {
         throwBomb();
     }
 
+    public void initMinorAttack() {
+        performMinorAttack();
+    }
+
+    public void performMinorAttack() {
+        Bullet bullet = (Bullet) BangBang.bombManager.getBomb(Constants.BombOwner.PLAYER, 0);
+        BangBang.bombManager.activate(bullet);
+        updateBombPosition(bullet);
+        tempVector = rigidBody.getLinearVelocity();
+        bullet.rigidBody.setLinearVelocity(tempVector);
+//        bullet.rigidBody.applyCentralImpulse(tempVector);
+        bullet.setDetonationTime();
+        BombManager.usedBombQ.addLast(bullet);
+    }
+
     public void update() {
-        updateBombPosition();
+        updateBombPosition(majorBomb);
     }
 
 }

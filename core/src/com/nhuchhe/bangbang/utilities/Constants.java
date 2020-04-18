@@ -14,6 +14,7 @@ public class Constants {
         public static final String PLAYER = "player/player.obj";
         public static final String ENEMY = "enemy/player.obj";
         public static final String BOMB = "bomb_placeholder";
+        public static final String BULLET = "bullet/bullet.obj";
         public static final String EXPLOSION_SPHERE = "explosionSphere";
         public static final String TERRAIN = "terrain_placeholder";
         public static final String EXPLOSION_ANIM = "animation/explosion/explosion_anim.g3db";
@@ -31,8 +32,10 @@ public class Constants {
     public static class CollisionObject {
         public static final String PLAYER = "PLAYER";
         public static final String ENEMY = "ENEMY";
-        public static final String BOMB = "BOMB";
-        public static final String EXPLOSION_SPHERE = "EXPLOSION_SPHERE";
+        public static final String GRENADE = "GRENADE";
+        public static final String BULLET = "BULLET";
+        public static final String GRENADE_EXPLOSION_SPHERE = "EXPLOSION_SPHERE";
+        public static final String BULLET_EXPLOSION_SPHERE = "BULLET_EXPLOSION_SPHERE";
         public static final String TERRAIN = "TERRAIN";
     }
 
@@ -50,7 +53,8 @@ public class Constants {
     };
 
     public static final String[] Terrains = {
-            "terrain/terrain_test3.obj"
+            "terrain/terrain_test.obj",
+            "terrain/forest.obj"
     };
 
 }
