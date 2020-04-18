@@ -75,7 +75,7 @@ public class Player extends PlayableGameObject {
         BangBang.bombManager.activate(majorBomb);
         Utilities.copyValueTo(PLAYER_DIRECTION, tempVector);//todo: normalize this to get direction and then apply force.
         tempVector.y += 0.05f;
-        tempVector.scl(3.4f + Math.min(600, BangBang.currentMillis - bombHoldAt) / 5);
+        tempVector.scl(3.4f + Math.min(500, BangBang.currentMillis - bombHoldAt) / 5);
         majorBomb.rigidBody.applyCentralImpulse(tempVector);
         majorBomb.setDetonationTime();
         BombManager.usedBombQ.addLast(majorBomb);
