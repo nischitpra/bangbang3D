@@ -18,8 +18,8 @@ public class BombManager {
 
     public static HashMap<Integer, Queue<BaseBomb>> bombsPool = new HashMap<>();
     public static LinkedList<BaseBomb> usedBombQ = new LinkedList();
-
     public static final Vector3 recyclePosition = new Vector3(0, -10, 0);
+
     private int bombCount;
 
     private final int BOMB_TYPES_COUNT = Constants.Bombs.length;
@@ -60,9 +60,12 @@ public class BombManager {
     public void recycleBomb(BaseBomb recycleBomb) {
         disable(recycleBomb);
         recycleBomb.shouldRecycle = false;
-        recycleBomb.instance.transform.translate(recyclePosition);
+        recycleBomb.instance.transform.setTranslation(recyclePosition);
         recycleBomb.rigidBody.setWorldTransform(recycleBomb.instance.transform);
         recycleBomb.aoe.setWorldTransform(recycleBomb.instance.transform);
+        recycleBomb.rigidBody.clearForces();
+        recycleBomb.rigidBody.setLinearVelocity(Constants.ZERO_VECTOR);
+        recycleBomb.rigidBody.setAngularVelocity(Constants.ZERO_VECTOR);
 
         try {
             bombsPool.get(recycleBomb.bombType).addLast(recycleBomb);

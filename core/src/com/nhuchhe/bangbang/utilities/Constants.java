@@ -1,6 +1,10 @@
 package com.nhuchhe.bangbang.utilities;
 
+import com.badlogic.gdx.math.Vector3;
+
 public class Constants {
+    public static final Vector3 ZERO_VECTOR = new Vector3(0, 0, 0);
+
     public static final String[] Assets = {
             Constants.AssetNames.PLAYER,
             Constants.AssetNames.ENEMY,
