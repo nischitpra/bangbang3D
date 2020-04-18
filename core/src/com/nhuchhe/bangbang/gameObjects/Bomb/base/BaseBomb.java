@@ -69,7 +69,7 @@ public abstract class BaseBomb extends AoeDetectionGameObject {
             if (objectKey.equals(id)) continue;
             Logger.log(id + "::" + objectKey);
             BaseGameObject bgo = BangBang.gameObjectManger.gameObjectMap.get(objectKey);
-            tempVector = bgo.getPosition();
+            Utilities.copyValueTo(bgo.getPosition(), tempVector);
             tempVector = Utilities.getNormalizedProximity(explosionCenter, tempVector);
             tempVector.y += EXPLOSION_HEIGHT_INCREMENT;
             tempVector.scl(EXPLOSION_FORCE);

@@ -44,6 +44,5 @@ public class InputControllerManager {
     }
 
     public void minorAttackUp() {
-//        player.performMinorAttack();
     }
 }

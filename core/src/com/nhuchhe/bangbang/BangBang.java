@@ -40,6 +40,8 @@ public class BangBang extends ApplicationAdapter {
     /**
      * todo:
      * make two types of object: 1 for rendering an 2 for collision.
+     *
+     * ALWAYS USE {@link com.nhuchhe.bangbang.utilities.Utilities#copyValueTo(Vector3, Vector3)}
      */
 
     //libgdx

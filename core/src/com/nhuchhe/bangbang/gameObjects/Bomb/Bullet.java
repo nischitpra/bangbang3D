@@ -6,6 +6,8 @@ import com.nhuchhe.bangbang.gameObjects.Bomb.base.BaseBomb;
 
 public class Bullet extends BaseBomb {
 
+    public static float BULLET_SPEED = 25f;
+
     public Bullet(String id) {
         super(id, 0, BangBang.collisionObjectHelper.getBulletConstructionInfo(), BangBang.collisionShapeHelper.getBulletExplosionShape(), 99999999, 35f, 0.01f);
         rigidBody.setGravity(new Vector3(0, 0, 0));
