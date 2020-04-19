@@ -20,18 +20,16 @@ import com.badlogic.gdx.physics.bullet.dynamics.btDiscreteDynamicsWorld;
 import com.badlogic.gdx.physics.bullet.dynamics.btSequentialImpulseConstraintSolver;
 import com.badlogic.gdx.physics.bullet.linearmath.btIDebugDraw;
 import com.nhuchhe.bangbang.animator.Animator;
-import com.nhuchhe.bangbang.gameObjects.Bomb.base.BaseBomb;
 import com.nhuchhe.bangbang.gameObjects.base.BaseGameObject;
 import com.nhuchhe.bangbang.helper.CollisionObjectHelper;
 import com.nhuchhe.bangbang.helper.CollisionShapeHelper;
 import com.nhuchhe.bangbang.helper.RigidBodyHelper;
+import com.nhuchhe.bangbang.inputController.InputControllerManager;
 import com.nhuchhe.bangbang.manager.AssetManager;
 import com.nhuchhe.bangbang.manager.BombManager;
 import com.nhuchhe.bangbang.manager.GameObjectManger;
-import com.nhuchhe.bangbang.inputController.InputControllerManager;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 public class BangBang extends ApplicationAdapter {
     /**
@@ -45,8 +43,8 @@ public class BangBang extends ApplicationAdapter {
      */
 
     //libgdx
-    public Environment environment;
-    public PerspectiveCamera cam;
+    public static Environment environment;
+    public static PerspectiveCamera cam;
     public CameraInputController camController;
     public static ModelBatch modelBatch;
 
@@ -134,11 +132,7 @@ public class BangBang extends ApplicationAdapter {
 
         gameObjectManger.player.update();
 
-        LinkedList<BaseBomb> bombs = BombManager.usedBombQ;
-        for (BaseBomb bomb : bombs) {
-            if (bomb.shouldRecycle) continue;
-            bomb.update();
-        }
+        bombManager.update();
 //        Logger.log("fps: " + Gdx.graphics.getFramesPerSecond());
     }
 
@@ -147,12 +141,8 @@ public class BangBang extends ApplicationAdapter {
         modelBatch.begin(cam);
         ArrayList<BaseGameObject> baseGameObjects = gameObjectManger.renderList;
         for (int i = baseGameObjects.size() - 1; i >= 0; i--) {
-            BaseGameObject baseGameObject = baseGameObjects.get(i);
-            if (baseGameObject.isVisible(cam)) {
-                modelBatch.render(baseGameObject.instance, environment);
-            }
+            baseGameObjects.get(i).render();
         }
-//        ((Player) gameObjectManger.gameObjectMap.get(Constants.GameObjectId.PLAYER)).trajectoryHelper.drawTrajectory();
         animator.render();
         modelBatch.end();
     }

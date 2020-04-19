@@ -18,7 +18,6 @@ public class BaseGameObject {
 
     private Vector3 tempVector = new Vector3();
 
-
     public BaseGameObject(String id) {
         this.id = id;
     }
@@ -35,6 +34,12 @@ public class BaseGameObject {
 
     public boolean isVisible(final Camera cam) {
         return cam.frustum.pointInFrustum(getPosition());// todo: check this => cam.frustum.sphereInFrustum(position.add(center), radius);
+    }
+
+    public void render() {
+        if (isVisible(BangBang.cam)) {
+            BangBang.modelBatch.render(instance, BangBang.environment);
+        }
     }
 
     public void dispose() {

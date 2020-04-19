@@ -75,6 +75,14 @@ public class BombManager {
         }
     }
 
+    public void update() {
+        LinkedList<BaseBomb> bombs = BombManager.usedBombQ;
+        for (BaseBomb bomb : bombs) {
+            if (bomb.shouldRecycle) continue;
+            bomb.update();
+        }
+    }
+
     public void cleanup() {
         if (usedBombQ.isEmpty()) return;
 

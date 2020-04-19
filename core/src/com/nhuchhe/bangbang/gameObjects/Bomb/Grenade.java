@@ -7,7 +7,7 @@ public class Grenade extends BaseBomb {
 
 
     public Grenade(String id, int bombType) {
-        super(id, bombType, BangBang.collisionObjectHelper.getGrenadeConstructionInfo(), BangBang.collisionShapeHelper.getGrenadeExplosionShape(), 2000, 150f, 0.25f);
+        super(id, bombType, BangBang.collisionObjectHelper.getGrenadeConstructionInfo(), BangBang.collisionShapeHelper.getGrenadeExplosionShape(), 1500, 150f, 0.25f);
     }
 
     @Override
