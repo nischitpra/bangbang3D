@@ -12,9 +12,14 @@ public class InputControllerManager {
     private XBoxControllerAdapter controllerAdapter;
 
     public void init() {
-        this.controllerAdapter = new XBoxControllerAdapter(this);
-        this.controller = Controllers.getControllers().get(0);
-        this.controller.addListener(this.controllerAdapter);
+        try {
+            this.controllerAdapter = new XBoxControllerAdapter(this);
+            this.controller = Controllers.getControllers().get(0);
+            this.controller.addListener(this.controllerAdapter);
+
+        } catch (Exception e) {
+
+        }
     }
 
     public void setPlayer(Player player) {

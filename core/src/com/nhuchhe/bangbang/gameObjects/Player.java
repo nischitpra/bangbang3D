@@ -6,6 +6,7 @@ import com.nhuchhe.bangbang.gameObjects.Bomb.Bullet;
 import com.nhuchhe.bangbang.gameObjects.Bomb.Grenade;
 import com.nhuchhe.bangbang.gameObjects.Bomb.base.BaseBomb;
 import com.nhuchhe.bangbang.gameObjects.base.PlayableGameObject;
+import com.nhuchhe.bangbang.helper.ProjectileTrajectoryHelper;
 import com.nhuchhe.bangbang.manager.BombManager;
 import com.nhuchhe.bangbang.utilities.Constants;
 import com.nhuchhe.bangbang.utilities.Utilities;
@@ -31,6 +32,8 @@ public class Player extends PlayableGameObject {
     private Vector3 tempVector = new Vector3();
 
     private Grenade majorBomb;
+
+//    public ProjectileTrajectoryHelper trajectoryHelper = new ProjectileTrajectoryHelper();
 
     public Player(String id) {
         super(id, Constants.AssetNames.PLAYER);
@@ -71,12 +74,16 @@ public class Player extends PlayableGameObject {
         }
     }
 
-    private void throwBomb() {
-        BangBang.bombManager.activate(majorBomb);
+    private Vector3 getBombThrowForce() {
         Utilities.copyValueTo(PLAYER_DIRECTION, tempVector);//todo: normalize this to get direction and then apply force.
         tempVector.y += 0.05f;
         tempVector.scl(3.4f + Math.min(500, BangBang.currentMillis - bombHoldAt) / 5);
-        majorBomb.rigidBody.applyCentralImpulse(tempVector);
+        return tempVector;
+    }
+
+    private void throwBomb() {
+        BangBang.bombManager.activate(majorBomb);
+        majorBomb.rigidBody.applyCentralImpulse(getBombThrowForce());
         majorBomb.setDetonationTime();
         BombManager.usedBombQ.addLast(majorBomb);
         majorBomb = null;
@@ -92,6 +99,7 @@ public class Player extends PlayableGameObject {
     public void performMajorAttack() {
         if (majorBomb == null) return;
         throwBomb();
+        // calculate trajectory here
     }
 
     public void initMinorAttack() {
@@ -115,6 +123,8 @@ public class Player extends PlayableGameObject {
     public void update() {
 //        BangBang.debugDrawer.drawLine(bombPosition, new Vector3(bombPosition.x + MINOR_ATTACK_POSITION.x, bombPosition.y + MINOR_ATTACK_POSITION.y, bombPosition.z + MINOR_ATTACK_POSITION.z), new Vector3(1, 1, 0));
         updateBombPosition(majorBomb, MAJOR_ATTACK_POSITION);
+//        trajectoryHelper.setTrajectory(getBombThrowForce(), Utilities.copyValueTo(getPosition(), tempVector));
     }
+
 
 }

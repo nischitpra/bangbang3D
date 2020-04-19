@@ -66,10 +66,11 @@ public class Utilities {
      * DO NOT USE tempVector = vector.
      * the values are taken as reference and will change the actual vector and not just he temp vector.
      */
-    public static void copyValueTo(final Vector3 from, final Vector3 to) {
+    public static Vector3 copyValueTo(final Vector3 from, final Vector3 to) {
         to.x = from.x;
         to.y = from.y;
         to.z = from.z;
+        return to;
     }
 
 }
