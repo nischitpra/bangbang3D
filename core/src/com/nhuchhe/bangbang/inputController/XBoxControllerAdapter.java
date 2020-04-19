@@ -31,7 +31,6 @@ public class XBoxControllerAdapter implements ControllerListener {
 
     @Override
     public boolean buttonDown(Controller controller, int buttonCode) {
-        Logger.log("" + buttonCode);
         switch (buttonCode) {
             case 97:
                 manager.majorAttackDown();
@@ -74,7 +73,6 @@ public class XBoxControllerAdapter implements ControllerListener {
                 else isDownY = 0;
                 break;
             case 5://LT ( left top )
-                Logger.log("" + axisCode + ", " + value);
                 lt = value;
                 break;
         }
