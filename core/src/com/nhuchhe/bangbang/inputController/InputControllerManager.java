@@ -1,14 +1,19 @@
-package com.nhuchhe.bangbang.manager;
+package com.nhuchhe.bangbang.inputController;
 
 import com.badlogic.gdx.controllers.Controller;
 import com.badlogic.gdx.controllers.Controllers;
-import com.nhuchhe.bangbang.gameObjects.Player;
-import com.nhuchhe.bangbang.inputController.XBoxControllerAdapter;
+import com.nhuchhe.bangbang.gameObjects.base.PlayableGameObject;
 
 public class InputControllerManager {
+    /**
+     * This code design is really good. Congrats :) 19th April, 2020.
+     * todo:
+     * So, To make this into a multiplayer all you need to do is supply enemy game object in the setPlayer.
+     * setup a generic controller adapter instead of the xboxControllerAdapter. The adapter for enemy will be set to something like a networkListener class.
+     */
 
     public static Controller controller;
-    private Player player;
+    private PlayableGameObject player;
     private XBoxControllerAdapter controllerAdapter;
 
     public void init() {
@@ -22,7 +27,7 @@ public class InputControllerManager {
         }
     }
 
-    public void setPlayer(Player player) {
+    public void setPlayer(PlayableGameObject player) {
         this.player = player;
     }
 

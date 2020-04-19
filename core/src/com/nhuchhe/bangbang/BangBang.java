@@ -21,7 +21,6 @@ import com.badlogic.gdx.physics.bullet.dynamics.btSequentialImpulseConstraintSol
 import com.badlogic.gdx.physics.bullet.linearmath.btIDebugDraw;
 import com.nhuchhe.bangbang.animator.Animator;
 import com.nhuchhe.bangbang.gameObjects.Bomb.base.BaseBomb;
-import com.nhuchhe.bangbang.gameObjects.Player;
 import com.nhuchhe.bangbang.gameObjects.base.BaseGameObject;
 import com.nhuchhe.bangbang.helper.CollisionObjectHelper;
 import com.nhuchhe.bangbang.helper.CollisionShapeHelper;
@@ -29,8 +28,7 @@ import com.nhuchhe.bangbang.helper.RigidBodyHelper;
 import com.nhuchhe.bangbang.manager.AssetManager;
 import com.nhuchhe.bangbang.manager.BombManager;
 import com.nhuchhe.bangbang.manager.GameObjectManger;
-import com.nhuchhe.bangbang.manager.InputControllerManager;
-import com.nhuchhe.bangbang.utilities.Constants;
+import com.nhuchhe.bangbang.inputController.InputControllerManager;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
