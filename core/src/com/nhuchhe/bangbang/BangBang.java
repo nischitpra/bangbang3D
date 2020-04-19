@@ -130,9 +130,9 @@ public class BangBang extends ApplicationAdapter {
 
         inputControllerManager.update();
 
-        gameObjectManger.player.update();
+//        gameObjectManger.player.update();
 
-        bombManager.update();
+//        bombManager.update();
 //        Logger.log("fps: " + Gdx.graphics.getFramesPerSecond());
     }
 
@@ -141,7 +141,9 @@ public class BangBang extends ApplicationAdapter {
         modelBatch.begin(cam);
         ArrayList<BaseGameObject> baseGameObjects = gameObjectManger.renderList;
         for (int i = baseGameObjects.size() - 1; i >= 0; i--) {
-            baseGameObjects.get(i).render();
+            BaseGameObject bgo = baseGameObjects.get(i);
+            bgo.update();
+            bgo.render();
         }
         animator.render();
         modelBatch.end();

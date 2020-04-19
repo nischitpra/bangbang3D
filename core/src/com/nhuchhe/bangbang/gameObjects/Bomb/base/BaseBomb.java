@@ -6,6 +6,7 @@ import com.badlogic.gdx.physics.bullet.collision.btCollisionShape;
 import com.badlogic.gdx.physics.bullet.dynamics.btRigidBody;
 import com.nhuchhe.bangbang.BangBang;
 import com.nhuchhe.bangbang.animator.AnimationObject;
+import com.nhuchhe.bangbang.enms.State;
 import com.nhuchhe.bangbang.gameObjects.base.AoeDetectionGameObject;
 import com.nhuchhe.bangbang.gameObjects.base.BaseGameObject;
 import com.nhuchhe.bangbang.manager.BombManager;
@@ -19,7 +20,7 @@ public abstract class BaseBomb extends AoeDetectionGameObject {
     public int bombType;
     public String ownerId;
     public long explodeAt = -1;
-    public boolean shouldRecycle;
+    public State state;
 
     private final long EXPLODE_DELAY_MILLIS;
     protected final float EXPLOSION_HEIGHT_INCREMENT;
@@ -48,6 +49,10 @@ public abstract class BaseBomb extends AoeDetectionGameObject {
         return explodeAt > 0 && BangBang.currentMillis > explodeAt;
     }
 
+    protected boolean shouldExplode() {
+        return hasBombExpired();
+    }
+
     protected void explodeAnimation() {
         animationObject.play(getPosition());
     }
@@ -57,14 +62,18 @@ public abstract class BaseBomb extends AoeDetectionGameObject {
     }
 
     public void update() {
+        if (state != State.IS_BEING_USED) return;
         aoe.setWorldTransform(motionState.transform);
+        if (shouldExplode()) {
+            explode();
+        }
     }
 
     protected boolean shouldNotApplyForce(String objectId) {
         return objectId.equals(id);
     }
 
-    protected boolean shouldExplode(int countAffected) {
+    protected boolean shouldPlayExplosionAnimationAndRecycle(int countAffected) {
         return true;
     }
 
@@ -95,9 +104,9 @@ public abstract class BaseBomb extends AoeDetectionGameObject {
             applyExplosionForce(objectId, explosionCenter);
             countAffected++;
         }
-        if (shouldExplode(countAffected)) {
+        if (shouldPlayExplosionAnimationAndRecycle(countAffected)) {
             explodeAnimation();
-            shouldRecycle = true;
+            state = State.SHOULD_RECYCLE;
         }
     }
 }

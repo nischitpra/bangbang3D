@@ -8,8 +8,6 @@ public class Bullet extends BaseBomb {
 
     public static float BULLET_SPEED = 25f;
 
-    private Vector3 tempVector = new Vector3();
-
     public Bullet(String id) {
         super(id, 0, BangBang.collisionObjectHelper.getBulletConstructionInfo(), BangBang.collisionShapeHelper.getBulletExplosionShape(), 5000, 35f, 0.01f);
         rigidBody.setGravity(new Vector3(0, 0, 0));
@@ -18,12 +16,8 @@ public class Bullet extends BaseBomb {
     }
 
     @Override
-    public void update() {
-        super.update();
-
-        if (aoe.getNumOverlappingObjects() > 1 || hasBombExpired()) {
-            explode();
-        }
+    protected boolean shouldExplode() {
+        return aoe.getNumOverlappingObjects() > 1 || super.shouldExplode();
     }
 
     @Override
@@ -32,7 +26,8 @@ public class Bullet extends BaseBomb {
     }
 
     @Override
-    protected boolean shouldExplode(int countAffected) {
+    protected boolean shouldPlayExplosionAnimationAndRecycle(int countAffected) {
         return countAffected > 0 || hasBombExpired();
     }
+
 }

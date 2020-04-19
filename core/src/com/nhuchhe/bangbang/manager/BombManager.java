@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.bullet.collision.btCollisionObject;
 import com.badlogic.gdx.utils.Queue;
 import com.nhuchhe.bangbang.BangBang;
+import com.nhuchhe.bangbang.enms.State;
 import com.nhuchhe.bangbang.gameObjects.Bomb.Bullet;
 import com.nhuchhe.bangbang.gameObjects.Bomb.Grenade;
 import com.nhuchhe.bangbang.gameObjects.Bomb.base.BaseBomb;
@@ -53,13 +54,16 @@ public class BombManager {
         }
         disable(bomb);
         bomb.ownerId = ownerId;
+        bomb.state = State.IS_BEING_USED;
         ((HashMap<String, String>) bomb.rigidBody.userData).put(Constants.UserData.OWNER, ownerId);
         return bomb;
     }
 
     public void recycleBomb(BaseBomb recycleBomb) {
         disable(recycleBomb);
-        recycleBomb.shouldRecycle = false;
+        recycleBomb.state = State.IN_POOL;
+        recycleBomb.explodeAt = 0;
+        recycleBomb.ownerId = null;
         recycleBomb.instance.transform.setTranslation(recyclePosition);
         recycleBomb.rigidBody.setWorldTransform(recycleBomb.instance.transform);
         recycleBomb.aoe.setWorldTransform(recycleBomb.instance.transform);
@@ -75,21 +79,13 @@ public class BombManager {
         }
     }
 
-    public void update() {
-        LinkedList<BaseBomb> bombs = BombManager.usedBombQ;
-        for (BaseBomb bomb : bombs) {
-            if (bomb.shouldRecycle) continue;
-            bomb.update();
-        }
-    }
-
     public void cleanup() {
         if (usedBombQ.isEmpty()) return;
 
         Iterator<BaseBomb> itr = usedBombQ.iterator();
         while (itr.hasNext()) {
             BaseBomb usedBomb = itr.next();
-            if (usedBomb.shouldRecycle) {
+            if (usedBomb.state == State.SHOULD_RECYCLE) {
                 recycleBomb(usedBomb);
                 itr.remove();
             }

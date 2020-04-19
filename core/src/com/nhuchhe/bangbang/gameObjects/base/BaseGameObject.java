@@ -36,6 +36,9 @@ public class BaseGameObject {
         return cam.frustum.pointInFrustum(getPosition());// todo: check this => cam.frustum.sphereInFrustum(position.add(center), radius);
     }
 
+    public void update() {
+    }
+
     public void render() {
         if (isVisible(BangBang.cam)) {
             BangBang.modelBatch.render(instance, BangBang.environment);
