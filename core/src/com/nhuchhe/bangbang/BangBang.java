@@ -130,9 +130,6 @@ public class BangBang extends ApplicationAdapter {
 
         inputControllerManager.update();
 
-//        gameObjectManger.player.update();
-
-//        bombManager.update();
 //        Logger.log("fps: " + Gdx.graphics.getFramesPerSecond());
     }
 
