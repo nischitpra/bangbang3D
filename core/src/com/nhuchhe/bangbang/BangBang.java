@@ -94,7 +94,7 @@ public class BangBang extends ApplicationAdapter {
 
     private void initCamera() {
         cam = new PerspectiveCamera(67, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        cam.position.set(2f, 10f, 2f);
+        cam.position.set(0f, 10f, 2f);
         cam.lookAt(0, 0, 0);
         cam.near = 1f;
         cam.far = 300f;
@@ -148,7 +148,7 @@ public class BangBang extends ApplicationAdapter {
 
     private void updateCamera() {
         Vector3 playerPosition = gameObjectManger.player.getPosition();
-        cam.position.set(playerPosition.x + 2, playerPosition.y + 5, playerPosition.z + 2);
+        cam.position.set(playerPosition.x, playerPosition.y + 5, playerPosition.z + 2);
         cam.lookAt(playerPosition.x, playerPosition.y, playerPosition.z);
         cam.update();
         camController.update();
