@@ -3,6 +3,7 @@ package com.nhuchhe.bangbang.inputController;
 import com.badlogic.gdx.controllers.Controller;
 import com.badlogic.gdx.controllers.Controllers;
 import com.nhuchhe.bangbang.gameObjects.base.PlayableGameObject;
+import com.nhuchhe.bangbang.inputController.base.BaseControllerListener;
 
 public class InputControllerManager {
     /**
@@ -14,12 +15,14 @@ public class InputControllerManager {
 
     public static Controller controller;
     private PlayableGameObject player;
-    private XBoxControllerAdapter controllerAdapter;
+    private BaseControllerListener controllerAdapter;
 
     public void init() {
         try {
-            this.controllerAdapter = new XBoxControllerAdapter(this);
             this.controller = Controllers.getControllers().get(0);
+            if (this.controller.getName().equals("Xbox Wireless Controller")) {
+                this.controllerAdapter = new XBoxControllerAdapter(this);
+            }
             this.controller.addListener(this.controllerAdapter);
 
         } catch (Exception e) {

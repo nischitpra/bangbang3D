@@ -9,7 +9,7 @@ import com.nhuchhe.bangbang.gameObjects.Player;
 import com.nhuchhe.bangbang.gameObjects.Terrain;
 
 public class AssetManager {
-    int enemyCount = 1; // get from option
+    int enemyCount = 3; // get from option
     int selectedTerrainIndex = 1; // get from option
     /**
      * Remember:

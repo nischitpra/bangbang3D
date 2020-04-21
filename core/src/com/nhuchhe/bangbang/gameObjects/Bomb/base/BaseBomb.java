@@ -9,8 +9,10 @@ import com.nhuchhe.bangbang.animator.AnimationObject;
 import com.nhuchhe.bangbang.enms.State;
 import com.nhuchhe.bangbang.gameObjects.base.AoeDetectionGameObject;
 import com.nhuchhe.bangbang.gameObjects.base.BaseGameObject;
+import com.nhuchhe.bangbang.gameObjects.base.PlayableGameObject;
 import com.nhuchhe.bangbang.manager.BombManager;
 import com.nhuchhe.bangbang.utilities.Constants;
+import com.nhuchhe.bangbang.utilities.Logger;
 import com.nhuchhe.bangbang.utilities.Utilities;
 
 import java.util.HashMap;
@@ -21,6 +23,8 @@ public abstract class BaseBomb extends AoeDetectionGameObject {
     public String ownerId;
     public long explodeAt = -1;
     public State state;
+    public float damage;
+    public boolean proximity_damage = true;
 
     private final long EXPLODE_DELAY_MILLIS;
     protected final float EXPLOSION_HEIGHT_INCREMENT;
@@ -35,6 +39,7 @@ public abstract class BaseBomb extends AoeDetectionGameObject {
                 BangBang.assetManager.assetManager.get(Constants.Bombs[bombType], Model.class),
                 bombConstructionInfo
         );
+        this.damage = damage;
         this.bombType = bombType;
         this.EXPLODE_DELAY_MILLIS = explodeDelayMillis;
         this.EXPLOSION_FORCE = explosionForce;
@@ -91,6 +96,17 @@ public abstract class BaseBomb extends AoeDetectionGameObject {
 
         bgo.rigidBody.activate(true);
         bgo.rigidBody.applyCentralImpulse(tempVector);
+        if (bgo instanceof PlayableGameObject) {
+            if (proximity_damage) {
+                float distance = Utilities.distance(explosionCenter, bgo.getPosition());
+                float damage = Utilities.magnitude(tempVector) / distance / 3;
+                Logger.log("bomb damage: " + damage);
+                ((PlayableGameObject) bgo).applyDamage(damage);
+            } else {
+                Logger.log("bullet damage: " + damage);
+                ((PlayableGameObject) bgo).applyDamage(damage);
+            }
+        }
     }
 
     // call this only during explosion

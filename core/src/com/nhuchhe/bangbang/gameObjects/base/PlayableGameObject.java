@@ -7,6 +7,8 @@ import com.nhuchhe.bangbang.gameObjects.Bomb.Bullet;
 import com.nhuchhe.bangbang.gameObjects.Bomb.Grenade;
 import com.nhuchhe.bangbang.gameObjects.Bomb.base.BaseBomb;
 import com.nhuchhe.bangbang.manager.BombManager;
+import com.nhuchhe.bangbang.utilities.Constants;
+import com.nhuchhe.bangbang.utilities.Logger;
 import com.nhuchhe.bangbang.utilities.Utilities;
 
 public class PlayableGameObject extends BaseGameObject {
@@ -17,6 +19,7 @@ public class PlayableGameObject extends BaseGameObject {
     private final float MINOR_ATTACK_POSITION_OFFSET = 0.3f;
     private final Vector3 PLAYER_ROTATION_AXIS = new Vector3(0, 1, 0);
     private final Vector3 SPAWN_POSITION = new Vector3(0, 10, 1);
+    private final float MAX_HEALTH = 100;
 
     // physics constants
     private final float FRICTION = 3f;
@@ -27,6 +30,8 @@ public class PlayableGameObject extends BaseGameObject {
     private Grenade majorBomb;
     private long bombHoldAt;
     private Vector3 tempVector = new Vector3();
+
+    public float health = MAX_HEALTH;
 
     public PlayableGameObject(String id, String assetName) {
         super(id);
@@ -63,10 +68,25 @@ public class PlayableGameObject extends BaseGameObject {
         performMinorAttack();
     }
 
+    private void reset() {
+        rigidBody.setLinearVelocity(Constants.ZERO_VECTOR);
+        rigidBody.setAngularVelocity(Constants.ZERO_VECTOR);
+        rigidBody.clearForces();
+        instance.transform.setTranslation(SPAWN_POSITION);
+        rigidBody.setWorldTransform(instance.transform);
+        health = MAX_HEALTH;
+    }
+
+    public void applyDamage(float damage) {
+        health -= damage;
+        if (health <= 0) {
+            Logger.log("Health: " + health);
+            reset();
+        }
+    }
+
     public void update() {
-//        BangBang.debugDrawer.drawLine(bombPosition, new Vector3(bombPosition.x + MINOR_ATTACK_POSITION.x, bombPosition.y + MINOR_ATTACK_POSITION.y, bombPosition.z + MINOR_ATTACK_POSITION.z), new Vector3(1, 1, 0));
         updateBombPosition(majorBomb, MAJOR_ATTACK_POSITION);
-//        trajectoryHelper.setTrajectory(getBombThrowForce(), Utilities.copyValueTo(getPosition(), tempVector));
     }
 
 

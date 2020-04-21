@@ -35,6 +35,13 @@ public class Utilities {
         return (float) Math.sqrt(velocity.x * velocity.x + velocity.z * velocity.z);
     }
 
+    public static float distance(Vector3 start, Vector3 end) {
+        float dx = start.x - end.x;
+        float dy = start.y - end.y;
+        float dz = start.z - end.z;
+        return (float) Math.sqrt(dx * dx + dy * dy + dz * dz);
+    }
+
     /**
      * calculates magnitude of Vector(x,y,z)
      */

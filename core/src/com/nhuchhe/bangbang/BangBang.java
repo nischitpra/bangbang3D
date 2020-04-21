@@ -172,7 +172,7 @@ public class BangBang extends ApplicationAdapter {
     public void dispose() {
         modelBatch.dispose();
         gameObjectManger.dispose();
-        assetManager.dispose();
+//        assetManager.dispose();
 
         collisionConfig.dispose();
         dispatcher.dispose();

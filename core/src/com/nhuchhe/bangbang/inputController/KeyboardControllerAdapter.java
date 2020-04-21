@@ -4,11 +4,10 @@ import com.badlogic.gdx.controllers.Controller;
 import com.badlogic.gdx.controllers.PovDirection;
 import com.badlogic.gdx.math.Vector3;
 import com.nhuchhe.bangbang.inputController.base.BaseControllerListener;
+import com.nhuchhe.bangbang.utilities.Logger;
 
-public class XBoxControllerAdapter extends BaseControllerListener {
-
-
-    public XBoxControllerAdapter(InputControllerManager manager) {
+public class KeyboardControllerAdapter extends BaseControllerListener {
+    public KeyboardControllerAdapter(InputControllerManager manager) {
         super(manager);
     }
 
@@ -24,51 +23,17 @@ public class XBoxControllerAdapter extends BaseControllerListener {
 
     @Override
     public boolean buttonDown(Controller controller, int buttonCode) {
-        switch (buttonCode) {
-            case 97:
-                manager.majorAttackDown();
-                return true;
-            case 99:
-                manager.minorAttackDown();
-                return true;
-            case 96:
-            case 100:
-                break;
-        }
+        Logger.log("key: " + buttonCode);
         return false;
     }
 
     @Override
     public boolean buttonUp(Controller controller, int buttonCode) {
-        switch (buttonCode) {
-            case 97:
-                manager.majorAttackUp();
-                return true;
-            case 99:
-                manager.minorAttackUp();
-                return true;
-            case 96:
-            case 100:
-                break;
-        }
         return false;
     }
 
     @Override
     public boolean axisMoved(Controller controller, int axisCode, float value) {
-        switch (axisCode) {
-            case 0://x
-                if (Math.abs(value) > 0.1) isDownX = value;
-                else isDownX = 0;
-                return true;
-            case 1://y
-                if (Math.abs(value) > 0.1) isDownY = value;
-                else isDownY = 0;
-                return true;
-            case 5://LT ( left top )
-                lt = value;
-                break;
-        }
         return false;
     }
 

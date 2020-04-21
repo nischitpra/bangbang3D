@@ -10,6 +10,8 @@ public class Bullet extends BaseBomb {
 
     public Bullet(String id) {
         super(id, 0, BangBang.collisionObjectHelper.getBulletConstructionInfo(), BangBang.collisionShapeHelper.getBulletExplosionShape(), 5000, 35f, 0.01f);
+        damage = 12.5f;
+        proximity_damage = false;
         rigidBody.setGravity(new Vector3(0, 0, 0));
         rigidBody.setFriction(0);
         rigidBody.setRestitution(0.5f);
