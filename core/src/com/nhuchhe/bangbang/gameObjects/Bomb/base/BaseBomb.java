@@ -12,7 +12,6 @@ import com.nhuchhe.bangbang.gameObjects.base.BaseGameObject;
 import com.nhuchhe.bangbang.gameObjects.base.PlayableGameObject;
 import com.nhuchhe.bangbang.manager.BombManager;
 import com.nhuchhe.bangbang.utilities.Constants;
-import com.nhuchhe.bangbang.utilities.Logger;
 import com.nhuchhe.bangbang.utilities.Utilities;
 
 import java.util.HashMap;
@@ -100,10 +99,8 @@ public abstract class BaseBomb extends AoeDetectionGameObject {
             if (proximity_damage) {
                 float distance = Utilities.distance(explosionCenter, bgo.getPosition());
                 float damage = Utilities.magnitude(tempVector) / distance / 3;
-                Logger.log("bomb damage: " + damage);
                 ((PlayableGameObject) bgo).applyDamage(damage);
             } else {
-                Logger.log("bullet damage: " + damage);
                 ((PlayableGameObject) bgo).applyDamage(damage);
             }
         }
