@@ -141,8 +141,8 @@ public class PlayableGameObject extends BaseGameObject {
 
     private Vector3 getBombThrowForce() {
         Utilities.copyValueTo(playerDirection, tempVector);//todo: normalize this to get direction and then apply force.
-        tempVector.y += 0.2f;
-        tempVector.scl(3.4f + Math.min(150, BangBang.currentMillis - bombHoldAt) / 5);
+        tempVector.y += 0.1f;
+        tempVector.scl(6.6f + Math.min(400, BangBang.currentMillis - bombHoldAt) / 5);
         return tempVector;
     }
 

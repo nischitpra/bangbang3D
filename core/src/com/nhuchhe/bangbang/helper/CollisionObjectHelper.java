@@ -22,7 +22,7 @@ public class CollisionObjectHelper {
     public btRigidBodyConstructionInfo getGrenadeConstructionInfo() {
         Vector3 inertiaVector = new Vector3();
         btVector3 bulletInertia = new btVector3();
-        btRigidBodyConstructionInfo constructionInfo = getRigidBodyConstructionInfo(Constants.CollisionObject.GRENADE, 2, collisionShapeHelper.getGrenadeShape());
+        btRigidBodyConstructionInfo constructionInfo = getRigidBodyConstructionInfo(Constants.CollisionObject.GRENADE, 5, collisionShapeHelper.getGrenadeShape());
         constructionInfo.getCollisionShape().calculateLocalInertia(constructionInfo.getMass(), inertiaVector);
         bulletInertia.setValue(inertiaVector.x, inertiaVector.y, inertiaVector.z);
         constructionInfo.setLocalInertia(bulletInertia);
