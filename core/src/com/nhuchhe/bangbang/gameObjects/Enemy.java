@@ -17,6 +17,7 @@ public class Enemy extends PlayableGameObject {
 
     public Enemy(String id) {
         super(id, Constants.AssetNames.ENEMY);
+        BangBang.inputControllerManager.addNetworkPlayer(this);
     }
 
 //    @Override

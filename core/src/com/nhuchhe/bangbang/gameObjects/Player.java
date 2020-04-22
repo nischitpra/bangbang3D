@@ -18,7 +18,7 @@ public class Player extends PlayableGameObject {
     public Player(String id) {
         super(id, Constants.AssetNames.PLAYER);
         BangBang.gameObjectManger.player = this;
-        BangBang.inputControllerManager.setPlayer(this);
+        BangBang.inputControllerManager.playerInputController.setPlayer(this);
     }
 
 }

@@ -1,14 +1,13 @@
-package com.nhuchhe.bangbang.inputController;
+package com.nhuchhe.bangbang.inputController.adapter;
 
 import com.badlogic.gdx.controllers.Controller;
 import com.badlogic.gdx.controllers.PovDirection;
 import com.badlogic.gdx.math.Vector3;
 import com.nhuchhe.bangbang.inputController.base.BaseControllerListener;
+import com.nhuchhe.bangbang.inputController.base.BaseInputController;
 
-public class XBoxControllerAdapter extends BaseControllerListener {
-
-
-    public XBoxControllerAdapter(InputControllerManager manager) {
+public class NetworkControllerAdapter extends BaseControllerListener {
+    public NetworkControllerAdapter(BaseInputController manager) {
         super(manager);
     }
 

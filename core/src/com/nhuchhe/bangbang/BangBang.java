@@ -28,6 +28,7 @@ import com.nhuchhe.bangbang.inputController.InputControllerManager;
 import com.nhuchhe.bangbang.manager.AssetManager;
 import com.nhuchhe.bangbang.manager.BombManager;
 import com.nhuchhe.bangbang.manager.GameObjectManger;
+import com.nhuchhe.bangbang.network.NetworkListener;
 
 import java.util.ArrayList;
 
@@ -59,12 +60,13 @@ public class BangBang extends ApplicationAdapter {
     //bangbang
     public static GameObjectManger gameObjectManger = new GameObjectManger();
     public static AssetManager assetManager = new AssetManager();
-    public static InputControllerManager inputControllerManager = new InputControllerManager();
     public static CollisionShapeHelper collisionShapeHelper = new CollisionShapeHelper();
     public static CollisionObjectHelper collisionObjectHelper = new CollisionObjectHelper();
     public static RigidBodyHelper rigidBodyHelper = new RigidBodyHelper();
     public static BombManager bombManager = new BombManager();
     public static Animator animator = new Animator();
+    public static InputControllerManager inputControllerManager = new InputControllerManager();
+    public static NetworkListener networkListener = new NetworkListener();
 
 
     public static long currentMillis; // This is the global clock for game. Always use this time.
@@ -106,16 +108,17 @@ public class BangBang extends ApplicationAdapter {
     }
 
     private void initGame() {
+        networkListener.init();
     }
 
     @Override
     public void create() {
-        initBullet();
-        initEnvironment();
-        initCamera();
-        modelBatch = new ModelBatch();
-        assetManager.loadResources(); //block until all resources are loaded
-        inputControllerManager.init();
+//        initBullet();
+//        initEnvironment();
+//        initCamera();
+//        modelBatch = new ModelBatch();
+//        assetManager.loadResources(); //block until all resources are loaded
+//        inputControllerManager.init();
         initGame();
     }
 
@@ -156,16 +159,16 @@ public class BangBang extends ApplicationAdapter {
 
     @Override
     public void render() {
-        currentMillis = System.currentTimeMillis();
+//        currentMillis = System.currentTimeMillis();
 //        debugDrawer.begin(cam);
-        update();
-        updateCamera();
-        draw();
+//        update();
+//        updateCamera();
+//        draw();
 //        world.debugDrawWorld();
 //        debugDrawer.end();
 
         //cleanup after everything
-        bombManager.cleanup();
+//        bombManager.cleanup();
     }
 
     @Override

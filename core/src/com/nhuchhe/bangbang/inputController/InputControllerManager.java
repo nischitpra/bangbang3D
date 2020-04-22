@@ -1,59 +1,30 @@
 package com.nhuchhe.bangbang.inputController;
 
-import com.badlogic.gdx.controllers.Controller;
-import com.badlogic.gdx.controllers.Controllers;
 import com.nhuchhe.bangbang.gameObjects.base.PlayableGameObject;
-import com.nhuchhe.bangbang.inputController.base.BaseControllerListener;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class InputControllerManager {
-    /**
-     * This code design is really good. Congrats :) 19th April, 2020.
-     * todo:
-     * So, To make this into a multiplayer all you need to do is supply enemy game object in the setPlayer.
-     * setup a generic controller adapter instead of the xboxControllerAdapter. The adapter for enemy will be set to something like a networkListener class.
-     */
+    public PlayerInputController playerInputController = new PlayerInputController();
 
-    public static Controller controller;
-    private PlayableGameObject player;
-    private BaseControllerListener controllerAdapter;
+    protected HashMap<String, NetworkInputController> networkPlayerControllerMap = new HashMap<>();
 
-    public void init() {
-        try {
-            this.controller = Controllers.getControllers().get(0);
-            if (this.controller.getName().equals("Xbox Wireless Controller")) {
-                this.controllerAdapter = new XBoxControllerAdapter(this);
-            }
-            this.controller.addListener(this.controllerAdapter);
+    private ArrayList<String> networkPlayerIds = new ArrayList();
 
-        } catch (Exception e) {
-
-        }
+    public void addNetworkPlayer(PlayableGameObject player) {
+        networkPlayerControllerMap.put(player.id, new NetworkInputController(player));
+        networkPlayerIds.add(player.id);
     }
 
-    public void setPlayer(PlayableGameObject player) {
-        this.player = player;
+    public void init() {
+        playerInputController.init();
     }
 
     public void update() {
-        if (controllerAdapter.isDownX != 0 || controllerAdapter.isDownY != 0) {// need to adjust this for better movement
-            float rotationRad = (float) Math.atan2(-controllerAdapter.isDownY, controllerAdapter.isDownX);
-            player.controllerFeed(controllerAdapter.isDownX, controllerAdapter.isDownY, rotationRad, controllerAdapter.lt);
+        playerInputController.update();
+        for (int i = networkPlayerIds.size() - 1; i >= 0; i--) {
+            networkPlayerControllerMap.get(networkPlayerIds.get(i)).update();
         }
     }
-
-    public void majorAttackDown() {
-        player.initMajorAttack();
-    }
-
-    public void majorAttackUp() {
-        player.performMajorAttack();
-    }
-
-    public void minorAttackDown() {
-        player.initMinorAttack();
-    }
-
-    public void minorAttackUp() {
-    }
-
 }
