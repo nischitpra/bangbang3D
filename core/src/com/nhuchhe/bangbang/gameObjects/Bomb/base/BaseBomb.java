@@ -6,7 +6,7 @@ import com.badlogic.gdx.physics.bullet.collision.btCollisionShape;
 import com.badlogic.gdx.physics.bullet.dynamics.btRigidBody;
 import com.nhuchhe.bangbang.BangBang;
 import com.nhuchhe.bangbang.animator.AnimationObject;
-import com.nhuchhe.bangbang.enms.State;
+import com.nhuchhe.bangbang.enums.State;
 import com.nhuchhe.bangbang.gameObjects.base.AoeDetectionGameObject;
 import com.nhuchhe.bangbang.gameObjects.base.BaseGameObject;
 import com.nhuchhe.bangbang.gameObjects.base.PlayableGameObject;

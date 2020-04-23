@@ -1,4 +1,4 @@
-package com.nhuchhe.bangbang.enms;
+package com.nhuchhe.bangbang.enums;
 
 public enum State {
     IN_POOL,

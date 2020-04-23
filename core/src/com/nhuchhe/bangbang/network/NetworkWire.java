@@ -7,13 +7,18 @@ import org.zeromq.ZMQ;
 public class NetworkWire {
 
     private ZContext context = new ZContext();
-    private ZMQ.Socket senderSocket;
-    private ZMQ.Socket receiverSocket;
+    public ZMQ.Socket gameManagerSocket;
+    public ZMQ.Socket senderSocket;
+    public ZMQ.Socket receiverSocket;
 
+    private Thread gameManagerThread;
     private Thread senderThread;
     private Thread receiverThread;
 
     public void init() {
+        gameManagerSocket = context.createSocket(SocketType.REQ);
+        gameManagerSocket.connect("tcp://localhost:5554"); // will use this to manage game state i.e create lobby, join lobby, wait for players, start game
+
         senderSocket = context.createSocket(SocketType.PUB);
         senderSocket.bind("tcp://localhost:5555");
 
@@ -24,7 +29,7 @@ public class NetworkWire {
         createServer();
     }
 
-    public void createServer() {
+    protected void createServer() {
         /**
          * setup zeromq context here and perform poll. and update adapter value
          */

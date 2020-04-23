@@ -9,7 +9,7 @@ public class NetworkInputController extends BaseInputController {
 
     public NetworkInputController(PlayableGameObject player) {
         controllerAdapter = new NetworkControllerAdapter(this);
-        BangBang.networkListener.addAdapter(player.id, (NetworkControllerAdapter) controllerAdapter);
+        BangBang.network.addAdapter(player.id, (NetworkControllerAdapter) controllerAdapter);
         setPlayer(player);
     }
 

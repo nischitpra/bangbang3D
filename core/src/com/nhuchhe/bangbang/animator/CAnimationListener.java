@@ -1,7 +1,7 @@
 package com.nhuchhe.bangbang.animator;
 
 import com.badlogic.gdx.graphics.g3d.utils.AnimationController;
-import com.nhuchhe.bangbang.enms.AnimationState;
+import com.nhuchhe.bangbang.enums.AnimationState;
 
 public class CAnimationListener implements AnimationController.AnimationListener {
     private AnimationObject animationObject;

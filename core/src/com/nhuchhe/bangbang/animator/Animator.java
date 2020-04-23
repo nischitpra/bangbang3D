@@ -2,7 +2,7 @@ package com.nhuchhe.bangbang.animator;
 
 import com.badlogic.gdx.Gdx;
 import com.nhuchhe.bangbang.BangBang;
-import com.nhuchhe.bangbang.enms.AnimationState;
+import com.nhuchhe.bangbang.enums.AnimationState;
 
 import java.util.Iterator;
 import java.util.LinkedList;

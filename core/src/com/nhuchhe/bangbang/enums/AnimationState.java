@@ -1,4 +1,4 @@
-package com.nhuchhe.bangbang.enms;
+package com.nhuchhe.bangbang.enums;
 
 public enum AnimationState {
     IS_RECYCLED,

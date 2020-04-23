@@ -4,6 +4,7 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g3d.Environment;
 import com.badlogic.gdx.graphics.g3d.ModelBatch;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
@@ -28,7 +29,10 @@ import com.nhuchhe.bangbang.inputController.InputControllerManager;
 import com.nhuchhe.bangbang.manager.AssetManager;
 import com.nhuchhe.bangbang.manager.BombManager;
 import com.nhuchhe.bangbang.manager.GameObjectManger;
-import com.nhuchhe.bangbang.network.NetworkListener;
+import com.nhuchhe.bangbang.network.Network;
+import com.nhuchhe.bangbang.screens.HomeScreen;
+import com.nhuchhe.bangbang.screens.core.BaseScreen;
+import com.nhuchhe.bangbang.utilities.Constants;
 
 import java.util.ArrayList;
 
@@ -48,6 +52,7 @@ public class BangBang extends ApplicationAdapter {
     public static PerspectiveCamera cam;
     public CameraInputController camController;
     public static ModelBatch modelBatch;
+    public static SpriteBatch spriteBatch;
 
     //bullet
     public static btDiscreteDynamicsWorld world;
@@ -66,11 +71,18 @@ public class BangBang extends ApplicationAdapter {
     public static BombManager bombManager = new BombManager();
     public static Animator animator = new Animator();
     public static InputControllerManager inputControllerManager = new InputControllerManager();
-    public static NetworkListener networkListener = new NetworkListener();
+    public static Network network = new Network();
 
+    public static String lobbyName = "";
+    //screens
+    BaseScreen currentScreen;
 
     public static long currentMillis; // This is the global clock for game. Always use this time.
 
+    private void initFirst() {
+        Constants.CAMERA_WIDTH = Gdx.graphics.getWidth();
+        Constants.CAMERA_HEIGHT = Gdx.graphics.getHeight();
+    }
 
     private void initBullet() {
         Bullet.init();
@@ -95,7 +107,7 @@ public class BangBang extends ApplicationAdapter {
     }
 
     private void initCamera() {
-        cam = new PerspectiveCamera(67, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        cam = new PerspectiveCamera(67, Constants.CAMERA_WIDTH, Constants.CAMERA_HEIGHT);
         cam.position.set(0f, 10f, 2f);
         cam.lookAt(0, 0, 0);
         cam.near = 1f;
@@ -108,15 +120,18 @@ public class BangBang extends ApplicationAdapter {
     }
 
     private void initGame() {
-        networkListener.init();
+        network.init();
+        currentScreen = new HomeScreen();
     }
 
     @Override
     public void create() {
+        initFirst();
 //        initBullet();
 //        initEnvironment();
 //        initCamera();
 //        modelBatch = new ModelBatch();
+        spriteBatch = new SpriteBatch();
 //        assetManager.loadResources(); //block until all resources are loaded
 //        inputControllerManager.init();
         initGame();
@@ -159,6 +174,8 @@ public class BangBang extends ApplicationAdapter {
 
     @Override
     public void render() {
+        currentScreen.render();
+
 //        currentMillis = System.currentTimeMillis();
 //        debugDrawer.begin(cam);
 //        update();

@@ -11,4 +11,6 @@ dependencies {
     //Defines dependencies for the :core project, in this example the gdx dependency
     // https://mvnrepository.com/artifact/org.zeromq/jeromq
     implementation group: 'org.zeromq', name: 'jeromq', version: '0.5.2'
+    // https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
+    implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.10'
 }

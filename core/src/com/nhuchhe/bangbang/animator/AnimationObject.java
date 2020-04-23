@@ -5,8 +5,7 @@ import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.utils.AnimationController;
 import com.badlogic.gdx.math.Vector3;
 import com.nhuchhe.bangbang.BangBang;
-import com.nhuchhe.bangbang.enms.AnimationState;
-import com.nhuchhe.bangbang.utilities.Logger;
+import com.nhuchhe.bangbang.enums.AnimationState;
 
 public class AnimationObject {
     public AnimationController animationController;
