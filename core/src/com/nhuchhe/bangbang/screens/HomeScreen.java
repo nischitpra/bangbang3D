@@ -15,8 +15,4 @@ public class HomeScreen extends BaseScreen {
         camera.setToOrtho(false, Constants.CAMERA_WIDTH, Constants.CAMERA_HEIGHT);
     }
 
-    @Override
-    public void render() {
-        stage.draw();
-    }
 }

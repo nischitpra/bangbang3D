@@ -4,6 +4,8 @@ import com.nhuchhe.bangbang.BangBang;
 import com.nhuchhe.bangbang.enums.network.GameManagerAction;
 import com.nhuchhe.bangbang.inputController.adapter.NetworkControllerAdapter;
 import com.nhuchhe.bangbang.pojo.network.GameManagerPojo;
+import com.nhuchhe.bangbang.screens.GameScreen;
+import com.nhuchhe.bangbang.screens.LobbyScreen;
 import org.apache.commons.lang3.SerializationUtils;
 
 import java.util.HashMap;
@@ -31,8 +33,23 @@ public class Network extends NetworkWire {
     }
 
     public void joinLobby(String lobbyName) {
-        receiverSocket.subscribe(lobbyName);
-        BangBang.lobbyName = lobbyName;
+        gameManagerPojo.action = GameManagerAction.JOIN_GAME;
+        gameManagerPojo.data = lobbyName;
+        boolean success = gameManagerSocket.send(SerializationUtils.serialize(gameManagerPojo));
+        if (success) {
+            BangBang.lobbyName = lobbyName;
+            BangBang.currentScreen = new LobbyScreen(lobbyName);
+        }
+    }
+
+    public void startGame(String lobbyName) {
+        gameManagerPojo.action = GameManagerAction.START_GAME;
+        gameManagerPojo.data = lobbyName;
+        boolean success = gameManagerSocket.send(SerializationUtils.serialize(gameManagerPojo));
+        if (success) {
+            receiverSocket.subscribe(lobbyName);
+            BangBang.currentScreen = new GameScreen();
+        }
     }
 
     public int createGame(String lobbyName) {

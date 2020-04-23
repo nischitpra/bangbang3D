@@ -74,8 +74,7 @@ public class BangBang extends ApplicationAdapter {
     public static Network network = new Network();
 
     public static String lobbyName = "";
-    //screens
-    BaseScreen currentScreen;
+    public static BaseScreen currentScreen;
 
     public static long currentMillis; // This is the global clock for game. Always use this time.
 

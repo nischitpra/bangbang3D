@@ -1,29 +1,22 @@
 package com.nhuchhe.bangbang.screens.stage;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.nhuchhe.bangbang.BangBang;
+import com.nhuchhe.bangbang.screens.stage.base.BaseStage;
 import com.nhuchhe.bangbang.utilities.Constants;
 
 
-public class HomeStage extends Stage {
+public class HomeStage extends BaseStage {
 
     TextField inputText;
-    TextButton getLobby;
-    TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
-    BitmapFont font = new BitmapFont();
+    TextButton getLobbyButton;
+
 
     public HomeStage() {
-        Gdx.input.setInputProcessor(this);
-
-        style.font = font;
-
         TextField.TextFieldStyle style = new TextField.TextFieldStyle();
         style.fontColor = Color.RED;
         style.font = font;
@@ -31,8 +24,8 @@ public class HomeStage extends Stage {
         inputText.setPosition(Constants.CAMERA_WIDTH * 0.5f, Constants.CAMERA_HEIGHT * 0.25f);
         addActor(inputText);
 
-        getLobby = new TextButton("Get Lobby", this.style);
-        getLobby.addListener(new ClickListener() {
+        getLobbyButton = new TextButton("Get Lobby", this.buttonStyle);
+        getLobbyButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
@@ -40,8 +33,8 @@ public class HomeStage extends Stage {
                 createLobbyButtons(lobbies);
             }
         });
-        getLobby.setPosition(Constants.CAMERA_WIDTH * 0.5f, Constants.CAMERA_HEIGHT * 0.45f);
-        addActor(getLobby);
+        getLobbyButton.setPosition(Constants.CAMERA_WIDTH * 0.5f, Constants.CAMERA_HEIGHT * 0.45f);
+        addActor(getLobbyButton);
     }
 
     private void createLobbyButtons(String[] lobbies) {
@@ -55,7 +48,7 @@ public class HomeStage extends Stage {
     }
 
     private TextButton createButton(final String text) {
-        TextButton button = new TextButton(text, this.style);
+        TextButton button = new TextButton(text, buttonStyle);
         button.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {

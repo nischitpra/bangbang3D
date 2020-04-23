@@ -5,5 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 public abstract class BaseScreen {
     protected Stage stage;
 
-    public abstract void render();
+    public void render() {
+        stage.draw();
+    }
 }
