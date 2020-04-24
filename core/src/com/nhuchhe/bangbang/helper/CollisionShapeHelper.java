@@ -3,6 +3,7 @@ package com.nhuchhe.bangbang.helper;
 import com.badlogic.gdx.graphics.Mesh;
 import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.model.Node;
+import com.badlogic.gdx.physics.bullet.Bullet;
 import com.badlogic.gdx.physics.bullet.collision.*;
 import com.badlogic.gdx.utils.Array;
 import com.nhuchhe.bangbang.utilities.Constants;
@@ -34,7 +35,8 @@ public class CollisionShapeHelper {
     }
 
     public btCollisionShape getTerrainShape(final Model model, final boolean optimize) {
-        return getCompoundShape(Constants.CollisionObject.TERRAIN, model, optimize);
+        return getMeshShape(model);
+//        return getCompoundShape(Constants.CollisionObject.TERRAIN, model, optimize);
     }
 
     private btCollisionShape getSphereShape(String key, float radius) {
@@ -53,6 +55,10 @@ public class CollisionShapeHelper {
             collisionShapeMap.put(key, shape);
         }
         return shape;
+    }
+
+    public btCollisionShape getMeshShape(final Model model) {
+        return Bullet.obtainStaticNodeShape(model.nodes);
     }
 
     public btCompoundShape getCompoundShape(final Model model, final boolean optimize) {

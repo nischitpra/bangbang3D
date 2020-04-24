@@ -8,7 +8,7 @@ public class LobbyScreen extends BaseScreen {
 
     public LobbyScreen(String lobbyName) {
         this.lobbyName = lobbyName;
-        this.stage = new LobbyStage();
+        this.stage = new LobbyStage(lobbyName);
     }
 
 }

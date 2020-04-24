@@ -57,6 +57,7 @@ public class Constants {
     };
 
     public static final String[] Terrains = {
+            "terrain/plane_test/plane_test.obj",
             "terrain/terrain_test.obj",
             "terrain/forest.obj"
     };
