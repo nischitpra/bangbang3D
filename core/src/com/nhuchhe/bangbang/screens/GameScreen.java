@@ -104,6 +104,7 @@ public class GameScreen extends BaseScreen {
         update();
         updateCamera();
         draw();
+        stage.draw();
 //        world.debugDrawWorld();
 //        debugDrawer.end();
 
