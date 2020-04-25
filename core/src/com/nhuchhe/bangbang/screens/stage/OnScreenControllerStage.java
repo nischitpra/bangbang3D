@@ -43,7 +43,7 @@ public class OnScreenControllerStage extends BaseStage {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        if (screenX > Constants.CAMERA_WIDTH * .5f) return false;
+        if (screenX > Constants.CAMERA_WIDTH * .65f) return false;
         startTouchPosition.x = screenX;
         startTouchPosition.y = Constants.CAMERA_HEIGHT - screenY;
         bgImage.setPosition(screenX - bgOffset, startTouchPosition.y - bgOffset);
@@ -53,7 +53,7 @@ public class OnScreenControllerStage extends BaseStage {
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
-        if (screenX > Constants.CAMERA_WIDTH * .5f) return false;
+        if (screenX > Constants.CAMERA_WIDTH * .65f) return false;
         float dx = startTouchPosition.x - screenX;
         float dy = startTouchPosition.y - (Constants.CAMERA_HEIGHT - screenY);
         float distance = (float) Math.sqrt(dx * dx + dy * dy);
@@ -76,7 +76,7 @@ public class OnScreenControllerStage extends BaseStage {
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        if (screenX > Constants.CAMERA_WIDTH * .5f) return false;
+        if (screenX > Constants.CAMERA_WIDTH * .65f) return false;
         bgImage.setPosition(startTouchPosition.x - bgOffset, startTouchPosition.y - bgOffset);
         knobImage.setPosition(startTouchPosition.x - knobOffset, startTouchPosition.y - knobOffset);
         startTouchPosition.x = 0;
