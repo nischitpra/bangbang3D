@@ -119,6 +119,7 @@ public class BangBang extends ApplicationAdapter {
 
     @Override
     public void dispose() {
+        network.disconnect();
         modelBatch.dispose();
 //        assetManager.dispose();
         collisionConfig.dispose();
@@ -134,6 +135,7 @@ public class BangBang extends ApplicationAdapter {
 
     @Override
     public void pause() {
+        System.out.println("pause");
     }
 
     @Override

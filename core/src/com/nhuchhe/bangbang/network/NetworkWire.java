@@ -2,6 +2,7 @@ package com.nhuchhe.bangbang.network;
 
 import com.nhuchhe.bangbang.BangBang;
 import com.nhuchhe.bangbang.pojo.network.GameManagerPojo;
+import com.nhuchhe.bangbang.utilities.Logger;
 import org.apache.commons.lang3.SerializationUtils;
 import org.zeromq.SocketType;
 import org.zeromq.ZContext;
@@ -14,8 +15,6 @@ public class NetworkWire {
     public ZMQ.Socket senderSocket;
     public ZMQ.Socket receiverSocket;
 
-    private Thread gameManagerThread;
-    private Thread senderThread;
     private Thread receiverThread;
 
     public void init() {
@@ -36,32 +35,26 @@ public class NetworkWire {
         /**
          * setup zeromq context here and perform poll. and update adapter value
          */
-        senderThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (true) {
-                    senderSocket.send("B-HELLO_FROM_CLIENT!");
-                    try {
-                        Thread.sleep(100);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        });
-        senderThread.start();
-
         receiverThread = new Thread(new Runnable() {
             @Override
             public void run() {
-                while (true) {
+                while (!Thread.currentThread().isInterrupted()) {
                     String value = receiverSocket.recvStr();
                     GameManagerPojo pojo = SerializationUtils.deserialize(receiverSocket.recv());
                     BangBang.network.gameReceiveState(pojo);
-                    System.out.println("val: " + value);
+                    Logger.log("val: " + value);
                 }
             }
         });
         receiverThread.start();
+    }
+
+    public void dispose() {
+        gameManagerSocket.close();
+        receiverSocket.close();
+        senderSocket.close();
+        context.close();
+
+        receiverThread.interrupt();
     }
 }

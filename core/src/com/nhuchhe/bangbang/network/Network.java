@@ -96,4 +96,12 @@ public class Network extends NetworkWire {
         }
     }
 
+    public void disconnect() {
+        gameManagerPojo.action = GameManagerAction.DISCONNECT;
+        gameManagerPojo.data = BangBang.LOBBY_NAME;
+        gameManagerPojo.extra = BangBang.PLAYER_ID;
+        gameManagerSocket.send(SerializationUtils.serialize(gameManagerPojo));
+        super.dispose();
+    }
+
 }
