@@ -1,4 +1,4 @@
-package com.nhuchhe.bangbang.screens.core;
+package com.nhuchhe.bangbang.screens.base;
 
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
@@ -7,5 +7,9 @@ public abstract class BaseScreen {
 
     public void render() {
         stage.draw();
+    }
+
+    public void dispose() {
+
     }
 }

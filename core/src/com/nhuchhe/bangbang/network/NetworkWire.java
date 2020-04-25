@@ -1,5 +1,8 @@
 package com.nhuchhe.bangbang.network;
 
+import com.nhuchhe.bangbang.BangBang;
+import com.nhuchhe.bangbang.pojo.network.GameManagerPojo;
+import org.apache.commons.lang3.SerializationUtils;
 import org.zeromq.SocketType;
 import org.zeromq.ZContext;
 import org.zeromq.ZMQ;
@@ -53,6 +56,8 @@ public class NetworkWire {
             public void run() {
                 while (true) {
                     String value = receiverSocket.recvStr();
+                    GameManagerPojo pojo = SerializationUtils.deserialize(receiverSocket.recv());
+                    BangBang.network.gameReceiveState(pojo);
                     System.out.println("val: " + value);
                 }
             }

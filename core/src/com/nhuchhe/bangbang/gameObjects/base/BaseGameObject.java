@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.bullet.dynamics.btRigidBody;
 import com.nhuchhe.bangbang.BangBang;
+import com.nhuchhe.bangbang.screens.GameScreen;
 
 public class BaseGameObject {
 
@@ -40,8 +41,8 @@ public class BaseGameObject {
     }
 
     public void render() {
-        if (isVisible(BangBang.cam)) {
-            BangBang.modelBatch.render(instance, BangBang.environment);
+        if (isVisible(GameScreen.cam)) {
+            BangBang.modelBatch.render(instance, GameScreen.environment);
         }
     }
 

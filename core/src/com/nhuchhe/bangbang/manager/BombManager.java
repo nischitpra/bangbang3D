@@ -8,6 +8,7 @@ import com.nhuchhe.bangbang.enums.State;
 import com.nhuchhe.bangbang.gameObjects.Bomb.Bullet;
 import com.nhuchhe.bangbang.gameObjects.Bomb.Grenade;
 import com.nhuchhe.bangbang.gameObjects.Bomb.base.BaseBomb;
+import com.nhuchhe.bangbang.screens.GameScreen;
 import com.nhuchhe.bangbang.utilities.Constants;
 import com.nhuchhe.bangbang.utilities.Utilities;
 
@@ -93,14 +94,14 @@ public class BombManager {
     }
 
     public void disable(BaseBomb bomb) {
-        BangBang.world.removeRigidBody(bomb.rigidBody);
+        GameScreen.world.removeRigidBody(bomb.rigidBody);
         bomb.rigidBody.setActivationState(3);
         bomb.rigidBody.setCollisionFlags(bomb.rigidBody.getCollisionFlags() | btCollisionObject.CollisionFlags.CF_NO_CONTACT_RESPONSE); // remove collision
         bomb.aoe.setActivationState(3);
     }
 
     public void activate(BaseBomb bomb) {
-        BangBang.world.addRigidBody(bomb.rigidBody);
+        GameScreen.world.addRigidBody(bomb.rigidBody);
         bomb.rigidBody.setActivationState(1);
         bomb.rigidBody.setCollisionFlags(bomb.rigidBody.getCollisionFlags() & ~btCollisionObject.CollisionFlags.CF_NO_CONTACT_RESPONSE); // add collision
         bomb.aoe.setActivationState(1);

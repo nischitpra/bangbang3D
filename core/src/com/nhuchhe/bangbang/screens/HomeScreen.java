@@ -1,7 +1,7 @@
 package com.nhuchhe.bangbang.screens;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.nhuchhe.bangbang.screens.core.BaseScreen;
+import com.nhuchhe.bangbang.screens.base.BaseScreen;
 import com.nhuchhe.bangbang.screens.stage.HomeStage;
 import com.nhuchhe.bangbang.utilities.Constants;
 

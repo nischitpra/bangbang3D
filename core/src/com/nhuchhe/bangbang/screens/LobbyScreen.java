@@ -1,6 +1,6 @@
 package com.nhuchhe.bangbang.screens;
 
-import com.nhuchhe.bangbang.screens.core.BaseScreen;
+import com.nhuchhe.bangbang.screens.base.BaseScreen;
 import com.nhuchhe.bangbang.screens.stage.LobbyStage;
 
 public class LobbyScreen extends BaseScreen {

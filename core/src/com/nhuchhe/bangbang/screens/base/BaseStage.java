@@ -1,4 +1,4 @@
-package com.nhuchhe.bangbang.screens.stage.base;
+package com.nhuchhe.bangbang.screens.base;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;

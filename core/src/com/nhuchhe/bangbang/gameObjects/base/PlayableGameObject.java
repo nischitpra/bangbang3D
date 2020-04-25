@@ -7,6 +7,7 @@ import com.nhuchhe.bangbang.gameObjects.Bomb.Bullet;
 import com.nhuchhe.bangbang.gameObjects.Bomb.Grenade;
 import com.nhuchhe.bangbang.gameObjects.Bomb.base.BaseBomb;
 import com.nhuchhe.bangbang.manager.BombManager;
+import com.nhuchhe.bangbang.screens.GameScreen;
 import com.nhuchhe.bangbang.utilities.Constants;
 import com.nhuchhe.bangbang.utilities.Logger;
 import com.nhuchhe.bangbang.utilities.Utilities;
@@ -54,7 +55,7 @@ public class PlayableGameObject extends BaseGameObject {
     public void initMajorAttack() {
         if (majorBomb != null) return;
         bombHoldAt = BangBang.currentMillis;
-        majorBomb = (Grenade) BangBang.bombManager.getBomb(id, 1); // need to be able to set bomb type here
+        majorBomb = (Grenade) GameScreen.bombManager.getBomb(id, 1); // need to be able to set bomb type here
         updateBombPosition(majorBomb, MAJOR_ATTACK_POSITION);
     }
 
@@ -117,7 +118,7 @@ public class PlayableGameObject extends BaseGameObject {
     }
 
     private void performMinorAttack() {
-        Bullet bullet = (Bullet) BangBang.bombManager.getBomb(id, 0);
+        Bullet bullet = (Bullet) GameScreen.bombManager.getBomb(id, 0);
         configureBeforeThrow(bullet);
         updateBombPosition(bullet, playerDirection);
         Utilities.copyValueTo(playerDirection, tempVector);
@@ -126,7 +127,7 @@ public class PlayableGameObject extends BaseGameObject {
     }
 
     private void configureBeforeThrow(BaseBomb bomb) {
-        BangBang.bombManager.activate(bomb);
+        GameScreen.bombManager.activate(bomb);
         bomb.setDetonationTime();
         BombManager.usedBombQ.addLast(bomb);
     }

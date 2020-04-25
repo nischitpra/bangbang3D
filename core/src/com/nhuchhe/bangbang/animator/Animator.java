@@ -3,6 +3,7 @@ package com.nhuchhe.bangbang.animator;
 import com.badlogic.gdx.Gdx;
 import com.nhuchhe.bangbang.BangBang;
 import com.nhuchhe.bangbang.enums.AnimationState;
+import com.nhuchhe.bangbang.screens.GameScreen;
 
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -12,7 +13,7 @@ public class Animator {
      * need to handle delete of animation properly.
      */
     public void render() {
-        LinkedList<AnimationObject> renderList = BangBang.gameObjectManger.animationObjects;
+        LinkedList<AnimationObject> renderList = GameScreen.gameObjectManger.animationObjects;
         Iterator<AnimationObject> iterator = renderList.iterator();
         while (iterator.hasNext()) {
             AnimationObject animation = iterator.next();

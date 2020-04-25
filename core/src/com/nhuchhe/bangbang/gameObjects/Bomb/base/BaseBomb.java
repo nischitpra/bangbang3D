@@ -11,6 +11,7 @@ import com.nhuchhe.bangbang.gameObjects.base.AoeDetectionGameObject;
 import com.nhuchhe.bangbang.gameObjects.base.BaseGameObject;
 import com.nhuchhe.bangbang.gameObjects.base.PlayableGameObject;
 import com.nhuchhe.bangbang.manager.BombManager;
+import com.nhuchhe.bangbang.screens.GameScreen;
 import com.nhuchhe.bangbang.utilities.Constants;
 import com.nhuchhe.bangbang.utilities.Utilities;
 
@@ -44,7 +45,7 @@ public abstract class BaseBomb extends AoeDetectionGameObject {
         this.EXPLOSION_FORCE = explosionForce;
         this.EXPLOSION_HEIGHT_INCREMENT = explosionHeightIncrement;
         animationObject = new AnimationObject(Constants.AssetNames.EXPLOSION_ANIM, "Sphere|explosion", false, BombManager.recyclePosition);
-        BangBang.gameObjectManger.animationObjects.add(animationObject);
+        GameScreen.gameObjectManger.animationObjects.add(animationObject);
         rigidBody.setFriction(1.5f);
         rigidBody.setRestitution(0.5f);
     }
@@ -87,7 +88,7 @@ public abstract class BaseBomb extends AoeDetectionGameObject {
     }
 
     private void applyExplosionForce(String objectKey, Vector3 explosionCenter) {
-        BaseGameObject bgo = BangBang.gameObjectManger.gameObjectMap.get(objectKey);
+        BaseGameObject bgo = GameScreen.gameObjectManger.gameObjectMap.get(objectKey);
         Utilities.copyValueTo(bgo.getPosition(), tempVector);
         tempVector = Utilities.getNormalizedProximity(explosionCenter, tempVector);
         tempVector.y += EXPLOSION_HEIGHT_INCREMENT;

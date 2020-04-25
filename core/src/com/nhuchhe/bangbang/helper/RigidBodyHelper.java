@@ -8,6 +8,7 @@ import com.nhuchhe.bangbang.BangBang;
 import com.nhuchhe.bangbang.gameObjects.base.AoeDetectionGameObject;
 import com.nhuchhe.bangbang.gameObjects.base.BaseGameObject;
 import com.nhuchhe.bangbang.gameObjects.base.MotionState;
+import com.nhuchhe.bangbang.screens.GameScreen;
 import com.nhuchhe.bangbang.utilities.Constants;
 
 import java.util.HashMap;
@@ -22,19 +23,19 @@ public class RigidBodyHelper {
         obj.rigidBody.userData = new HashMap<String, String>() {{
             put(Constants.UserData.ID, obj.id);
         }};
-        BangBang.world.addRigidBody(obj.rigidBody);
-        BangBang.gameObjectManger.gameObjectMap.put(obj.id, obj);
-        BangBang.gameObjectManger.renderList.add(obj);
+        GameScreen.world.addRigidBody(obj.rigidBody);
+        GameScreen.gameObjectManger.gameObjectMap.put(obj.id, obj);
+        GameScreen.gameObjectManger.renderList.add(obj);
     }
 
     public void createGhostObject(final AoeDetectionGameObject obj, final btCollisionShape collisionShape) {
         obj.aoe = new btGhostObject();
         obj.aoe.setCollisionShape(collisionShape);
         obj.aoe.setCollisionFlags(obj.aoe.getCollisionFlags() | btCollisionObject.CollisionFlags.CF_NO_CONTACT_RESPONSE);
-        obj.aoe.setIgnoreCollisionCheck(BangBang.gameObjectManger.terrain.rigidBody, true);
+        obj.aoe.setIgnoreCollisionCheck(GameScreen.gameObjectManger.terrain.rigidBody, true);
         obj.aoe.userData = new HashMap<String, String>() {{
             put(Constants.UserData.ID, obj.id);
         }};
-        BangBang.world.addCollisionObject(obj.aoe);
+        GameScreen.world.addCollisionObject(obj.aoe);
     }
 }

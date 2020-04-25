@@ -2,6 +2,7 @@ package com.nhuchhe.bangbang.gameObjects;
 
 import com.nhuchhe.bangbang.BangBang;
 import com.nhuchhe.bangbang.gameObjects.base.PlayableGameObject;
+import com.nhuchhe.bangbang.screens.GameScreen;
 import com.nhuchhe.bangbang.utilities.Constants;
 
 /**
@@ -17,7 +18,7 @@ public class Player extends PlayableGameObject {
 
     public Player(String id) {
         super(id, Constants.AssetNames.PLAYER);
-        BangBang.gameObjectManger.player = this;
+        GameScreen.gameObjectManger.player = this;
         BangBang.inputControllerManager.playerInputController.setPlayer(this);
     }
 

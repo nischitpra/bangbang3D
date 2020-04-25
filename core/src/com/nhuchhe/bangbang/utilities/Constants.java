@@ -44,7 +44,7 @@ public class Constants {
     }
 
     public static class GameObjectId {
-        public static final String PLAYER = "PLAYER";
+        public static final String PLAYER = "PLAYER_%d";
         public static final String ENEMY = "ENEMY_%d";
         public static final String BOMB = "BOMB_%d";
         public static final String EXPLOSION_SPHERE = "EXPLOSION_SPHERE_%d";

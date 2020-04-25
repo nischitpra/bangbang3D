@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.physics.bullet.collision.btCollisionObject;
 import com.nhuchhe.bangbang.BangBang;
 import com.nhuchhe.bangbang.gameObjects.base.BaseGameObject;
+import com.nhuchhe.bangbang.screens.GameScreen;
 
 public class Terrain extends BaseGameObject {
 
@@ -17,7 +18,7 @@ public class Terrain extends BaseGameObject {
         );
         rigidBody.setRestitution(1f);
         rigidBody.setCollisionFlags(rigidBody.getCollisionFlags() | btCollisionObject.CollisionFlags.CF_KINEMATIC_OBJECT);
-        BangBang.gameObjectManger.terrain = this;
+        GameScreen.gameObjectManger.terrain = this;
     }
 
     @Override

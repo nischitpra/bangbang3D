@@ -1,15 +1,16 @@
 package com.nhuchhe.bangbang.manager;
 
 import com.badlogic.gdx.graphics.g3d.Model;
-import com.nhuchhe.bangbang.utilities.Constants;
-import com.nhuchhe.bangbang.utilities.Logger;
-import com.nhuchhe.bangbang.utilities.Utilities;
+import com.nhuchhe.bangbang.BangBang;
 import com.nhuchhe.bangbang.gameObjects.Enemy;
 import com.nhuchhe.bangbang.gameObjects.Player;
 import com.nhuchhe.bangbang.gameObjects.Terrain;
+import com.nhuchhe.bangbang.utilities.Constants;
+import com.nhuchhe.bangbang.utilities.Logger;
+import com.nhuchhe.bangbang.utilities.Utilities;
 
 public class AssetManager {
-    int enemyCount = 3; // get from option
+    int enemyCount = 0; // get from option
     int selectedTerrainIndex = 0; // get from option
     /**
      * Remember:
@@ -45,20 +46,27 @@ public class AssetManager {
             }
         }
         assetManager.finishLoading(); // blocking until all assets are loaded
-        populateResources();
     }
 
     private void initEnemy() {
         for (int i = enemyCount - 1; i >= 0; i--) {
-            new Enemy(Utilities.createGameObjectId(Constants.GameObjectId.ENEMY, i));
+            new Enemy(Utilities.createGameObjectId(Constants.GameObjectId.ENEMY, BangBang.PLAYER_IDS[i]));
         }
     }
 
-    public void populateResources() {
+    /**
+     * Call this to populate resources and initialize the game.
+     */
+    public void initGameScreen() {
+        this.enemyCount = BangBang.PLAYER_IDS.length - 1;
+        populateGameResources();
+    }
+
+    public void populateGameResources() {
         for (int i = Constants.Assets.length - 1; i >= 0; i--) {
             switch (Constants.Assets[i]) {
                 case Constants.AssetNames.PLAYER:
-                    new Player(Constants.GameObjectId.PLAYER);
+                    new Player(Utilities.createGameObjectId(Constants.GameObjectId.PLAYER, BangBang.PLAYER_ID));
                     break;
                 case Constants.AssetNames.ENEMY:
                     initEnemy();
@@ -77,4 +85,6 @@ public class AssetManager {
     public void dispose() {
         assetManager.dispose();
     }
+
+
 }

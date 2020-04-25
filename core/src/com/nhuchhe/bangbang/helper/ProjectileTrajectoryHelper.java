@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.math.Bezier;
 import com.badlogic.gdx.math.Vector3;
 import com.nhuchhe.bangbang.BangBang;
+import com.nhuchhe.bangbang.screens.GameScreen;
 
 public class ProjectileTrajectoryHelper {
     ModelBuilder modelBuilder;
@@ -38,7 +39,7 @@ public class ProjectileTrajectoryHelper {
             int time = i * 100;
             float theta = (float) Math.atan2(-forceDirection.y, forceDirection.x);
             float x = startPosition.x + (float) (forceDirection.x * time * Math.cos(theta));
-            float y = startPosition.y + (float) (forceDirection.y * time * Math.sin(theta) - 0.5 * BangBang.world.getGravity().y * time * time);
+            float y = startPosition.y + (float) (forceDirection.y * time * Math.sin(theta) - 0.5 * GameScreen.world.getGravity().y * time * time);
             points[i].x = x;
             points[i].y = y;
 //            points[i].z = z;
