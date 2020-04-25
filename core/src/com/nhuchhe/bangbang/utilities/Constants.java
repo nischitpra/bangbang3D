@@ -1,6 +1,5 @@
 package com.nhuchhe.bangbang.utilities;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector3;
 
 public class Constants {
@@ -60,6 +59,17 @@ public class Constants {
             "terrain/plane_test/plane_test.obj",
             "terrain/terrain_test.obj",
             "terrain/forest.obj"
+    };
+
+    // images and texture
+    public static class ImagesName {
+        public static final String ON_SCREEN_CONTROLLER_BG = "ON_SCREEN_CONTROLLER_BG";
+        public static final String ON_SCREEN_CONTROLLER_KNOB = "ON_SCREEN_CONTROLLER_KNOB";
+    }
+
+    public static final String[][] Images = {
+            new String[]{ImagesName.ON_SCREEN_CONTROLLER_BG, "onScreenController/bg.png"},
+            new String[]{ImagesName.ON_SCREEN_CONTROLLER_KNOB, "onScreenController/knob.png"},
     };
 
 }

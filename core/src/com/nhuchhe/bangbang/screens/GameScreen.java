@@ -14,6 +14,7 @@ import com.nhuchhe.bangbang.gameObjects.base.BaseGameObject;
 import com.nhuchhe.bangbang.manager.BombManager;
 import com.nhuchhe.bangbang.manager.GameObjectManger;
 import com.nhuchhe.bangbang.screens.base.BaseScreen;
+import com.nhuchhe.bangbang.screens.stage.OnScreenControllerStage;
 import com.nhuchhe.bangbang.utilities.Constants;
 
 import java.util.ArrayList;
@@ -22,7 +23,7 @@ public class GameScreen extends BaseScreen {
     //libgdx
     public static Environment environment;
     public static PerspectiveCamera cam;
-    public CameraInputController camController;
+//    public CameraInputController camController;
 
     //bullet
     public static btDiscreteDynamicsWorld world;
@@ -34,6 +35,7 @@ public class GameScreen extends BaseScreen {
 
     public GameScreen() {
         init();
+        stage = new OnScreenControllerStage();
     }
 
     private void initEnvironment() {
@@ -51,8 +53,8 @@ public class GameScreen extends BaseScreen {
         cam.update();
 
         // camera input controller
-        camController = new CameraInputController(cam);
-        Gdx.input.setInputProcessor(camController);
+//        camController = new CameraInputController(cam);
+//        Gdx.input.setInputProcessor(camController);
     }
 
     private void initResourceManger() {
@@ -72,7 +74,7 @@ public class GameScreen extends BaseScreen {
         cam.position.set(playerPosition.x, playerPosition.y + 5, playerPosition.z + 2);
         cam.lookAt(playerPosition.x, playerPosition.y, playerPosition.z);
         cam.update();
-        camController.update();
+//        camController.update();
     }
 
 

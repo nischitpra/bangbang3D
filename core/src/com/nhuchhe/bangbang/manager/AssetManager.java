@@ -1,5 +1,7 @@
 package com.nhuchhe.bangbang.manager;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g3d.Model;
 import com.nhuchhe.bangbang.BangBang;
 import com.nhuchhe.bangbang.gameObjects.Enemy;
@@ -8,6 +10,8 @@ import com.nhuchhe.bangbang.gameObjects.Terrain;
 import com.nhuchhe.bangbang.utilities.Constants;
 import com.nhuchhe.bangbang.utilities.Logger;
 import com.nhuchhe.bangbang.utilities.Utilities;
+
+import java.util.HashMap;
 
 public class AssetManager {
     int enemyCount = 0; // get from option
@@ -18,6 +22,8 @@ public class AssetManager {
      * bullet does not support scaling well. So never use scaling, instead edit the object to right size
      */
     public com.badlogic.gdx.assets.AssetManager assetManager = new com.badlogic.gdx.assets.AssetManager();
+
+    public HashMap<String, Texture> imagesMap = new HashMap<>();
 
     private void loadModelBomb() {
         for (int i = Constants.Bombs.length - 1; i >= 0; i--) {
@@ -30,6 +36,13 @@ public class AssetManager {
         for (int i = Constants.Terrains.length - 1; i >= 0; i--) {
             Logger.log(Constants.Terrains[i]);
             assetManager.load(Constants.Terrains[i], Model.class);
+        }
+    }
+
+    private void loadImages() {
+        for (int i = Constants.Images.length - 1; i >= 0; i--) {
+            String[] imageDetails = Constants.Images[i];
+            imagesMap.put(imageDetails[0], new Texture(Gdx.files.internal(imageDetails[1])));
         }
     }
 
@@ -46,6 +59,7 @@ public class AssetManager {
             }
         }
         assetManager.finishLoading(); // blocking until all assets are loaded
+        loadImages(); // load images and textures
     }
 
     private void initEnemy() {

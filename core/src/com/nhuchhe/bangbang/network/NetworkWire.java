@@ -12,21 +12,21 @@ public class NetworkWire {
 
     private ZContext context = new ZContext();
     public ZMQ.Socket gameManagerSocket;
-    public ZMQ.Socket senderSocket;
+//    public ZMQ.Socket senderSocket;
     public ZMQ.Socket receiverSocket;
 
     private Thread receiverThread;
 
     public void init() {
         gameManagerSocket = context.createSocket(SocketType.REQ);
-        gameManagerSocket.connect("tcp://localhost:5554"); // will use this to manage game state i.e create lobby, join lobby, wait for players, start game
+        gameManagerSocket.connect("tcp://192.168.0.169:5554"); // will use this to manage game state i.e create lobby, join lobby, wait for players, start game
 
-        senderSocket = context.createSocket(SocketType.PUB);
-        senderSocket.bind("tcp://localhost:5555");
+        // instead of bind,, use req for up steam
+//        senderSocket = context.createSocket(SocketType.PUB);
+//        senderSocket.bind("tcp://192.168.0.169:5555");
 
         receiverSocket = context.createSocket(SocketType.SUB);
-        receiverSocket.connect("tcp://localhost:5556");
-        receiverSocket.subscribe("A");
+        receiverSocket.connect("tcp://192.168.0.169:5556");
 
         createServer();
     }
@@ -52,7 +52,7 @@ public class NetworkWire {
     public void dispose() {
         gameManagerSocket.close();
         receiverSocket.close();
-        senderSocket.close();
+//        senderSocket.close();
         context.close();
 
         receiverThread.interrupt();

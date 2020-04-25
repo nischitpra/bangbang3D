@@ -1,5 +1,6 @@
 package com.nhuchhe.bangbang.network;
 
+import com.badlogic.gdx.Gdx;
 import com.nhuchhe.bangbang.BangBang;
 import com.nhuchhe.bangbang.enums.network.GameManagerAction;
 import com.nhuchhe.bangbang.inputController.adapter.NetworkControllerAdapter;
@@ -90,7 +91,13 @@ public class Network extends NetworkWire {
         switch (pojo.action) {
             case CHANGE_SCREEN:
                 if (pojo.data.equals("GameScreen")) {
-                    BangBang.currentScreen = new GameScreen();
+                    // libgdx is not thread safe. and opengl only works in the main thread
+                    Gdx.app.postRunnable(new Runnable() {
+                        @Override
+                        public void run() {
+                            BangBang.currentScreen = new GameScreen();
+                        }
+                    });
                 }
                 break;
         }

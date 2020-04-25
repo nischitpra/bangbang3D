@@ -23,7 +23,6 @@ import com.nhuchhe.bangbang.inputController.InputControllerManager;
 import com.nhuchhe.bangbang.manager.AssetManager;
 import com.nhuchhe.bangbang.network.Network;
 import com.nhuchhe.bangbang.screens.GameScreen;
-import com.nhuchhe.bangbang.screens.HomeScreen;
 import com.nhuchhe.bangbang.screens.base.BaseScreen;
 import com.nhuchhe.bangbang.utilities.Constants;
 
@@ -61,7 +60,7 @@ public class BangBang extends ApplicationAdapter {
     public static BaseScreen currentScreen;
     public static String LOBBY_NAME = "";
     public static int PLAYER_ID = -1;
-    public static int[] PLAYER_IDS;
+    public static int[] PLAYER_IDS = new int[]{};
 
     public static long currentMillis; // This is the global clock for game. Always use this time.
 
@@ -88,7 +87,8 @@ public class BangBang extends ApplicationAdapter {
 
     private void initGame() {
         network.init();
-        currentScreen = new HomeScreen();
+//        currentScreen = new HomeScreen();
+        currentScreen = new GameScreen();
     }
 
     @Override

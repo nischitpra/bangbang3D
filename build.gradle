@@ -83,40 +83,40 @@ project(":android") {
     }
 }
 
-project(":ios") {
-    apply plugin: "java-library"
-    apply plugin: "robovm"
-
-
-    dependencies {
-        implementation project(":core")
-        api "com.mobidevelop.robovm:robovm-rt:$roboVMVersion"
-        api "com.mobidevelop.robovm:robovm-cocoatouch:$roboVMVersion"
-        api "com.badlogicgames.gdx:gdx-backend-robovm:$gdxVersion"
-        api "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-ios"
-        api "com.badlogicgames.gdx:gdx-bullet-platform:$gdxVersion:natives-ios"
-        
-    }
-}
-
-project(":html") {
-    apply plugin: "java-library"
-    apply plugin: "gwt"
-    apply plugin: "war"
-
-
-    dependencies {
-        implementation project(":core")
-        api "com.badlogicgames.gdx:gdx-backend-gwt:$gdxVersion"
-        api "com.badlogicgames.gdx:gdx:$gdxVersion:sources"
-        api "com.badlogicgames.gdx:gdx-backend-gwt:$gdxVersion:sources"
-        api "com.badlogicgames.gdx:gdx-controllers:$gdxVersion:sources"
-        api "com.badlogicgames.gdx:gdx-controllers-gwt:$gdxVersion"
-        api "com.badlogicgames.gdx:gdx-controllers-gwt:$gdxVersion:sources"
-        api "com.badlogicgames.gdx:gdx-ai:$aiVersion:sources"
-        
-    }
-}
+//project(":ios") {
+//    apply plugin: "java-library"
+//    apply plugin: "robovm"
+//
+//
+//    dependencies {
+//        implementation project(":core")
+//        api "com.mobidevelop.robovm:robovm-rt:$roboVMVersion"
+//        api "com.mobidevelop.robovm:robovm-cocoatouch:$roboVMVersion"
+//        api "com.badlogicgames.gdx:gdx-backend-robovm:$gdxVersion"
+//        api "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-ios"
+//        api "com.badlogicgames.gdx:gdx-bullet-platform:$gdxVersion:natives-ios"
+//
+//    }
+//}
+//
+//project(":html") {
+//    apply plugin: "java-library"
+//    apply plugin: "gwt"
+//    apply plugin: "war"
+//
+//
+//    dependencies {
+//        implementation project(":core")
+//        api "com.badlogicgames.gdx:gdx-backend-gwt:$gdxVersion"
+//        api "com.badlogicgames.gdx:gdx:$gdxVersion:sources"
+//        api "com.badlogicgames.gdx:gdx-backend-gwt:$gdxVersion:sources"
+//        api "com.badlogicgames.gdx:gdx-controllers:$gdxVersion:sources"
+//        api "com.badlogicgames.gdx:gdx-controllers-gwt:$gdxVersion"
+//        api "com.badlogicgames.gdx:gdx-controllers-gwt:$gdxVersion:sources"
+//        api "com.badlogicgames.gdx:gdx-ai:$aiVersion:sources"
+//
+//    }
+//}
 
 project(":core") {
     apply plugin: "java-library"
