@@ -2,13 +2,15 @@ package com.nhuchhe.bangbang.inputController;
 
 import com.badlogic.gdx.controllers.Controller;
 import com.badlogic.gdx.controllers.Controllers;
+import com.nhuchhe.bangbang.inputController.adapter.OnScreenControllerAdapter;
 import com.nhuchhe.bangbang.inputController.adapter.XBoxControllerAdapter;
-import com.nhuchhe.bangbang.inputController.base.BaseControllerListener;
 import com.nhuchhe.bangbang.inputController.base.BaseInputController;
+import com.nhuchhe.bangbang.screens.GameScreen;
+import com.nhuchhe.bangbang.screens.stage.OnScreenControllerStage;
+import com.nhuchhe.bangbang.utilities.Logger;
 
 public class PlayerInputController extends BaseInputController {
     public static Controller controller;
-    private BaseControllerListener controllerAdapter;
 
     public void init() {
         try {
@@ -17,9 +19,11 @@ public class PlayerInputController extends BaseInputController {
                 controllerAdapter = new XBoxControllerAdapter(this);
             }
             controller.addListener(this.controllerAdapter);
-
         } catch (Exception e) {
-
+            OnScreenControllerAdapter adapter = new OnScreenControllerAdapter(this);
+            GameScreen.stage = new OnScreenControllerStage(adapter);
+            controllerAdapter = adapter;
+            Logger.log("OnScreen Controller set");
         }
     }
 

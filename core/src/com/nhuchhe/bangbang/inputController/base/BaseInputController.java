@@ -1,6 +1,7 @@
 package com.nhuchhe.bangbang.inputController.base;
 
 import com.nhuchhe.bangbang.gameObjects.base.PlayableGameObject;
+import com.nhuchhe.bangbang.utilities.Logger;
 
 public abstract class BaseInputController {
     /**

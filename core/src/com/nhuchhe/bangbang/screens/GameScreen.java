@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.g3d.Environment;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
-import com.badlogic.gdx.graphics.g3d.utils.CameraInputController;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.bullet.DebugDrawer;
 import com.badlogic.gdx.physics.bullet.dynamics.btDiscreteDynamicsWorld;
@@ -14,7 +13,6 @@ import com.nhuchhe.bangbang.gameObjects.base.BaseGameObject;
 import com.nhuchhe.bangbang.manager.BombManager;
 import com.nhuchhe.bangbang.manager.GameObjectManger;
 import com.nhuchhe.bangbang.screens.base.BaseScreen;
-import com.nhuchhe.bangbang.screens.stage.OnScreenControllerStage;
 import com.nhuchhe.bangbang.utilities.Constants;
 
 import java.util.ArrayList;
@@ -35,7 +33,6 @@ public class GameScreen extends BaseScreen {
 
     public GameScreen() {
         init();
-        stage = new OnScreenControllerStage();
     }
 
     private void initEnvironment() {
@@ -83,7 +80,7 @@ public class GameScreen extends BaseScreen {
         GameScreen.world.stepSimulation(delta, 5, 1f / 60f); // 60 fps for update
 //        Logger.log("fps: " + Gdx.graphics.getFramesPerSecond());
 
-//        BangBang.inputControllerManager.update();
+        BangBang.inputControllerManager.update();
     }
 
     private void draw() {
@@ -104,10 +101,9 @@ public class GameScreen extends BaseScreen {
         update();
         updateCamera();
         draw();
-        stage.draw();
 //        world.debugDrawWorld();
 //        debugDrawer.end();
-
+        if (stage != null) super.render();
         //cleanup after everything
         bombManager.cleanup();
     }

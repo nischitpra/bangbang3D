@@ -6,24 +6,25 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.nhuchhe.bangbang.BangBang;
+import com.nhuchhe.bangbang.inputController.adapter.OnScreenControllerAdapter;
 import com.nhuchhe.bangbang.screens.base.BaseStage;
 import com.nhuchhe.bangbang.utilities.Constants;
-import com.nhuchhe.bangbang.utilities.Logger;
 
 public class OnScreenControllerStage extends BaseStage {
 
-    float bgOffset;
-    Image bgImage;
+    private float bgOffset;
+    private Image bgImage;
 
-    float knobOffset;
-    Image knobImage;
-    //    OnScreenControllerAdapter adapter;
-    private float CONTROLLER_WIDTH = 50;
+    private float knobOffset;
+    private Image knobImage;
+    private float CONTROLLER_WIDTH = 150;
+
+    OnScreenControllerAdapter adapter;
 
     public Vector2 startTouchPosition = new Vector2();
 
-    public OnScreenControllerStage() {
-//        this.adapter = adapter;
+    public OnScreenControllerStage(OnScreenControllerAdapter adapter) {
+        this.adapter = adapter;
         Texture bg = BangBang.assetManager.imagesMap.get(Constants.ImagesName.ON_SCREEN_CONTROLLER_BG);
         Texture knob = BangBang.assetManager.imagesMap.get(Constants.ImagesName.ON_SCREEN_CONTROLLER_KNOB);
 
@@ -60,14 +61,15 @@ public class OnScreenControllerStage extends BaseStage {
         if (distance > CONTROLLER_WIDTH) {
             float theta = (float) Math.atan2(-dy, dx);
             xMove = (float) -Math.cos(theta);
-            yMove = (float) Math.sin(theta);
+            yMove = (float) -Math.sin(theta);
             knobImage.setPosition(startTouchPosition.x - knobOffset + (float) (CONTROLLER_WIDTH * -Math.cos(theta)), startTouchPosition.y - knobOffset + (float) (CONTROLLER_WIDTH * Math.sin(theta)));
         } else {
-            xMove = dx / CONTROLLER_WIDTH;
+            xMove = -dx / CONTROLLER_WIDTH;
             yMove = dy / CONTROLLER_WIDTH;
             knobImage.setPosition(screenX - knobOffset, Constants.CAMERA_HEIGHT - screenY - knobOffset);
         }
-        Logger.log(xMove + ", " + yMove);
+        adapter.isDownX = xMove;
+        adapter.isDownY = yMove;
 
         return true;
     }
@@ -79,6 +81,9 @@ public class OnScreenControllerStage extends BaseStage {
         knobImage.setPosition(startTouchPosition.x - knobOffset, startTouchPosition.y - knobOffset);
         startTouchPosition.x = 0;
         startTouchPosition.y = 0;
-        return super.touchUp(screenX, screenY, pointer, button);
+
+        adapter.isDownX = 0;
+        adapter.isDownY = 0;
+        return true;
     }
 }
