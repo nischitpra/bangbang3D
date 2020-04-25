@@ -33,7 +33,8 @@ public class OnScreenControllerStage extends BaseStage {
     public OnScreenControllerStage(final OnScreenControllerAdapter adapter) {
         this.adapter = adapter;
         Texture bg = BangBang.assetManager.imagesMap.get(Constants.ImagesName.ON_SCREEN_CONTROLLER_BG);
-        final Texture knob = BangBang.assetManager.imagesMap.get(Constants.ImagesName.ON_SCREEN_CONTROLLER_KNOB);
+        Texture knob = BangBang.assetManager.imagesMap.get(Constants.ImagesName.ON_SCREEN_CONTROLLER_KNOB);
+        Texture movableKnob = BangBang.assetManager.imagesMap.get(Constants.ImagesName.ON_SCREEN_CONTROLLER_MOVABLE_KNOB);
         Texture majorAttack = BangBang.assetManager.imagesMap.get(Constants.ImagesName.ON_SCREEN_CONTROLLER_MAJOR_ATTACK);
         Texture minorAttack = BangBang.assetManager.imagesMap.get(Constants.ImagesName.ON_SCREEN_CONTROLLER_MINOR_ATTACK);
 
@@ -44,10 +45,14 @@ public class OnScreenControllerStage extends BaseStage {
         bgImage.setPosition(Constants.CAMERA_WIDTH * 0.05f, Constants.CAMERA_HEIGHT * 0.125f);
         addActor(bgImage);
 
+        TextureRegion movableKnobTextureRegion = new TextureRegion(movableKnob);
+        TextureRegionDrawable movableKnobDrawable = new TextureRegionDrawable(movableKnobTextureRegion);
+        knobMoveImage = new Image(movableKnobDrawable);
+
         TextureRegion knobTextureRegion = new TextureRegion(knob);
         TextureRegionDrawable knobDrawable = new TextureRegionDrawable(knobTextureRegion);
-        knobMoveImage = new Image(knobDrawable);
         knobImage = new Image(knobDrawable);
+
         knobOffset = knobImage.getWidth() / 2;
         startKnobOffset.x = Constants.CAMERA_WIDTH * 0.05f + bgOffset - knobOffset;
         startKnobOffset.y = Constants.CAMERA_HEIGHT * 0.125f + bgOffset - knobOffset;
@@ -119,7 +124,7 @@ public class OnScreenControllerStage extends BaseStage {
                 adapter.buttonUp(null, 99);
             }
         });
-        minorAttackButton.setPosition(Constants.CAMERA_WIDTH * 0.75f, Constants.CAMERA_HEIGHT * 0.225f);
+        minorAttackButton.setPosition(Constants.CAMERA_WIDTH * 0.70f, Constants.CAMERA_HEIGHT * 0.2f);
         addActor(minorAttackButton);
     }
 }

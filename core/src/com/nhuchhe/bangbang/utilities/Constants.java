@@ -65,6 +65,7 @@ public class Constants {
     public static class ImagesName {
         public static final String ON_SCREEN_CONTROLLER_BG = "ON_SCREEN_CONTROLLER_BG";
         public static final String ON_SCREEN_CONTROLLER_KNOB = "ON_SCREEN_CONTROLLER_KNOB";
+        public static final String ON_SCREEN_CONTROLLER_MOVABLE_KNOB = "ON_SCREEN_CONTROLLER_MOVABLE_KNOB";
         public static final String ON_SCREEN_CONTROLLER_MAJOR_ATTACK = "ON_SCREEN_CONTROLLER_MAJOR_ATTACK";
         public static final String ON_SCREEN_CONTROLLER_MINOR_ATTACK = "ON_SCREEN_CONTROLLER_MINOR_ATTACK";
     }
@@ -72,6 +73,7 @@ public class Constants {
     public static final String[][] Images = {
             new String[]{ImagesName.ON_SCREEN_CONTROLLER_BG, "onScreenController/bg.png"},
             new String[]{ImagesName.ON_SCREEN_CONTROLLER_KNOB, "onScreenController/knob.png"},
+            new String[]{ImagesName.ON_SCREEN_CONTROLLER_MOVABLE_KNOB, "onScreenController/movableKnob.png"},
             new String[]{ImagesName.ON_SCREEN_CONTROLLER_MAJOR_ATTACK, "onScreenController/majorAttack.png"},
             new String[]{ImagesName.ON_SCREEN_CONTROLLER_MINOR_ATTACK, "onScreenController/minorAttack.png"},
     };
