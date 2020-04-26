@@ -4,10 +4,14 @@ import com.badlogic.gdx.Gdx;
 import com.nhuchhe.bangbang.BangBang;
 import com.nhuchhe.bangbang.enums.network.GameManagerAction;
 import com.nhuchhe.bangbang.inputController.adapter.NetworkControllerAdapter;
+import com.nhuchhe.bangbang.inputController.base.BaseControllerListener;
 import com.nhuchhe.bangbang.pojo.network.GameManagerPojo;
+import com.nhuchhe.bangbang.pojo.network.InGamePojo;
 import com.nhuchhe.bangbang.screens.GameScreen;
 import com.nhuchhe.bangbang.screens.LobbyScreen;
+import com.nhuchhe.bangbang.utilities.Constants;
 import com.nhuchhe.bangbang.utilities.Logger;
+import com.nhuchhe.bangbang.utilities.Utilities;
 import org.apache.commons.lang3.SerializationUtils;
 
 import java.util.HashMap;
@@ -49,6 +53,7 @@ public class Network extends NetworkWire {
             int id = SerializationUtils.deserialize(gameManagerSocket.recv());
             if (id < 0) return false;
             receiverSocket.subscribe(lobbyName);
+            receiverSocket.subscribe("game." + lobbyName);
             BangBang.LOBBY_NAME = lobbyName;
             BangBang.currentScreen = new LobbyScreen(lobbyName);
             BangBang.PLAYER_ID = id;
@@ -101,6 +106,47 @@ public class Network extends NetworkWire {
                 }
                 break;
         }
+    }
+
+    //upstream for user movement inputs. every 30ms send a new update
+    private Thread movementThread;
+
+    public void upstreamPlayerMovementControl() {
+        final BaseControllerListener listener = BangBang.inputControllerManager.playerInputController.controllerAdapter;
+        final String lobbyName = "game." + BangBang.LOBBY_NAME;
+        movementThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                InGamePojo inGamePojo = new InGamePojo();
+                while (!Thread.currentThread().isInterrupted()) {
+                    inGamePojo.id = BangBang.PLAYER_ID;
+                    inGamePojo.inputX = listener.isDownX;
+                    inGamePojo.inputY = listener.isDownY;
+                    inGamePojo.lt = listener.lt;
+                    senderSocket.sendMore(lobbyName);
+                    senderSocket.send(SerializationUtils.serialize(inGamePojo));
+                    try {
+                        Thread.sleep(30);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+        movementThread.start();
+    }
+
+    public void syncMovement(final InGamePojo pojo) {
+        Gdx.app.postRunnable(new Runnable() {
+            @Override
+            public void run() {
+                String id = Utilities.createGameObjectId(Constants.GameObjectId.ENEMY, pojo.id);
+                BaseControllerListener listener = BangBang.inputControllerManager.networkPlayerControllerMap.get(id).controllerAdapter;
+                listener.isDownX = pojo.inputX;
+                listener.isDownY = pojo.inputY;
+                listener.lt = pojo.lt;
+            }
+        });
     }
 
     public void disconnect() {

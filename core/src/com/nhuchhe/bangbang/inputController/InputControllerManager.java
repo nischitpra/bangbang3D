@@ -8,7 +8,7 @@ import java.util.HashMap;
 public class InputControllerManager {
     public PlayerInputController playerInputController = new PlayerInputController();
 
-    protected HashMap<String, NetworkInputController> networkPlayerControllerMap = new HashMap<>();
+    public HashMap<String, NetworkInputController> networkPlayerControllerMap = new HashMap<>();
 
     private ArrayList<String> networkPlayerIds = new ArrayList();
 

@@ -86,6 +86,7 @@ public class GameScreen extends BaseScreen {
         initCamera();
         initResourceManger();
         BangBang.inputControllerManager.init();
+        BangBang.network.upstreamPlayerMovementControl();
     }
 
     private void updateCamera() {

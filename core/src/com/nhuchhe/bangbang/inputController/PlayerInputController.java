@@ -10,7 +10,7 @@ import com.nhuchhe.bangbang.screens.stage.OnScreenControllerStage;
 import com.nhuchhe.bangbang.utilities.Logger;
 
 public class PlayerInputController extends BaseInputController {
-    public static Controller controller;
+    public Controller controller;
 
     public void init() {
         try {

@@ -14,7 +14,7 @@ import com.nhuchhe.bangbang.helper.RigidBodyHelper;
 import com.nhuchhe.bangbang.inputController.InputControllerManager;
 import com.nhuchhe.bangbang.manager.AssetManager;
 import com.nhuchhe.bangbang.network.Network;
-import com.nhuchhe.bangbang.screens.GameScreen;
+import com.nhuchhe.bangbang.screens.HomeScreen;
 import com.nhuchhe.bangbang.screens.base.BaseScreen;
 import com.nhuchhe.bangbang.utilities.Constants;
 
@@ -56,8 +56,8 @@ public class BangBang extends ApplicationAdapter {
 
     private void initGame() {
         network.init();
-//        currentScreen = new HomeScreen();
-        currentScreen = new GameScreen();
+        currentScreen = new HomeScreen();
+//        currentScreen = new GameScreen();
     }
 
     @Override

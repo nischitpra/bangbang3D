@@ -63,8 +63,10 @@ public class AssetManager {
     }
 
     private void initEnemy() {
-        for (int i = enemyCount - 1; i >= 0; i--) {
-            new Enemy(Utilities.createGameObjectId(Constants.GameObjectId.ENEMY, BangBang.PLAYER_IDS[i]));
+        for (int i = BangBang.PLAYER_IDS.length - 1; i >= 0; i--) {
+            int id = BangBang.PLAYER_IDS[i];
+            if (id == BangBang.PLAYER_ID) continue;
+            new Enemy(Utilities.createGameObjectId(Constants.GameObjectId.ENEMY, id));
         }
     }
 
