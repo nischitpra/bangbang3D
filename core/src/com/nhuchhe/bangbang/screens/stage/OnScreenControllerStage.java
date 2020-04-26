@@ -13,9 +13,6 @@ import com.nhuchhe.bangbang.utilities.Constants;
 
 public class OnScreenControllerStage extends BaseStage {
 
-    private float knobOffset;
-//    private Image knobMoveImage;
-
     private Vector2 startKnobOffset = new Vector2();
     private float CONTROLLER_WIDTH = 100;
 
@@ -31,7 +28,7 @@ public class OnScreenControllerStage extends BaseStage {
         final float bgOffset = bgImage.getWidth() / 2;
 
         final Image knobImage = BangBang.actorHelper.getImageActor(Constants.ImagesName.ON_SCREEN_CONTROLLER_KNOB);
-        knobOffset = knobImage.getWidth() / 2;
+        final float knobOffset = knobImage.getWidth() / 2;
         startKnobOffset.x = Constants.CAMERA_WIDTH * 0.085f + bgOffset - knobOffset;
         startKnobOffset.y = Constants.CAMERA_HEIGHT * 0.15f + bgOffset - knobOffset;
 
