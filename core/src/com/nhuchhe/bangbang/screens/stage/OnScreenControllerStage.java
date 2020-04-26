@@ -25,7 +25,7 @@ public class OnScreenControllerStage extends BaseStage {
     private ImageButton minorAttackButton;
 
     private Vector2 startKnobOffset = new Vector2();
-    private float CONTROLLER_WIDTH = 150;
+    private float CONTROLLER_WIDTH = 100;
 
     OnScreenControllerAdapter adapter;
 
@@ -42,7 +42,7 @@ public class OnScreenControllerStage extends BaseStage {
         TextureRegionDrawable bgDrawable = new TextureRegionDrawable(bgTextureRegion);
         bgImage = new Image(bgDrawable);
         bgOffset = bgImage.getWidth() / 2;
-        bgImage.setPosition(Constants.CAMERA_WIDTH * 0.05f, Constants.CAMERA_HEIGHT * 0.125f);
+        bgImage.setPosition(Constants.CAMERA_WIDTH * 0.07f, Constants.CAMERA_HEIGHT * 0.125f);
         addActor(bgImage);
 
         TextureRegion movableKnobTextureRegion = new TextureRegion(movableKnob);
@@ -54,7 +54,7 @@ public class OnScreenControllerStage extends BaseStage {
         knobImage = new Image(knobDrawable);
 
         knobOffset = knobImage.getWidth() / 2;
-        startKnobOffset.x = Constants.CAMERA_WIDTH * 0.05f + bgOffset - knobOffset;
+        startKnobOffset.x = Constants.CAMERA_WIDTH * 0.07f + bgOffset - knobOffset;
         startKnobOffset.y = Constants.CAMERA_HEIGHT * 0.125f + bgOffset - knobOffset;
 
         knobMoveImage.setPosition(startKnobOffset.x, startKnobOffset.y);
@@ -70,7 +70,7 @@ public class OnScreenControllerStage extends BaseStage {
                 float distance = (float) Math.sqrt(dx * dx + dy * dy);
                 float xMove, yMove;
                 if (distance > CONTROLLER_WIDTH) {
-                    float theta = (float) Math.atan2(y, x);
+                    float theta = (float) Math.atan2(dy, dx);
                     xMove = (float) Math.cos(theta);
                     yMove = (float) -Math.sin(theta);
                     knobMoveImage.setPosition(startKnobOffset.x + (float) (CONTROLLER_WIDTH * Math.cos(theta)), startKnobOffset.y + (float) (CONTROLLER_WIDTH * Math.sin(theta)));
