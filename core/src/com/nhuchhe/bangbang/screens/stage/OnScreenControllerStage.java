@@ -42,7 +42,7 @@ public class OnScreenControllerStage extends BaseStage {
         TextureRegionDrawable bgDrawable = new TextureRegionDrawable(bgTextureRegion);
         bgImage = new Image(bgDrawable);
         bgOffset = bgImage.getWidth() / 2;
-        bgImage.setPosition(Constants.CAMERA_WIDTH * 0.07f, Constants.CAMERA_HEIGHT * 0.125f);
+        bgImage.setPosition(Constants.CAMERA_WIDTH * 0.085f, Constants.CAMERA_HEIGHT * 0.15f);
         addActor(bgImage);
 
         TextureRegion movableKnobTextureRegion = new TextureRegion(movableKnob);
@@ -54,8 +54,8 @@ public class OnScreenControllerStage extends BaseStage {
         knobImage = new Image(knobDrawable);
 
         knobOffset = knobImage.getWidth() / 2;
-        startKnobOffset.x = Constants.CAMERA_WIDTH * 0.07f + bgOffset - knobOffset;
-        startKnobOffset.y = Constants.CAMERA_HEIGHT * 0.125f + bgOffset - knobOffset;
+        startKnobOffset.x = Constants.CAMERA_WIDTH * 0.085f + bgOffset - knobOffset;
+        startKnobOffset.y = Constants.CAMERA_HEIGHT * 0.15f + bgOffset - knobOffset;
 
         knobMoveImage.setPosition(startKnobOffset.x, startKnobOffset.y);
         knobImage.setPosition(startKnobOffset.x, startKnobOffset.y);
