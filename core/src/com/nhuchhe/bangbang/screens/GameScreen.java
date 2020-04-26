@@ -6,8 +6,15 @@ import com.badlogic.gdx.graphics.g3d.Environment;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.physics.bullet.Bullet;
 import com.badlogic.gdx.physics.bullet.DebugDrawer;
+import com.badlogic.gdx.physics.bullet.collision.btCollisionDispatcher;
+import com.badlogic.gdx.physics.bullet.collision.btDbvtBroadphase;
+import com.badlogic.gdx.physics.bullet.collision.btDefaultCollisionConfiguration;
+import com.badlogic.gdx.physics.bullet.collision.btGhostPairCallback;
 import com.badlogic.gdx.physics.bullet.dynamics.btDiscreteDynamicsWorld;
+import com.badlogic.gdx.physics.bullet.dynamics.btSequentialImpulseConstraintSolver;
+import com.badlogic.gdx.physics.bullet.linearmath.btIDebugDraw;
 import com.nhuchhe.bangbang.BangBang;
 import com.nhuchhe.bangbang.gameObjects.base.BaseGameObject;
 import com.nhuchhe.bangbang.manager.BombManager;
@@ -21,11 +28,14 @@ public class GameScreen extends BaseScreen {
     //libgdx
     public static Environment environment;
     public static PerspectiveCamera cam;
-//    public CameraInputController camController;
 
     //bullet
     public static btDiscreteDynamicsWorld world;
     public static DebugDrawer debugDrawer;
+    public btDefaultCollisionConfiguration collisionConfig;
+    public btCollisionDispatcher dispatcher;
+    public btDbvtBroadphase broadphase;
+    public btSequentialImpulseConstraintSolver constraintSolver;
 
     //bangbang game
     public static GameObjectManger gameObjectManger = new GameObjectManger();
@@ -33,6 +43,22 @@ public class GameScreen extends BaseScreen {
 
     public GameScreen() {
         init();
+    }
+
+    private void initBullet() {
+        Bullet.init();
+        collisionConfig = new btDefaultCollisionConfiguration();
+        dispatcher = new btCollisionDispatcher(collisionConfig);
+        broadphase = new btDbvtBroadphase();
+        broadphase.getOverlappingPairCache().setInternalGhostPairCallback(new btGhostPairCallback());
+        constraintSolver = new btSequentialImpulseConstraintSolver();
+        GameScreen.world = new btDiscreteDynamicsWorld(dispatcher, broadphase, constraintSolver, collisionConfig);
+        GameScreen.world.setGravity(new Vector3(0, -10f, 0));
+
+        //for displaying wireframe
+        GameScreen.debugDrawer = new DebugDrawer();
+        GameScreen.debugDrawer.setDebugMode(btIDebugDraw.DebugDrawModes.DBG_MAX_DEBUG_DRAW_MODE);
+        GameScreen.world.setDebugDrawer(GameScreen.debugDrawer);
     }
 
     private void initEnvironment() {
@@ -48,10 +74,6 @@ public class GameScreen extends BaseScreen {
         cam.near = 1f;
         cam.far = 300f;
         cam.update();
-
-        // camera input controller
-//        camController = new CameraInputController(cam);
-//        Gdx.input.setInputProcessor(camController);
     }
 
     private void initResourceManger() {
@@ -59,12 +81,12 @@ public class GameScreen extends BaseScreen {
     }
 
     public void init() {
+        initBullet();
         initEnvironment();
         initCamera();
         initResourceManger();
         BangBang.inputControllerManager.init();
     }
-
 
     private void updateCamera() {
         Vector3 playerPosition = gameObjectManger.player.getPosition();
@@ -73,7 +95,6 @@ public class GameScreen extends BaseScreen {
         cam.update();
 //        camController.update();
     }
-
 
     public void update() {
         final float delta = Math.min(1f / 30f, Gdx.graphics.getDeltaTime());// 30 fps for render
@@ -114,6 +135,10 @@ public class GameScreen extends BaseScreen {
         gameObjectManger.dispose();
         debugDrawer.dispose();
         world.dispose();
+        collisionConfig.dispose();
+        dispatcher.dispose();
+        broadphase.dispose();
+        constraintSolver.dispose();
     }
 
 }
