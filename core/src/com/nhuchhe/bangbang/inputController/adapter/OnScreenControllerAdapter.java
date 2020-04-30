@@ -3,8 +3,10 @@ package com.nhuchhe.bangbang.inputController.adapter;
 import com.badlogic.gdx.controllers.Controller;
 import com.badlogic.gdx.controllers.PovDirection;
 import com.badlogic.gdx.math.Vector3;
+import com.nhuchhe.bangbang.BangBang;
 import com.nhuchhe.bangbang.inputController.base.BaseControllerListener;
 import com.nhuchhe.bangbang.inputController.base.BaseInputController;
+import com.nhuchhe.bangbang.screens.GameScreen;
 
 public class OnScreenControllerAdapter extends BaseControllerListener {
 
@@ -27,9 +29,11 @@ public class OnScreenControllerAdapter extends BaseControllerListener {
     public boolean buttonDown(Controller controller, int buttonCode) {
         switch (buttonCode) {
             case 97:
+                BangBang.network.majorAttackDown();
                 manager.majorAttackDown();
                 return true;
             case 99:
+                BangBang.network.minorAttackDown();
                 manager.minorAttackDown();
                 return true;
             case 96:
@@ -43,9 +47,11 @@ public class OnScreenControllerAdapter extends BaseControllerListener {
     public boolean buttonUp(Controller controller, int buttonCode) {
         switch (buttonCode) {
             case 97:
+                BangBang.network.majorAttackUp();
                 manager.majorAttackUp();
                 return true;
             case 99:
+                BangBang.network.minorAttackUp();
                 manager.minorAttackUp();
                 return true;
             case 96:

@@ -11,7 +11,7 @@ public abstract class BaseInputController {
      */
 
     public BaseControllerListener controllerAdapter;
-    private PlayableGameObject player;
+    public PlayableGameObject player;
 
     public void setPlayer(PlayableGameObject player) {
         this.player = player;

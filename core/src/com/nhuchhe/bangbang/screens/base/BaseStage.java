@@ -13,6 +13,7 @@ public abstract class BaseStage extends Stage {
 
     public BaseStage() {
         Gdx.input.setInputProcessor(this);
+        font.getData().scale(2);
         buttonStyle.font = font;
         labelStyle.font = font;
     }

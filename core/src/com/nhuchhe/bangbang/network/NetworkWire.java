@@ -40,15 +40,16 @@ public class NetworkWire {
             @Override
             public void run() {
                 while (!Thread.currentThread().isInterrupted()) {
-                    Logger.log("trying to receive from players");
                     String lobbyName = receiverSocket.recvStr();
                     if (lobbyName.startsWith("game.")) {
-                        Logger.log("received data for: " + lobbyName);
-                        InGamePojo pojo = SerializationUtils.deserialize(receiverSocket.recv());
+                        byte[] data = receiverSocket.recv();
+                        if (data.length < 300) { // ignore corrupt data
+                            Logger.log(data.length + "");
+                            return;
+                        }
+                        InGamePojo pojo = SerializationUtils.deserialize(data);
                         if (pojo.id == BangBang.PLAYER_ID) continue;
                         BangBang.network.syncMovement(pojo);
-                        Logger.log(pojo.toString());
-
                     } else {
                         Logger.log("lobby: " + lobbyName);
                         GameManagerPojo pojo = SerializationUtils.deserialize(receiverSocket.recv());

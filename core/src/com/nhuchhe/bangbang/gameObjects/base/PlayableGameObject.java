@@ -19,7 +19,7 @@ public class PlayableGameObject extends BaseGameObject {
     private final Vector3 MAJOR_ATTACK_POSITION = new Vector3(0, 0.5f, 0);
     private final float MINOR_ATTACK_POSITION_OFFSET = 0.3f;
     private final Vector3 PLAYER_ROTATION_AXIS = new Vector3(0, 1, 0);
-    private final Vector3 SPAWN_POSITION = new Vector3(0, 10, 1);
+    private final Vector3 SPAWN_POSITION = new Vector3((float) (Math.random() * 10), 10, (float) (Math.random() * 10));
     private final float MAX_HEALTH = 100;
 
     // physics constants
@@ -147,4 +147,8 @@ public class PlayableGameObject extends BaseGameObject {
         return tempVector;
     }
 
+    public void setPosition(Vector3 position) {
+        instance.transform.setTranslation(position.x, position.y, position.z);
+        rigidBody.setWorldTransform(instance.transform);
+    }
 }
