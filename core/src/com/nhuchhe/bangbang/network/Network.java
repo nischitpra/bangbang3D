@@ -64,23 +64,10 @@ public class Network extends NetworkWire {
         return false;
     }
 
-    public int[] getPlayers(String lobbyName) {
-        gameManagerPojo.action = GameManagerAction.GET_LOBBY_PLAYERS;
-        gameManagerPojo.data = lobbyName;
-        boolean success = gameManagerSocket.send(SerializationUtils.serialize(gameManagerPojo));
-        if (success) {
-            int[] ids = SerializationUtils.deserialize(gameManagerSocket.recv());
-            BangBang.PLAYER_IDS = ids;
-            return ids;
-        }
-        return new int[]{};
-    }
-
     public void startGame(String lobbyName) {
         gameManagerPojo.action = GameManagerAction.START_GAME;
         gameManagerPojo.data = lobbyName;
         gameManagerSocket.send(SerializationUtils.serialize(gameManagerPojo));
-        // game state will change from socket stream instead of req rep from here.
     }
 
     public int createGame(String lobbyName) {
