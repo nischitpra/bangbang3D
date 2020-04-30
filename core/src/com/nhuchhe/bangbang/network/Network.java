@@ -93,7 +93,7 @@ public class Network extends NetworkWire {
         return -1;
     }
 
-    public void gameReceiveState(GameManagerPojo pojo) {
+    public void gameReceiveState(final GameManagerPojo pojo) {
         switch (pojo.action) {
             case CHANGE_SCREEN:
                 if (pojo.data.equals("GameScreen")) {
@@ -101,6 +101,7 @@ public class Network extends NetworkWire {
                     Gdx.app.postRunnable(new Runnable() {
                         @Override
                         public void run() {
+                            BangBang.PLAYER_IDS = (int[]) pojo.extra;
                             BangBang.currentScreen = new GameScreen();
                         }
                     });
@@ -123,7 +124,7 @@ public class Network extends NetworkWire {
                     if (BangBang.currentMillis < nextSend) continue;
                     sendData(inGamePojo);
                     try {
-                        Thread.sleep(60);
+                        Thread.sleep(20);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -144,8 +145,9 @@ public class Network extends NetworkWire {
                 listener.isDownY = pojo.inputY;
                 listener.lt = pojo.lt;
                 float distance = Utilities.distance(listener.manager.player.getPosition(), pojo.position);
-                if (distance > 0.5) {
-                    Logger.log("here");
+                float forceMag = Utilities.magnitude(GameScreen.gameObjectManger.gameObjectMap.get(Utilities.createGameObjectId(Constants.GameObjectId.ENEMY, pojo.id)).rigidBody.getLinearVelocity());
+                if (distance > 1 && forceMag < 10) {
+                    Logger.log(forceMag + ", " + distance);
                     listener.manager.player.setPosition(pojo.position);
                 }
                 listener.manager.player.health = pojo.health;
@@ -218,7 +220,7 @@ public class Network extends NetworkWire {
                 inGamePojo.timestamp = BangBang.currentMillis;
                 senderSocket.sendMore(BangBang.GAME_LOBBY_NAME);
                 senderSocket.send(SerializationUtils.serialize(inGamePojo));
-                nextSend = BangBang.currentMillis;
+                nextSend = BangBang.currentMillis + 20;
             }
         });
 
