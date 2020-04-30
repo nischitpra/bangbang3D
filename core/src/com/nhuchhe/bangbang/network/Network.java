@@ -144,10 +144,8 @@ public class Network extends NetworkWire {
                 listener.isDownX = pojo.inputX;
                 listener.isDownY = pojo.inputY;
                 listener.lt = pojo.lt;
-                float distance = Utilities.distance(listener.manager.player.getPosition(), pojo.position);
                 float forceMag = Utilities.magnitude(GameScreen.gameObjectManger.gameObjectMap.get(Utilities.createGameObjectId(Constants.GameObjectId.ENEMY, pojo.id)).rigidBody.getLinearVelocity());
-                if (distance > 1 && forceMag < 10) {
-                    Logger.log(forceMag + ", " + distance);
+                if (forceMag < 10) {
                     listener.manager.player.setPosition(pojo.position);
                 }
                 listener.manager.player.health = pojo.health;

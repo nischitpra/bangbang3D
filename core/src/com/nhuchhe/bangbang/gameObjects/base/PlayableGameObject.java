@@ -9,7 +9,6 @@ import com.nhuchhe.bangbang.gameObjects.Bomb.base.BaseBomb;
 import com.nhuchhe.bangbang.manager.BombManager;
 import com.nhuchhe.bangbang.screens.GameScreen;
 import com.nhuchhe.bangbang.utilities.Constants;
-import com.nhuchhe.bangbang.utilities.Logger;
 import com.nhuchhe.bangbang.utilities.Utilities;
 
 public class PlayableGameObject extends BaseGameObject {
@@ -81,7 +80,6 @@ public class PlayableGameObject extends BaseGameObject {
     public void applyDamage(float damage) {
         health -= damage;
         if (health <= 0) {
-            Logger.log("Health: " + health);
             reset();
         }
     }
