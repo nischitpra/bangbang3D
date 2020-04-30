@@ -87,6 +87,9 @@ public class PlayableGameObject extends BaseGameObject {
     }
 
     public void update() {
+        if (getPosition().y < -5) {
+            reset();
+        }
         updateBombPosition(majorBomb, MAJOR_ATTACK_POSITION);
     }
 

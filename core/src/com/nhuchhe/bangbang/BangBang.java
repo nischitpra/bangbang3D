@@ -14,7 +14,6 @@ import com.nhuchhe.bangbang.helper.RigidBodyHelper;
 import com.nhuchhe.bangbang.inputController.InputControllerManager;
 import com.nhuchhe.bangbang.manager.AssetManager;
 import com.nhuchhe.bangbang.network.Network;
-import com.nhuchhe.bangbang.screens.GameScreen;
 import com.nhuchhe.bangbang.screens.HomeScreen;
 import com.nhuchhe.bangbang.screens.base.BaseScreen;
 import com.nhuchhe.bangbang.utilities.Constants;
@@ -44,6 +43,7 @@ public class BangBang extends ApplicationAdapter {
     public static ActorHelper actorHelper = new ActorHelper();
 
     public static BaseScreen currentScreen;
+    public static String GAME_LOBBY_NAME = "";
     public static String LOBBY_NAME = "";
     public static int PLAYER_ID = -1;
     public static int[] PLAYER_IDS = new int[]{};

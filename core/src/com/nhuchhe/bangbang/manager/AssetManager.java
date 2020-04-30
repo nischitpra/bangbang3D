@@ -15,7 +15,7 @@ import java.util.HashMap;
 
 public class AssetManager {
     int enemyCount = 0; // get from option
-    int selectedTerrainIndex = 2; // get from option
+    int selectedTerrainIndex = 0; // get from option
     /**
      * Remember:
      * need to check mtl files for texture and material. this is defined in the .obj file

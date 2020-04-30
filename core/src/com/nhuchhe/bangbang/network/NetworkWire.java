@@ -39,12 +39,18 @@ public class NetworkWire {
         receiverThread = new Thread(new Runnable() {
             @Override
             public void run() {
+                boolean shouldLog = false;
                 while (!Thread.currentThread().isInterrupted()) {
                     String lobbyName = receiverSocket.recvStr();
                     if (lobbyName.startsWith("game.")) {
                         byte[] data = receiverSocket.recv();
+                        if (shouldLog) {
+                            Logger.log(data.length + "");
+                            Logger.log(SerializationUtils.deserialize(data) + "");
+                        }
                         if (data.length < 300) { // ignore corrupt data
                             Logger.log(data.length + "");
+                            shouldLog = true;
                             return;
                         }
                         InGamePojo pojo = SerializationUtils.deserialize(data);

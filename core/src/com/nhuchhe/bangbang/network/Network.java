@@ -55,6 +55,7 @@ public class Network extends NetworkWire {
             receiverSocket.subscribe(lobbyName);
             receiverSocket.subscribe("game." + lobbyName);
             BangBang.LOBBY_NAME = lobbyName;
+            BangBang.GAME_LOBBY_NAME = "game." + lobbyName;
             BangBang.currentScreen = new LobbyScreen(lobbyName);
             BangBang.PLAYER_ID = id;
             Logger.log("playerId: " + id);
@@ -111,23 +112,16 @@ public class Network extends NetworkWire {
     //upstream for user movement inputs. every 30ms send a new update
     private Thread movementThread;
 
+    private long nextSend = 0;
+
     public void upstreamPlayerMovementControl() {
-        final BaseControllerListener listener = BangBang.inputControllerManager.playerInputController.controllerAdapter;
-        final String lobbyName = "game." + BangBang.LOBBY_NAME;
         movementThread = new Thread(new Runnable() {
             @Override
             public void run() {
                 InGamePojo inGamePojo = new InGamePojo();
                 while (!Thread.currentThread().isInterrupted()) {
-                    inGamePojo.id = BangBang.PLAYER_ID;
-                    inGamePojo.health = listener.manager.player.health;
-                    inGamePojo.inputX = listener.isDownX;
-                    inGamePojo.inputY = listener.isDownY;
-                    inGamePojo.lt = listener.lt;
-                    inGamePojo.position = listener.manager.player.getPosition();
-                    inGamePojo.timestamp = BangBang.currentMillis;
-                    senderSocket.sendMore(lobbyName);
-                    senderSocket.send(SerializationUtils.serialize(inGamePojo));
+                    if (BangBang.currentMillis < nextSend) continue;
+                    sendData(inGamePojo);
                     try {
                         Thread.sleep(60);
                     } catch (InterruptedException e) {
@@ -172,54 +166,30 @@ public class Network extends NetworkWire {
         });
     }
 
-    InGamePojo actionPojo = new InGamePojo();
+    InGamePojo inGamePojo = new InGamePojo();
 
     public void majorAttackDown() {
-        final String lobbyName = "game." + BangBang.LOBBY_NAME;
-        actionPojo.id = BangBang.PLAYER_ID;
-        actionPojo.position = GameScreen.gameObjectManger.player.getPosition();
-        actionPojo.health = GameScreen.gameObjectManger.player.health;
-        actionPojo.majorAttackDown = true;
-        actionPojo.majorAttackUp = false;
-        actionPojo.timestamp = BangBang.currentMillis;
-        senderSocket.sendMore(lobbyName);
-        senderSocket.send(SerializationUtils.serialize(actionPojo));
+        inGamePojo.majorAttackDown = true;
+        inGamePojo.majorAttackUp = false;
+        sendData(inGamePojo);
     }
 
     public void majorAttackUp() {
-        final String lobbyName = "game." + BangBang.LOBBY_NAME;
-        actionPojo.id = BangBang.PLAYER_ID;
-        actionPojo.position = GameScreen.gameObjectManger.player.getPosition();
-        actionPojo.health = GameScreen.gameObjectManger.player.health;
-        actionPojo.majorAttackDown = false;
-        actionPojo.majorAttackUp = true;
-        actionPojo.timestamp = BangBang.currentMillis;
-        senderSocket.sendMore(lobbyName);
-        senderSocket.send(SerializationUtils.serialize(actionPojo));
+        inGamePojo.majorAttackDown = false;
+        inGamePojo.majorAttackUp = true;
+        sendData(inGamePojo);
     }
 
     public void minorAttackUp() {
-        final String lobbyName = "game." + BangBang.LOBBY_NAME;
-        actionPojo.id = BangBang.PLAYER_ID;
-        actionPojo.position = GameScreen.gameObjectManger.player.getPosition();
-        actionPojo.health = GameScreen.gameObjectManger.player.health;
-        actionPojo.minorAttackDown = false;
-        actionPojo.minorAttackUp = true;
-        actionPojo.timestamp = BangBang.currentMillis;
-        senderSocket.sendMore(lobbyName);
-        senderSocket.send(SerializationUtils.serialize(actionPojo));
+        inGamePojo.minorAttackDown = false;
+        inGamePojo.minorAttackUp = true;
+        sendData(inGamePojo);
     }
 
     public void minorAttackDown() {
-        final String lobbyName = "game." + BangBang.LOBBY_NAME;
-        actionPojo.id = BangBang.PLAYER_ID;
-        actionPojo.position = GameScreen.gameObjectManger.player.getPosition();
-        actionPojo.health = GameScreen.gameObjectManger.player.health;
-        actionPojo.minorAttackDown = true;
-        actionPojo.minorAttackUp = false;
-        actionPojo.timestamp = BangBang.currentMillis;
-        senderSocket.sendMore(lobbyName);
-        senderSocket.send(SerializationUtils.serialize(actionPojo));
+        inGamePojo.minorAttackDown = true;
+        inGamePojo.minorAttackUp = false;
+        sendData(inGamePojo);
     }
 
     public void disconnect() {
@@ -230,4 +200,27 @@ public class Network extends NetworkWire {
         super.dispose();
     }
 
+    BaseControllerListener listener = null;
+
+    private void sendData(final InGamePojo inGamePojo) {
+        Gdx.app.postRunnable(new Runnable() {
+            @Override
+            public void run() {
+                if (listener == null)
+                    listener = BangBang.inputControllerManager.playerInputController.controllerAdapter;
+
+                inGamePojo.id = BangBang.PLAYER_ID;
+                inGamePojo.position = GameScreen.gameObjectManger.player.getPosition();
+                inGamePojo.health = Math.max(GameScreen.gameObjectManger.player.health, 0);
+                inGamePojo.inputX = listener.isDownX;
+                inGamePojo.inputY = listener.isDownY;
+                inGamePojo.lt = listener.lt;
+                inGamePojo.timestamp = BangBang.currentMillis;
+                senderSocket.sendMore(BangBang.GAME_LOBBY_NAME);
+                senderSocket.send(SerializationUtils.serialize(inGamePojo));
+                nextSend = BangBang.currentMillis;
+            }
+        });
+
+    }
 }
